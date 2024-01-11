@@ -1,10 +1,11 @@
 ﻿using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic; 
 using NodeEngine.Database.Error;
 using NodeEngine.Database.Save; 
-using System.Collections.Generic; 
+using UnityEngine.UIElements;
 using NodeEngine.Utilities;
 using NodeEngine.MiniMaps;
-using UnityEngine.UIElements;
+using InteractionSystem;
 using NodeEngine.Groups;
 using NodeEngine.Nodes;
 using NodeEngine.Ports;
@@ -12,18 +13,12 @@ using NodeEngine.Edges;
 using NodeEngine.Text;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
-using System.IO;
 using System;
-using InteractionSystem;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 
 namespace NodeEngine.Window
 {
     public class DSGraphView : GraphView
     {
-        public event Action<bool> OnCanSaveGraphEvent;
-        public event Action<float> OnSaveEvent;
         public DSGraphModel Model { get; protected set; }
         public InteractionObject InteractionInstance { get => editorWindow.InteractionInstance; }
         internal DSMiniMap MiniMap;
@@ -109,29 +104,27 @@ namespace NodeEngine.Window
 
             foreach (BaseNode baseNode in i_Nodes)
             {
-                if (baseNode.INode.Connections != null)
+                BasePort port = baseNode.GetOutputPorts().First();
+                foreach (BaseInteractionAction e in baseNode.INode.Connections)
                 {
-                    BasePort port = baseNode.GetOutputPorts().First();
-                    foreach (BaseInteractionAction e in baseNode.INode.Connections)
+                    if (e == null) continue;
+                    BasePort otherPort = inputs.Where(t => e == t.Value).FirstOrDefault();
+                    if (otherPort != null)
                     {
-                        BasePort otherPort = inputs.Where(t => e.ID == t.ID).FirstOrDefault();
-                        if (otherPort != null)
+                        DSEdge edge = new DSEdge
                         {
-                            DSEdge edge = new DSEdge
-                            {
-                                output = port,
-                                input = otherPort
-                            };
-                            edge.input.Connect(edge);
-                            edge.output.Connect(edge);
-                            Debug.Log($"{baseNode.Name} {port.Name} connect with {otherPort.node}{otherPort.Name}");
-                            AddElement(edge);
+                            output = port,
+                            input = otherPort
+                        };
+                        edge.input.Connect(edge);
+                        edge.output.Connect(edge);
+                        Debug.Log($"{baseNode.Name} {port.Name} connect with {otherPort.node}{otherPort.Name}");
+                        AddElement(edge);
 
-                            //var portNode = port.node as BaseNode;
-                            //var otherPortNode = otherPort.node as BaseNode;
-                            //portNode?.OnConnectOutputPort(port, edge);
-                            //otherPortNode?.OnConnectInputPort(otherPort, edge);
-                        }
+                        //var portNode = port.node as BaseNode;
+                        //var otherPortNode = otherPort.node as BaseNode;
+                        //portNode?.OnConnectOutputPort(port, edge);
+                        //otherPortNode?.OnConnectInputPort(otherPort, edge);
                     }
                 }
             }
@@ -263,19 +256,19 @@ namespace NodeEngine.Window
 
         private void UpdateNode()
         {
-            List<BaseNode> stNums = new();
-            foreach (BaseNode node in i_Nodes)
-            {
-                IEnumerable<BasePort> inputs = node.GetInputPorts();
-                if (inputs.Count() == 0)
-                {
-                    stNums.Add(node);
-                    continue;
-                }
-                bool allInputPortsOff = inputs.All(t => !t.connected);
-                if (allInputPortsOff) stNums.Add(node);
-            }
-            foreach (BaseNode node in stNums) node.Update();
+            //List<BaseNode> stNums = new();
+            //foreach (BaseNode node in i_Nodes)
+            //{
+            //    IEnumerable<BasePort> inputs = node.GetInputPorts();
+            //    if (inputs.Count() == 0)
+            //    {
+            //        stNums.Add(node);
+            //        continue;
+            //    }
+            //    bool allInputPortsOff = inputs.All(t => !t.connected);
+            //    if (allInputPortsOff) stNums.Add(node);
+            //}
+            //foreach (BaseNode node in stNums) node.Update();
         }
 
         private IManipulator CreateNodeContextMenu(string actionTitle, Type type)
@@ -660,17 +653,17 @@ namespace NodeEngine.Window
 
         internal void OnValidate()
         {
-            OnSaveValidationHandler();
+            //OnSaveValidationHandler();
             UpdateNode();
         }
-        private void OnSaveValidationHandler()
-        {
-            bool repeatednames = repeatedNameAmount == 0;
-            bool isNesseseryNodes = ValidationNessesaryNodes(i_Nodes, necessaryTypes);
-            //bool isInstanceNodeNotNullValue = i_Nodes.OfType<InstanceNode>().All(e => e.GetValue().Item2 != null);
+        //private void OnSaveValidationHandler()
+        //{
+        //    bool repeatednames = repeatedNameAmount == 0;
+        //    bool isNesseseryNodes = ValidationNessesaryNodes(i_Nodes, necessaryTypes);
+        //    //bool isInstanceNodeNotNullValue = i_Nodes.OfType<InstanceNode>().All(e => e.GetValue().Item2 != null);
 
-            OnCanSaveGraphEvent?.Invoke(repeatednames && isNesseseryNodes);// && isInstanceNodeNotNullValue);
-        }
+        //    OnCanSaveGraphEvent?.Invoke(repeatednames && isNesseseryNodes);// && isInstanceNodeNotNullValue);
+        //}
         private bool ValidationNessesaryNodes(List<BaseNode> i_Nodes, Dictionary<Type, int> nessesaryTypes)
         {
             if (i_Nodes.Count == 0) return true;

@@ -27,6 +27,14 @@ namespace InteractionSystem
         protected CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
         private Action onCompleteCallback;
 
+        public BaseInteractionAction()
+        {
+            if (string.IsNullOrEmpty(ID)) ID = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(Name)) Name = GetType().Name;
+            if (Connections == null) Connections = new();
+            Position = new Vector2(350, 200);
+        }
+
         #region MainBehaviour
         public abstract void Awake();
         public abstract IEnumerator Procedure();

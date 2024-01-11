@@ -13,16 +13,18 @@ namespace InteractionSystem
         private void Awake()
         {
             Sequences.SetObject(this.gameObject);
+            //For test
+            Sequences.SetSubject(subject);
         }
 
 
-        public void Test()
+        public void AddTestActions()
         {
             if (Sequences == null) Sequences = new();
 
-            BaseInteractionAction animatorAction = new AnimatorAction()
+            BaseInteractionAction animatorAction = new ObjectAnimatorAction()
                 .OnComplete(() => Debug.Log($"Yoyoyoy from 1"));
-            BaseInteractionAction animatorAction2 = new AnimatorAction()
+            BaseInteractionAction animatorAction2 = new ObjectAnimatorAction()
                 .OnComplete(() => Debug.Log($"Yoyoyoy from 2"));
             animatorAction.NextAction(animatorAction2);
 
@@ -30,14 +32,7 @@ namespace InteractionSystem
                 .Append(animatorAction)
                 .Append(animatorAction2)
                 .SetSubject(subject)
-                .StartSequence();
-        }
-        public void Test2()
-        {
-            BaseInteractionAction animatorAction = new AnimatorAction()
-                .OnComplete(() => Debug.Log($"Yoyoyoy from new AnimatorAction"));
-            Sequences
-                .Append(animatorAction);
+                .SetObject(this.gameObject);
         }
 
         public void AddSequence(BaseInteractionAction interactionAction)

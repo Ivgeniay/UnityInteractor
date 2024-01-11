@@ -12,13 +12,13 @@ namespace InteractionSystem
             {
                 if (instance == null)
                 {
-                    instance = FindAnyObjectByType<CoroutineDisposer>();
+                    instance = FindObjectOfType<CoroutineDisposer>(true);
                     if (instance == null)
                     {
                         GameObject go = new GameObject("[IO_COROUTINE]");
                         instance = go.AddComponent<CoroutineDisposer>();
-                        DontDestroyOnLoad(go);
                     }
+                    DontDestroyOnLoad(instance.gameObject);
                 }
                 return instance;
             }

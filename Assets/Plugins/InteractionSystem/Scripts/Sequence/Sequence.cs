@@ -22,6 +22,15 @@ namespace InteractionSystem
         private Coroutine currentSequence = null;
         private CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
 
+        public Sequence()
+        {
+            if (string.IsNullOrEmpty(ID)) ID = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(Name)) Name = GetType().Name;
+            if (Connections == null) Connections = new();
+            if (Sequences == null) Sequences = new();
+            Position = new Vector2(350, 200);
+        }
+
         public Sequence Append(BaseInteractionAction sequence)
         {
             if (!Sequences.Contains(sequence))
@@ -80,15 +89,14 @@ namespace InteractionSystem
         {
             if (Sequences.Count > 0)
             {
-                Sequences.ForEach(sequence => sequence.Awake());
-                yield return FirstAction;   //Sequences[0].Procedure();
-                //Sequences[0].StartAction();
-                //for (int i = 0; i < Sequences.Count; i++)
-                //{
-                //    Sequences[i].StartAction();
-                //    yield return new WaitUntil(() => Sequences[i].IsCompleted);
-                //}
-
+                Sequences.ForEach(sequence =>
+                {
+                    sequence.Object = Object;
+                    sequence.Subject = Subject;
+                    sequence.Awake();
+                });
+                if (FirstAction.ParallelAction != null) coroutine.StartC(FirstAction.ParallelAction.Procedure());
+                yield return FirstAction.Procedure();
             }
             foreach (var item in Sequences)
                 item.Reset();

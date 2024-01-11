@@ -8,20 +8,22 @@ namespace InteractionSystem
     [CustomEditor(typeof(InteractionObject))]
     internal class InteractionObjectEditorDrawer : Editor
     {
-        InteractionObject instance;
+        private InteractionObject instance;
         public override void OnInspectorGUI ()
         {
             base.OnInspectorGUI ();
             instance = (InteractionObject)target;
 
-            if (GUILayout.Button("Test"))
+            if (GUILayout.Button("Add Test InActions"))
             {
-                instance.Test();
+                instance.AddTestActions();
             }
-            if (GUILayout.Button("Test2"))
+
+            if (GUILayout.Button("Start Test Sequence"))
             {
-                instance.Test2();
+                instance.StartSequence();
             }
+
             if (GUILayout.Button("Open Sequence Editor"))
             {
                 DSEditorWindow.OpenWindow(instance);

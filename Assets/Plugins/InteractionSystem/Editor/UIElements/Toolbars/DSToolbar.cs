@@ -22,15 +22,15 @@ namespace NodeEngine.Toolbars
         public DSToolbar(DSGraphView graphView) 
         {
             this.graphView = graphView;
-            graphView.OnCanSaveGraphEvent += OnCanSaveGraphHandler;
-            graphView.OnSaveEvent += OnSaveHandler;
+            //graphView.OnCanSaveGraphEvent += OnCanSaveGraphHandler;
+            //graphView.OnSaveEvent += OnSaveHandler;
         }
 
 
-        private void OnCanSaveGraphHandler(bool obj)
-        {
-            generateScriptButton.SetEnabled(obj);
-        }
+        //private void OnCanSaveGraphHandler(bool obj)
+        //{
+        //    generateScriptButton.SetEnabled(obj);
+        //}
 
         public void Initialize(string fileName, string label)
         {
@@ -103,7 +103,7 @@ namespace NodeEngine.Toolbars
             string path = EditorUtility.SaveFilePanel("Select a graph file", Application.dataPath, textField.value, "cs");
             Debug.Log("Save on: " + path);
         }
-        private void OnSaveHandler(float obj) => progressBar.value = obj;
+        //private void OnSaveHandler(float obj) => progressBar.value = obj;
         
     }
 }

@@ -120,9 +120,6 @@ namespace NodeEngine.Window
             else if (typeof(BaseInteractionAction).IsAssignableFrom(type))
             {
                 BaseInteractionAction interactionAction = Activator.CreateInstance(type) as BaseInteractionAction;
-                interactionAction.ID = Guid.NewGuid().ToString();
-                interactionAction.Connections = new();
-
                 graphView.InteractionInstance.AddSequence(interactionAction);
                 var node = graphView.CreateNode(typeof(ActionNode), localMousePosition, interactionAction);
                 return true;
