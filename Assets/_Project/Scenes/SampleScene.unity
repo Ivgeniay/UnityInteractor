@@ -754,8 +754,7 @@ MonoBehaviour:
     - rid: 3042034483203145728
     - rid: 3042034483203145729
     - rid: 3042034494756618240
-    Object: {fileID: 698298267}
-    Subject: {fileID: 0}
+    - rid: 3042034496768049152
   subject: {fileID: 963429726}
   references:
     version: 2
@@ -767,7 +766,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: ObjectAnimatorAction
         <ID>k__BackingField: 8f4c17cb-07d1-4241-9ef2-69805f037746
-        <Position>k__BackingField: {x: 335.8, y: 96.8}
+        <Position>k__BackingField: {x: 331, y: 96.8}
         NextIAction:
           rid: 3042034494756618240
         ReferenceAction:
@@ -780,7 +779,33 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SubjectAnimationAction
         <ID>k__BackingField: 15edd5ba-a7e3-449f-90bd-a4b416196bd3
-        <Position>k__BackingField: {x: 77.39998, y: 257.4}
+        <Position>k__BackingField: {x: 88.59998, y: 221.39998}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        AnimationParameter: IsRotate
+    - rid: 3042034494756618240
+      type: {class: ObjectAnimatorAction, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: ObjectAnimatorAction2
+        <ID>k__BackingField: ff8bf223-73ef-4275-8724-9a358a0b174d
+        <Position>k__BackingField: {x: 573.2, y: 96.80002}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034496768049152
+        AnimationParameter: IsRotate
+    - rid: 3042034496768049152
+      type: {class: SubjectAnimationAction, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SubjectAnimationAction2
+        <ID>k__BackingField: 311298a2-1919-49f4-b2a3-16ed6215fe39
+        <Position>k__BackingField: {x: 330.8, y: 221.59999}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -788,19 +813,6 @@ MonoBehaviour:
         ParallelAction:
           rid: -2
         AnimationParameter: IsJump
-    - rid: 3042034494756618240
-      type: {class: ObjectAnimatorAction, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: ObjectAnimatorAction2
-        <ID>k__BackingField: ff8bf223-73ef-4275-8724-9a358a0b174d
-        <Position>k__BackingField: {x: 610, y: 96.80002}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: 3042034483203145729
-        ParallelAction:
-          rid: -2
-        AnimationParameter: IsRotate
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

@@ -648,7 +648,7 @@ namespace NodeEngine.Window
         internal T[] GetArrayNodesOfType<T>() =>
             i_Nodes.OfType<T>().ToArray();
 
-        private void SafeDirty()
+        internal void SafeDirty()
         {
             UnityEditor.EditorUtility.SetDirty(InteractionInstance);
             UnityEditor.AssetDatabase.SaveAssets();

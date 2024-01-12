@@ -5,6 +5,10 @@ using UnityEngine;
 using NodeEngine.Ports;
 using System.Collections.Generic;
 using NodeEngine.Utilities;
+using System.Reflection;
+using System;
+using System.Linq;
+using UnityEngine.UIElements;
 
 namespace InteractionSystem
 {
@@ -55,6 +59,97 @@ namespace InteractionSystem
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.NEXT_PN
             });
+        }
+
+        protected override void DrawMainContainer(VisualElement container)
+        {
+            base.DrawMainContainer(container);
+
+            FieldInfo[] text = NodeContext.GetFields(typeof(StringFieldContextAttribute));
+            FieldInfo[] fl = NodeContext.GetFields(typeof(FloatFieldContextAttribute));
+            FieldInfo[] integers = NodeContext.GetFields(typeof(IntFieldContextAttribute));
+            PropertyInfo[] textProp = NodeContext.GetProperties(typeof(StringFieldContextAttribute));
+            PropertyInfo[] flProp = NodeContext.GetProperties(typeof(FloatPropContextAttribute));
+            PropertyInfo[] integersProp = NodeContext.GetProperties(typeof(IntPropContextAttribute));
+
+            foreach (FieldInfo field in text)
+            {
+                TextField textField = DSUtilities.CreateTextField(
+                    (string)NodeContext.GetValue(field),
+                    field.Name, (e) =>
+                    {
+                        TextField trgt = e.target as TextField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(field, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (PropertyInfo prop in textProp)
+            {
+                TextField textField = DSUtilities.CreateTextField(
+                    (string)NodeContext.GetValue(prop),
+                    prop.Name, (e) =>
+                    {
+                        TextField trgt = e.target as TextField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(prop, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (FieldInfo field in fl)
+            {
+                FloatField textField = DSUtilities.CreateFloatField(
+                    (float)NodeContext.GetValue(field),
+                    field.Name, (e) =>
+                    {
+                        FloatField trgt = e.target as FloatField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(field, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (PropertyInfo prop in flProp)
+            {
+                FloatField textField = DSUtilities.CreateFloatField(
+                    (float)NodeContext.GetValue(prop),
+                    prop.Name, (e) =>
+                    {
+                        FloatField trgt = e.target as FloatField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(prop, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (FieldInfo field in integers)
+            {
+                IntegerField textField = DSUtilities.CreateIntegerField(
+                    (int)NodeContext.GetValue(field),
+                    field.Name, (e) =>
+                    {
+                        IntegerField trgt = e.target as IntegerField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(field, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (PropertyInfo prop in integersProp)
+            {
+                IntegerField textField = DSUtilities.CreateIntegerField(
+                    (int)NodeContext.GetValue(prop),
+                    prop.Name, (e) =>
+                    {
+                        IntegerField trgt = e.target as IntegerField;
+                        trgt.value = e.newValue;
+                        NodeContext.SetValue(prop, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
         }
 
         public override void OnConnectOutputPort(BasePort port, Edge edge)

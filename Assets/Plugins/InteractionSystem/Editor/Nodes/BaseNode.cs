@@ -23,19 +23,23 @@ namespace NodeEngine.Nodes
         internal DSNodeModel Model { get; private set; }
         internal BaseGroup Group { get; private set; }
         public virtual string Name => Model.NodeName;
-        protected TextField titleTF { get; set; }
-        protected DSGraphView graphView { get; set; } 
-
-        private Color defaultbackgroundColor;
-        protected List<BasePort> inputPorts = new();
-        protected List<BasePort> outputPorts = new();
-
         public INode INode { get; private set; }
         public virtual BaseInteractionAction IAction { get; protected set; }
+        public NodeContext NodeContext { get; protected set; }
+        protected TextField titleTF { get; set; }
+        protected DSGraphView graphView { get; set; } 
+        protected List<BasePort> inputPorts = new();
+        protected List<BasePort> outputPorts = new();
+        private Color defaultbackgroundColor;
+
 
         internal virtual void Initialize(DSGraphView graphView, Vector2 position, INode iNode)
         {
             this.INode = iNode;
+
+            NodeContext = new(INode);
+            NodeContext.Initialize();
+
             Model = new()
             {
                 ID = Guid.NewGuid().ToString(),

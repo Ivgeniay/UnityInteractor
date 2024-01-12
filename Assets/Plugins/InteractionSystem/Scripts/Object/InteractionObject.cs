@@ -17,24 +17,6 @@ namespace InteractionSystem
             Sequences.SetSubject(subject);
         }
 
-
-        public void AddTestActions()
-        {
-            if (Sequences == null) Sequences = new();
-
-            BaseInteractionAction animatorAction = new ObjectAnimatorAction()
-                .OnComplete(() => Debug.Log($"Yoyoyoy from 1"));
-            BaseInteractionAction animatorAction2 = new ObjectAnimatorAction()
-                .OnComplete(() => Debug.Log($"Yoyoyoy from 2"));
-            animatorAction.NextAction(animatorAction2);
-
-            Sequences
-                .Append(animatorAction)
-                .Append(animatorAction2)
-                .SetSubject(subject)
-                .SetObject(this.gameObject);
-        }
-
         public void AddSequence(BaseInteractionAction interactionAction)
         {
             if (Sequences == null) Sequences = new Sequence();

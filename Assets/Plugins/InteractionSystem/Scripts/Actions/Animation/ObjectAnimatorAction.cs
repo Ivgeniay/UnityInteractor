@@ -8,7 +8,7 @@ namespace InteractionSystem
     {
         public override void Awake()
         {
-            animator = Object.GetComponent<Animator>();
+            Animator = Object.GetComponent<Animator>();
         }
 
     }

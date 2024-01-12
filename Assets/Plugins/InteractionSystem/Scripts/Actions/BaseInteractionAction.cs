@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Animations;
+﻿using System.Collections; 
 using UnityEngine;
+using System;
 
 namespace InteractionSystem
 {
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
+        public event Action<BaseInteractionAction> OnCompleteEvent;
         [field: SerializeField][HideInInspector] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -42,6 +41,12 @@ namespace InteractionSystem
                 yield return new WaitUntil(() => baseInteractionAction.IsCompleted);
         }
 
+        public virtual IEnumerator WaitFor(Coroutine cor)
+        {
+            if (cor != null)
+                yield return cor;
+        }
+
         /// <summary>
         /// Must be used on end of procedure by yield return
         /// </summary>
@@ -50,7 +55,7 @@ namespace InteractionSystem
         {
             IsCompleted = true;
             onCompleteCallback?.Invoke();
-            if (!IsCompleted) yield return null;
+            OnCompleteEvent?.Invoke(this);
             if (NextIAction != null)
             {
                 yield return NextIAction.Procedure();

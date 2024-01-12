@@ -14,14 +14,12 @@ namespace InteractionSystem
             base.OnInspectorGUI ();
             instance = (InteractionObject)target;
 
-            if (GUILayout.Button("Add Test InActions"))
+            if (Application.isPlaying)
             {
-                instance.AddTestActions();
-            }
-
-            if (GUILayout.Button("Start Test Sequence"))
-            {
-                instance.StartSequence();
+                if (GUILayout.Button("Start Test Sequence"))
+                {
+                    instance.StartSequence();
+                }
             }
 
             if (GUILayout.Button("Open Sequence Editor"))

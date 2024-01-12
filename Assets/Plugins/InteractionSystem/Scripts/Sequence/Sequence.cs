@@ -14,8 +14,8 @@ namespace InteractionSystem
 
         [SerializeReference] public BaseInteractionAction FirstAction;
         [SerializeReference] public List<BaseInteractionAction> Sequences;
-        [SerializeField] public GameObject Object;
-        [SerializeField] public GameObject Subject;
+        [NonSerialized][HideInInspector] public GameObject Object;
+        [NonSerialized][HideInInspector] public GameObject Subject;
 
         private Coroutine currentSequence = null;
         private CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
