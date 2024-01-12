@@ -14,16 +14,19 @@ namespace NodeEngine.Ports
 {
     public class BasePort : Port
     {
-        public string ID { get; set; }
+        public string ID { get
+            {
+                if (Value != null) return Value.ID;
+                else return id;
+            }
+            set => id = value; 
+        }
         public BaseInteractionAction Value { get; set; }
         public Type Type { get => portType; set => portType = value; }
         public string Name { get => portName; set => portName = value; }
         public DSGraphView GrathView { get; internal set; }
-
         public Type[] AvailableTypes;
-        public PortSide PortSide;
-        public bool IsAnchorable = false;
-
+        private string id = string.Empty;
         private Color defaultColor;
         
         public BasePort(Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type) : base(portOrientation, portDirection, portCapacity, type) { }
@@ -122,17 +125,14 @@ namespace NodeEngine.Ports
             StartDragManipulator startDrag = new StartDragManipulator(this);
             this.AddManipulator(startDrag);
 
-            this.AddManipulator(CreateContextualMenu());
+            //this.AddManipulator(CreateContextualMenu());
         }
 
         private IManipulator CreateContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new(e =>
-            {
-                if (IsAnchorable)
-                {
-                    e.menu.AppendAction("Anchor", a => { DSAnchorWindow.OpenWindow(this); });
-                }
+            { 
+                e.menu.AppendAction("Anchor", a => { DSAnchorWindow.OpenWindow(this); }); 
             });
             return contextualMenuManipulator;
         }

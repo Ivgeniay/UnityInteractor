@@ -9,18 +9,16 @@ namespace InteractionSystem
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
-        [field: SerializeField] public string Name { get; set; }
+        [field: SerializeField][HideInInspector] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
-        [SerializeReference] public List<BaseInteractionAction> Connections;
-        List<BaseInteractionAction> INode.Connections { get => Connections; set => Connections = value; }
 
         [SerializeReference] public BaseInteractionAction NextIAction;
         [SerializeReference] public BaseInteractionAction ReferenceAction;
         [SerializeReference] public BaseInteractionAction ParallelAction;
 
-        [SerializeField] public GameObject Object;
-        [SerializeField] public GameObject Subject;
+        [NonSerialized][HideInInspector] public GameObject Object;
+        [NonSerialized][HideInInspector] public GameObject Subject;
 
         public bool IsCompleted { get; protected set; } = false;
 
@@ -31,7 +29,6 @@ namespace InteractionSystem
         {
             if (string.IsNullOrEmpty(ID)) ID = Guid.NewGuid().ToString();
             if (string.IsNullOrEmpty(Name)) Name = GetType().Name;
-            if (Connections == null) Connections = new();
             Position = new Vector2(350, 200);
         }
 

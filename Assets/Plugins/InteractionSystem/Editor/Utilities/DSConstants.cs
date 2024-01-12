@@ -6,6 +6,11 @@ namespace NodeEngine.Utilities
 {
     public static class DSConstants
     {
+        public const string ACTION_PN = "Action";
+        public const string REFERENCE_PN = "ReferenceAction";
+        public const string PARALLEL_PN = "ParallelAction";
+        public const string NEXT_PN = "NextAction";
+
         public static Type[] AvalilableTypes { get; private set; }
         public static Type[] NumberTypes { get; private set; }
         public static Type[] PrimitiveTypes { get; private set; }

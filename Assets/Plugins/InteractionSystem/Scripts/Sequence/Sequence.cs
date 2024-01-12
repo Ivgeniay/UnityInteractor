@@ -11,8 +11,6 @@ namespace InteractionSystem
         [field: SerializeField] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
-        [SerializeReference] public List<BaseInteractionAction> Connections;
-        List<BaseInteractionAction> INode.Connections { get => Connections; set => Connections = value; }
 
         [SerializeReference] public BaseInteractionAction FirstAction;
         [SerializeReference] public List<BaseInteractionAction> Sequences;
@@ -26,7 +24,6 @@ namespace InteractionSystem
         {
             if (string.IsNullOrEmpty(ID)) ID = Guid.NewGuid().ToString();
             if (string.IsNullOrEmpty(Name)) Name = GetType().Name;
-            if (Connections == null) Connections = new();
             if (Sequences == null) Sequences = new();
             Position = new Vector2(350, 200);
         }
@@ -109,18 +106,5 @@ namespace InteractionSystem
         public string Name { get; set; }
         public Vector2 Position { get; set; }
         public string ID { get; set; }
-        public List<BaseInteractionAction> Connections { get; set; }
-
-        public void AddConnections(BaseInteractionAction a)
-        {
-            if (!Connections.Contains(a))
-                Connections.Add(a);
-        }
-
-        public void RemoveConnections(BaseInteractionAction a)
-        {
-            if (Connections.Contains(a))
-                Connections.Remove(a);
-        }
     }
 }

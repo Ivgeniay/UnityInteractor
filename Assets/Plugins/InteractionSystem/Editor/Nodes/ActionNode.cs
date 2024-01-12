@@ -4,17 +4,13 @@ using NodeEngine.Nodes;
 using UnityEngine;
 using NodeEngine.Ports;
 using System.Collections.Generic;
+using NodeEngine.Utilities;
 
 namespace InteractionSystem
 {
     internal class ActionNode : BaseNode
     {
         public override BaseInteractionAction IAction { get => INode as BaseInteractionAction; }
-
-        protected const string ACTION_PN = "Action";
-        protected const string REFERENCE_PN = "ReferenceAction";
-        protected const string PARALLEL_PN = "ParallelAction";
-        protected const string NEXT_PN = "NextAction";
 
         internal override void Initialize(DSGraphView graphView, Vector2 position, INode _iAction)
         {
@@ -27,7 +23,7 @@ namespace InteractionSystem
                 Capacity = Port.Capacity.Single,
                 InteractionAction = IAction,
                 Orientation = Orientation.Horizontal,
-                PortName = ACTION_PN
+                PortName = DSConstants.ACTION_PN
             });
 
             Model.AddPort(new PortInfo()
@@ -37,7 +33,7 @@ namespace InteractionSystem
                 Capacity = Port.Capacity.Single,
                 InteractionAction = IAction.ReferenceAction,
                 Orientation = Orientation.Horizontal,
-                PortName = REFERENCE_PN
+                PortName = DSConstants.REFERENCE_PN
             });
 
             Model.AddPort(new PortInfo()
@@ -47,7 +43,7 @@ namespace InteractionSystem
                 Capacity = Port.Capacity.Single,
                 InteractionAction = IAction.ParallelAction,
                 Orientation = Orientation.Horizontal,
-                PortName = PARALLEL_PN
+                PortName = DSConstants.PARALLEL_PN
             });
 
             Model.AddPort(new PortInfo()
@@ -57,7 +53,7 @@ namespace InteractionSystem
                 Capacity = Port.Capacity.Multi,
                 InteractionAction = IAction.NextIAction,
                 Orientation = Orientation.Horizontal,
-                PortName = NEXT_PN
+                PortName = DSConstants.NEXT_PN
             });
         }
 
@@ -67,13 +63,10 @@ namespace InteractionSystem
             BasePort otherPort = edge.input as BasePort;
             if (otherPort != null)
             {
-                if (otherPort.Name == ACTION_PN)
+                if (otherPort.Name == DSConstants.ACTION_PN)
                 {
-                    //if (port.Value != otherPort.Value)
-                    //{
-                        port.Value = otherPort.Value;
-                        IAction.NextIAction = port.Value;
-                    //}
+                    port.Value = otherPort.Value;
+                    IAction.NextIAction = port.Value;
                 }
             }
         }
@@ -93,12 +86,12 @@ namespace InteractionSystem
             BaseNode otherNode = edge.output.node as BaseNode;
             if (otherNode != null)
             {
-                if (port.Name == REFERENCE_PN)
+                if (port.Name == DSConstants.REFERENCE_PN)
                 {
                     port.Value = otherNode.IAction;
                     IAction.ReferenceAction = port.Value;
                 }
-                else if (port.Name == PARALLEL_PN)
+                else if (port.Name == DSConstants.PARALLEL_PN)
                 {
                     port.Value = otherNode.IAction;
                     IAction.ParallelAction = port.Value;
@@ -110,10 +103,10 @@ namespace InteractionSystem
         {
             base.OnDestroyConnectionInput(port, edge);
 
-            if (port.Name == REFERENCE_PN)
+            if (port.Name == DSConstants.REFERENCE_PN)
                 IAction.ReferenceAction = null;
 
-            else if (port.Name == PARALLEL_PN)
+            else if (port.Name == DSConstants.PARALLEL_PN)
                 IAction.ParallelAction = null;
         }
     }

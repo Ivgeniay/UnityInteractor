@@ -23,7 +23,7 @@ namespace InteractionSystem
             animator.SetBool(AnimationParameter, true);
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
             animator.SetBool(AnimationParameter, false);
-            Debug.Log("Анимация завершена!");
+            Debug.Log($"Анимация завершена! from object: {Object} subject: {Subject} with {GetType().Name}");
             yield return Complete();
         }
 

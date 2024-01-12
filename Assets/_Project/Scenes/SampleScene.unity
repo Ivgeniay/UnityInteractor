@@ -747,14 +747,13 @@ MonoBehaviour:
   Sequences:
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: 2423d790-24f0-4315-a9dc-7662f80f696b
-    <Position>k__BackingField: {x: 350.8, y: 215.4}
-    Connections:
-    - rid: 3042034483203145728
+    <Position>k__BackingField: {x: 95.79999, y: 96.399994}
     FirstAction:
       rid: 3042034483203145728
     Sequences:
     - rid: 3042034483203145728
     - rid: 3042034483203145729
+    - rid: 3042034494756618240
     Object: {fileID: 698298267}
     Subject: {fileID: 0}
   subject: {fileID: 963429726}
@@ -768,34 +767,40 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: ObjectAnimatorAction
         <ID>k__BackingField: 8f4c17cb-07d1-4241-9ef2-69805f037746
-        <Position>k__BackingField: {x: 355, y: 96}
-        Connections: []
+        <Position>k__BackingField: {x: 335.8, y: 96.8}
         NextIAction:
-          rid: -2
+          rid: 3042034494756618240
         ReferenceAction:
           rid: -2
         ParallelAction:
           rid: 3042034483203145729
-        Object: {fileID: 698298267}
-        Subject: {fileID: 0}
         AnimationParameter: IsRotate
     - rid: 3042034483203145729
       type: {class: SubjectAnimationAction, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: SubjectAnimationAction
         <ID>k__BackingField: 15edd5ba-a7e3-449f-90bd-a4b416196bd3
-        <Position>k__BackingField: {x: 46, y: 116}
-        Connections:
-        - rid: -2
+        <Position>k__BackingField: {x: 77.39998, y: 257.4}
         NextIAction:
           rid: -2
         ReferenceAction:
           rid: -2
         ParallelAction:
           rid: -2
-        Object: {fileID: 698298267}
-        Subject: {fileID: 0}
         AnimationParameter: IsJump
+    - rid: 3042034494756618240
+      type: {class: ObjectAnimatorAction, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: ObjectAnimatorAction2
+        <ID>k__BackingField: ff8bf223-73ef-4275-8724-9a358a0b174d
+        <Position>k__BackingField: {x: 610, y: 96.80002}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: 3042034483203145729
+        ParallelAction:
+          rid: -2
+        AnimationParameter: IsRotate
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

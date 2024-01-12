@@ -93,64 +93,68 @@ namespace NodeEngine.Window
 
         private void ToMakeConnections()
         {
-            List<BasePort> output = new();
+            List<BasePort> outputs = new();
             List<BasePort> inputs = new();
 
             foreach (BaseNode baseNode in i_Nodes)
             {
                 inputs.AddRange(baseNode.GetInputPorts());
-                output.AddRange(baseNode.GetOutputPorts());
+                outputs.AddRange(baseNode.GetOutputPorts());
             }
 
-            foreach (BaseNode baseNode in i_Nodes)
+            foreach (BasePort output in outputs)
             {
-                BasePort port = baseNode.GetOutputPorts().First();
-                foreach (BaseInteractionAction e in baseNode.INode.Connections)
+                if (output.Value == null) continue;
+                if (output.Name == DSConstants.NEXT_PN)
                 {
-                    if (e == null) continue;
-                    BasePort otherPort = inputs.Where(t => e == t.Value).FirstOrDefault();
-                    if (otherPort != null)
+                    List<BasePort> otherInputs = inputs.Where(input => input.ID == output.ID).ToList();
+                    foreach (BasePort input in otherInputs)
                     {
-                        DSEdge edge = new DSEdge
-                        {
-                            output = port,
-                            input = otherPort
-                        };
-                        edge.input.Connect(edge);
-                        edge.output.Connect(edge);
-                        Debug.Log($"{baseNode.Name} {port.Name} connect with {otherPort.node}{otherPort.Name}");
-                        AddElement(edge);
-
-                        //var portNode = port.node as BaseNode;
-                        //var otherPortNode = otherPort.node as BaseNode;
-                        //portNode?.OnConnectOutputPort(port, edge);
-                        //otherPortNode?.OnConnectInputPort(otherPort, edge);
+                        ConnectPorts(output, input);
                     }
                 }
             }
 
+            foreach (BasePort input in inputs)
+            {
+                if (input.Value == null) continue;
+                if (input.Name == DSConstants.PARALLEL_PN)
+                {
+                    List<BasePort> otherOutputs = outputs.Where(output =>
+                    {
+                        BaseNode outputNode = output.node as BaseNode;
+                        return outputNode.INode.ID == input.ID && outputNode != input.node;
+                    }).ToList();
 
-            //foreach (BasePort port in output)
-            //{
-            //    if (port.Value == null) continue;
-            //    List<BasePort> otherPorts = inputs.Where(e => e.Value == port.Value).ToList();
-            //    foreach (BasePort otherPort in otherPorts)
-            //    {
-            //        DSEdge edge = new DSEdge
-            //        {
-            //            output = port,
-            //            input = otherPort
-            //        };
-            //        edge.input.Connect(edge);
-            //        edge.output.Connect(edge);
-            //        AddElement(edge);
+                    foreach (BasePort output in otherOutputs)
+                        ConnectPorts(output, input);
+                }
 
-            //        var portNode = port.node as BaseNode;
-            //        var otherPortNode = otherPort.node as BaseNode;
-            //        portNode?.OnConnectOutputPort(port, edge);
-            //        otherPortNode?.OnConnectInputPort(otherPort, edge);
-            //    }
-            //}
+                if (input.Name == DSConstants.REFERENCE_PN)
+                {
+                    List<BasePort> otherOutputs = outputs.Where(output =>
+                    {
+                        BaseNode outputNode = output.node as BaseNode;
+                        return outputNode.INode.ID == input.ID && outputNode != input.node;
+                    }).ToList();
+
+                    foreach (BasePort output in otherOutputs)
+                        ConnectPorts(output, input);
+                }
+            }
+        }
+
+        private DSEdge ConnectPorts(BasePort outputPort, BasePort inputPort)
+        {
+            DSEdge edge = new DSEdge
+            {
+                output = outputPort,
+                input = inputPort
+            };
+            edge.input.Connect(edge);
+            edge.output.Connect(edge);
+            AddElement(edge);
+            return edge;
         }
 
         #region Overrides

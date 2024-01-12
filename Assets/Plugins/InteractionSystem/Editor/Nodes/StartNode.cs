@@ -5,6 +5,7 @@ using UnityEngine.PlayerLoop;
 using NodeEngine.Window;
 using UnityEngine;
 using System.Linq;
+using NodeEngine.Utilities;
 
 namespace InteractionSystem
 {
@@ -35,7 +36,7 @@ namespace InteractionSystem
                 Capacity = Port.Capacity.Single,
                 InteractionAction = IAction,
                 Orientation = Orientation.Horizontal,
-                PortName = "NextAction"
+                PortName = DSConstants.NEXT_PN
             });
         }
 

@@ -175,14 +175,14 @@ namespace NodeEngine.Nodes
         #region MonoEvents
         public virtual void OnConnectOutputPort(BasePort port, Edge edge) 
         {
-            if (edge.input is BasePort p)
-                INode.AddConnections(p.Value);
+            //if (edge.input is BasePort p)
+            //    INode.AddConnections(p.Value);
         }
         public virtual void OnConnectInputPort(BasePort port, Edge edge) { }
         public virtual void OnDestroyConnectionOutput(BasePort port, Edge edge) 
         {
-            if (edge.input is BasePort p)
-                INode.RemoveConnections(p.Value);
+            //if (edge.input is BasePort p)
+            //    INode.RemoveConnections(p.Value);
         }
         public virtual void OnDestroyConnectionInput(BasePort port, Edge edge) { }
 
