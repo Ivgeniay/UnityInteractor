@@ -92,8 +92,10 @@ namespace InteractionSystem
                     sequence.Subject = Subject;
                     sequence.Awake();
                 });
-                yield return FirstAction.MainProcedure();
             }
+
+            yield return FirstAction.MainProcedure();
+
             foreach (var item in Sequences)
                 item.Reset();
         }

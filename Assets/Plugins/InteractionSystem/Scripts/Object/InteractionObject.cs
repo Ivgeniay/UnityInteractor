@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace InteractionSystem
 {
@@ -12,7 +13,13 @@ namespace InteractionSystem
 
         private void Awake()
         {
+            subject = FindObjectsByType<Test>(sortMode: FindObjectsSortMode.None)
+                .Where(e => e.gameObject != this.gameObject)
+                .First()
+                .gameObject;
+
             Sequences.SetObject(this.gameObject);
+
             //For test
             Sequences.SetSubject(subject);
         }

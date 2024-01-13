@@ -172,27 +172,6 @@ namespace NodeEngine.Utilities
                 throw new ArgumentException("Type must be derived from BaseNode", nameof(type));
         }
 
-        internal static object GetDefaultValue(Type type)
-        {
-            if (type == null) throw new ArgumentNullException();
-            object result = default(object);
-            if (type.IsValueType) result = CreateInstance(type);
-            else if (type == typeof(string)) result = string.Empty;
-            else result = CreateInstance(type);
-
-            if (result == null)
-            {
-                string fullTypeName = type.FullName + ", " + DSConstants.DEFAULT_ASSEMBLY;// "Namespace.TypeName, AssemblyName";
-                result = CreateInstance(GetType(fullTypeName));
-            }
-            return result;
-        }
-        internal static object CreateInstance(Type type)
-        {
-            if (type.Namespace != null && type.Namespace.StartsWith("UnityEngine")) return null;// .IsAssignableFrom(typeof(UnityEngine.Object))) return null;
-            return Activator.CreateInstance(type);
-        }
-
         internal static List<Type> GetListExtendedClasses(Type baseType)
         {
             var nodeTypes = GetListExtendedClasses(baseType, Assembly.GetExecutingAssembly());
@@ -215,8 +194,6 @@ namespace NodeEngine.Utilities
                 .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
                 .ToList();
 
-        internal static bool IsAvalilableType(Type type) => DSConstants.AvalilableTypes.Contains(type);
-        internal static bool IsPrimitiveType(Type type) => DSConstants.PrimitiveTypes.Contains(type);
         internal static string GenerateWindowSearchNameFromType(Type t)
         {
             var name = t.Name.Replace("node", "", StringComparison.OrdinalIgnoreCase);
@@ -232,78 +209,6 @@ namespace NodeEngine.Utilities
             }
             return name;
         }
-
-        internal static string GenerateClassNameFromType(Type t)
-        {
-            var name = t.Name.Replace("node", "", StringComparison.OrdinalIgnoreCase);
-            name = name.Replace("base", "", StringComparison.OrdinalIgnoreCase);
-            name = char.ToUpper(name[0]) + name.Substring(1);
-            for (int i = 1; i < name.Length; i++)
-            {
-                if (char.IsUpper(name[i]))
-                {
-                    name = name.Insert(i, "_");
-                    i++;
-                }
-            }
-            name = name.Insert(0, "DS");
-            return name;
-        }
-        internal static string GenerateClassPefixFromType(Type t)
-        {
-            switch (t)
-            {
-                case var _ when t == typeof(byte): return "b";
-                case var _ when t == typeof(int): return "i";
-                case var _ when t == typeof(long): return "l";
-                case var _ when t == typeof(short): return "sh";
-                case var _ when t == typeof(decimal): return "de";
-                case var _ when t == typeof(double): return "d";
-                case var _ when t == typeof(float): return "f";
-                case var _ when t == typeof(string): return "s";
-                case var _ when t == typeof(char): return "c";
-                case var _ when t == typeof(bool): return "b";
-                default: return t.Name.Length >= 2 ? t.Name.Substring(0, 2) : t.Name;
-            }
-        }
-
-        internal static Type GetType(string fullTypeName)
-        {
-            Type type = null;
-            if (!fullTypeName.Contains("["))
-            {
-                type = Type.GetType(fullTypeName);
-                if (type != null) return type;
-
-                Assembly assembly = Assembly.Load(DSConstants.DEFAULT_ASSEMBLY);
-                type = assembly.GetType(fullTypeName, true);
-                if (type != null) return type;
-            }
-            else
-            {
-                string[] typeParts = fullTypeName.Split('[');
-                string typeNameWithoutGeneric = typeParts[0];
-                string genericArgumentPart = typeParts[1].TrimEnd(']');
-
-                string fullTypeName_ = typeNameWithoutGeneric + "[" + DSConstants.DEFAULT_ASSEMBLY + "." + genericArgumentPart + "]";
-
-                Type argType = Type.GetType(genericArgumentPart);
-                if (argType == null)
-                {
-                    Assembly assembly = Assembly.Load(DSConstants.DEFAULT_ASSEMBLY);
-                    argType = assembly.GetType(genericArgumentPart, true);
-                }
-                if (argType == null) throw new Exception();
-
-                if (typeNameWithoutGeneric.Contains("List"))
-                {
-                    type = typeof(List<>).MakeGenericType(argType);
-                }
-
-                return type;
-            }
-
-            throw new Exception($"There is no type {fullTypeName}");
-        }
+        
     }
 }

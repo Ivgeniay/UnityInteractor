@@ -582,8 +582,8 @@ GameObject:
   - component: {fileID: 698298270}
   - component: {fileID: 698298269}
   - component: {fileID: 698298275}
-  - component: {fileID: 698298274}
   - component: {fileID: 698298276}
+  - component: {fileID: 698298277}
   m_Layer: 0
   m_Name: ObjectCube
   m_TagString: Untagged
@@ -698,18 +698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &698298274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698298267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ec4dcb592a2524581ae14037bcdfda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &698298275
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -746,40 +734,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sequences:
     <Name>k__BackingField: Sequence
-    <ID>k__BackingField: 2423d790-24f0-4315-a9dc-7662f80f696b
-    <Position>k__BackingField: {x: 95.79999, y: 96.399994}
+    <ID>k__BackingField: f89642c3-5b69-4385-b2a1-b9a05c69c173
+    <Position>k__BackingField: {x: 2.8000488, y: 112.8}
     FirstAction:
-      rid: 3042034483203145728
+      rid: 3042034523452473344
     Sequences:
-    - rid: 3042034483203145728
-    - rid: 3042034483203145729
-    - rid: 3042034494756618240
-    - rid: 3042034496768049152
-  subject: {fileID: 963429726}
+    - rid: 3042034523452473344
+    - rid: 3042034523452473345
+    - rid: 3042034523452473346
+    - rid: 3042034523452473347
+    - rid: 3042034523452473350
+    - rid: 3042034523452473351
+  subject: {fileID: 0}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3042034483203145728
-      type: {class: ObjectAnimatorAction, ns: InteractionSystem, asm: InteractionSystem}
+    - rid: 3042034523452473344
+      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: ObjectAnimatorAction
-        <ID>k__BackingField: 8f4c17cb-07d1-4241-9ef2-69805f037746
-        <Position>k__BackingField: {x: 331, y: 96.8}
+        <Name>k__BackingField: SetBoolObject
+        <ID>k__BackingField: 8457bb26-e663-4c20-9f7e-97b706fbd9ee
+        <Position>k__BackingField: {x: 241.20001, y: 112.79999}
         NextIAction:
-          rid: 3042034494756618240
+          rid: 3042034523452473345
         ReferenceAction:
           rid: -2
         ParallelAction:
-          rid: 3042034483203145729
+          rid: 3042034523452473346
         AnimationParameter: IsRotate
-    - rid: 3042034483203145729
-      type: {class: SubjectAnimationAction, ns: InteractionSystem, asm: InteractionSystem}
+        settedValue: 1
+    - rid: 3042034523452473345
+      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: SubjectAnimationAction
-        <ID>k__BackingField: 15edd5ba-a7e3-449f-90bd-a4b416196bd3
-        <Position>k__BackingField: {x: 88.59998, y: 221.39998}
+        <Name>k__BackingField: SetBoolObject2
+        <ID>k__BackingField: 970a4f5b-1ab0-49ca-8336-73bb95a971d3
+        <Position>k__BackingField: {x: 485.19992, y: 112.79994}
+        NextIAction:
+          rid: 3042034523452473350
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034523452473347
+        AnimationParameter: IsJump
+        settedValue: 1
+    - rid: 3042034523452473346
+      type: {class: SetBoolSubject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBoolSubject
+        <ID>k__BackingField: af809d34-f43a-4708-b72d-46898f4b2b8a
+        <Position>k__BackingField: {x: -4.400009, y: 284.00006}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -787,25 +792,13 @@ MonoBehaviour:
         ParallelAction:
           rid: -2
         AnimationParameter: IsRotate
-    - rid: 3042034494756618240
-      type: {class: ObjectAnimatorAction, ns: InteractionSystem, asm: InteractionSystem}
+        settedValue: 1
+    - rid: 3042034523452473347
+      type: {class: SetBoolSubject, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: ObjectAnimatorAction2
-        <ID>k__BackingField: ff8bf223-73ef-4275-8724-9a358a0b174d
-        <Position>k__BackingField: {x: 574.00006, y: 96.80002}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: 3042034496768049152
-        AnimationParameter: IsRotate
-    - rid: 3042034496768049152
-      type: {class: SubjectAnimationAction, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SubjectAnimationAction2
-        <ID>k__BackingField: 311298a2-1919-49f4-b2a3-16ed6215fe39
-        <Position>k__BackingField: {x: 330.8, y: 310.40002}
+        <Name>k__BackingField: SetBoolSubject2
+        <ID>k__BackingField: c90e2c02-46f3-49e5-921c-0c5e6683f0c8
+        <Position>k__BackingField: {x: 241.20003, y: 283.99997}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -813,6 +806,47 @@ MonoBehaviour:
         ParallelAction:
           rid: -2
         AnimationParameter: IsJump
+        settedValue: 1
+    - rid: 3042034523452473350
+      type: {class: SetBoolSubject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBoolSubject3
+        <ID>k__BackingField: 3b41f9fe-e14f-493d-904c-078875062711
+        <Position>k__BackingField: {x: 346, y: -29.600052}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034523452473351
+        AnimationParameter: IsRotate
+        settedValue: 1
+    - rid: 3042034523452473351
+      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBoolObject3
+        <ID>k__BackingField: 73521645-d600-4c9f-9ee6-b9e96ffdcd95
+        <Position>k__BackingField: {x: -3.600006, y: 130.39993}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        AnimationParameter: IsRotate
+        settedValue: 1
+--- !u!114 &698298277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698298267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d73fe119303df4c99830b1d3ca2382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +910,7 @@ GameObject:
   - component: {fileID: 963429730}
   - component: {fileID: 963429729}
   - component: {fileID: 963429728}
-  - component: {fileID: 963429727}
+  - component: {fileID: 963429734}
   m_Layer: 0
   m_Name: SubjectCube
   m_TagString: Untagged
@@ -884,18 +918,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &963429727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963429726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ec4dcb592a2524581ae14037bcdfda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &963429728
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1025,6 +1047,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963429734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963429726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d73fe119303df4c99830b1d3ca2382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1170647401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,6 +1252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ec4dcb592a2524581ae14037bcdfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
 --- !u!136 &1975155783
 CapsuleCollider:
   m_ObjectHideFlags: 0

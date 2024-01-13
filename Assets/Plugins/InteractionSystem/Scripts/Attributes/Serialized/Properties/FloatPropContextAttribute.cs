@@ -2,8 +2,7 @@
 
 namespace InteractionSystem
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class FloatPropContextAttribute : DSAttribute
+    public class FloatPropContextAttribute : SerializePropAttribute
     {
         public override bool IsValidType(Type fieldType)
             => fieldType == typeof(float);

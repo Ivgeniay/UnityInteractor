@@ -2,8 +2,7 @@
 
 namespace InteractionSystem
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class IntPropContextAttribute : DSAttribute
+    public class IntPropContextAttribute : SerializePropAttribute
     {
         public override bool IsValidType(Type fieldType)
             => fieldType == typeof(int);

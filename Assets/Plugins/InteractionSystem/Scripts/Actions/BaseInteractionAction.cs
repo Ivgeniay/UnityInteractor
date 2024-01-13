@@ -38,7 +38,8 @@ namespace InteractionSystem
         {
             if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
             yield return Procedure();
-            yield return WaitFor(ParallelAction);
+            //yield return WaitFor(ParallelAction);
+            yield return WaitFor(parallel);
             yield return Complete();
         }
         protected abstract IEnumerator Procedure();
@@ -46,9 +47,10 @@ namespace InteractionSystem
         {
             if (baseInteractionAction != null) yield return new WaitUntil(() => baseInteractionAction.IsCompleted);
         }
-        protected virtual IEnumerator WaitFor(Coroutine cor)
+        protected virtual IEnumerator WaitFor(Coroutine coroutine)
         {
-            if (cor != null) yield return cor;
+            //if (cor != null) yield return cor;
+            yield return new WaitUntil(() => coroutine != null);
         }
 
         /// <summary>
