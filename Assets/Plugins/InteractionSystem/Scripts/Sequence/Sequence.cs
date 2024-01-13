@@ -32,8 +32,6 @@ namespace InteractionSystem
         {
             if (!Sequences.Contains(sequence))
             {
-                sequence.Object = Object;
-                sequence.Subject = Subject;
                 Sequences.Add(sequence); 
             }
 
@@ -88,8 +86,15 @@ namespace InteractionSystem
             {
                 Sequences.ForEach(sequence =>
                 {
-                    sequence.Object = Object;
-                    sequence.Subject = Subject;
+                    switch (sequence.PerformerType)
+                    {
+                        case PerformerType.Object:
+                            sequence.Performer = Object;
+                            break;
+                        case PerformerType.Subject:
+                            sequence.Performer = Subject;
+                            break;
+                    }
                     sequence.Awake();
                 });
             }

@@ -11,7 +11,7 @@ namespace InteractionSystem
         private InteractionObject instance;
         public override void OnInspectorGUI ()
         {
-            //base.OnInspectorGUI ();
+            base.OnInspectorGUI ();
             instance = (InteractionObject)target;
 
             if (Application.isPlaying)

@@ -197,8 +197,24 @@ namespace NodeEngine.Window
             AddElement(node);
             i_Nodes.Add(node);
             OnValidate();
+            if (node.IAction != null)
+                node.IAction.IsExecutingEvent += NodeExecutingHandler;
             return node;
         }
+
+        private void NodeExecutingHandler(BaseInteractionAction arg1, bool arg2)
+        {
+            BaseNode target = i_Nodes
+                .Where(e => e.IAction == arg1 && 
+                    (e.GetType().IsSubclassOf(typeof(ActionNode)) || e.GetType() == typeof(ActionNode)))
+                .FirstOrDefault();
+            if (target != null)
+            {
+                if (arg2 == true) target.SetIndicatorExecutionsStyle(new Color32(145, 187, 16, 50));
+                else if (arg2 == false) target.ResetIndicatorExecutionStyle();
+            }
+        }
+
         internal BaseGroup CreateGroup(Type type, Vector2 mousePosition, string title = "DialogueGroup", string tooltip = null)
         {
             var group = DSUtilities.CreateGroup(this, type, mousePosition, title, tooltip);

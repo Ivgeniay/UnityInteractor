@@ -10,7 +10,7 @@ namespace InteractionSystem
         private NavMeshAgent agent;
         public override void Awake()
         {
-            agent = Object.GetComponent<NavMeshAgent>();
+            agent = Performer.GetComponent<NavMeshAgent>();
         }
 
         protected override IEnumerator Procedure()

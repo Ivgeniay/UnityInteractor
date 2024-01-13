@@ -6,6 +6,9 @@ using NodeEngine.Window;
 using NodeEngine.Ports; 
 using NodeEngine.Nodes;
 using UnityEngine;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace InteractionSystem
 {
@@ -76,6 +79,16 @@ namespace InteractionSystem
                 {
                     port.Value = otherPort.Value;
                     IAction.NextIAction = port.Value;
+
+                }
+                else if (otherPort.Name == DSConstants.PARALLEL_PN)
+                {
+                    BaseNode otherNode = otherPort.node as BaseNode;
+                    if (otherNode.IAction != null)
+                    {
+                        if (otherNode.IAction.PerformerType == PerformerType.Object) IAction.PerformerType = PerformerType.Subject;
+                        else if (otherNode.IAction.PerformerType == PerformerType.Subject) IAction.PerformerType = PerformerType.Object;
+                    }
                 }
             }
         }
@@ -127,6 +140,9 @@ namespace InteractionSystem
             FieldInfo[] integersFields = NodeContext.GetFields(typeof(IntFieldContextAttribute));
             FieldInfo[] boolFields = NodeContext.GetFields(typeof(BoolFieldContextAttribute));
 
+            FieldInfo[] enumFields = NodeContext.GetFields(typeof(EnumFieldContextAttribute));
+            PropertyInfo[] enumProperty = NodeContext.GetProperties(typeof(EnumPropContextAttribute));
+
             PropertyInfo[] textProp = NodeContext.GetProperties(typeof(StringFieldContextAttribute));
             PropertyInfo[] flProp = NodeContext.GetProperties(typeof(FloatPropContextAttribute));
             PropertyInfo[] integersProp = NodeContext.GetProperties(typeof(IntPropContextAttribute)); 
@@ -140,7 +156,7 @@ namespace InteractionSystem
                     field.Name, (e) =>
                     {
                         TextField trgt = e.target as TextField;
-                        trgt.value = e.newValue;
+                        trgt.value = e.newValue == null ? "" : e.newValue;
                         NodeContext.SetValue(field, e.newValue);
                         graphView.SafeDirty();
                     });
@@ -153,7 +169,7 @@ namespace InteractionSystem
                     prop.Name, (e) =>
                     {
                         TextField trgt = e.target as TextField;
-                        trgt.value = e.newValue;
+                        trgt.value = e.newValue == null ? "" : e.newValue;
                         NodeContext.SetValue(prop, e.newValue);
                         graphView.SafeDirty();
                     });
@@ -235,6 +251,53 @@ namespace InteractionSystem
                         Toggle trgt = e.target as Toggle;
                         trgt.value = e.newValue;
                         NodeContext.SetValue(field, e.newValue);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+
+            foreach (FieldInfo field in enumFields)
+            {
+                List<string> choices = new();
+                var enums = Enum.GetValues(field.FieldType);
+                foreach (var item in enums)
+                    choices.Add(item.ToString());
+                
+                 
+                DropdownField textField = DSUtilities.CreateDropdownField(
+                    label: field.Name,
+                    value: NodeContext.GetValue(field).ToString(),
+                    choices: choices,
+                    onChange: (e) =>
+                    {
+                        DropdownField trgt = e.target as DropdownField;
+                        trgt.value = e.newValue;
+                        var t = field.FieldType;
+                        var res = Enum.Parse(t, e.newValue);
+                        Type rr = res.GetType();
+                        NodeContext.SetValue(field, res);
+                        graphView.SafeDirty();
+                    });
+                container.Add(textField);
+            }
+            foreach (PropertyInfo field in enumProperty)
+            {
+                List<string> choices = new();
+                var enums = Enum.GetValues(field.PropertyType);
+                foreach (var item in enums)
+                    choices.Add(item.ToString());
+
+                DropdownField textField = DSUtilities.CreateDropdownField(
+                    label: field.Name,
+                    value: NodeContext.GetValue(field).ToString(),
+                    choices: choices,
+                    onChange: (e) =>
+                    {
+                        DropdownField trgt = e.target as DropdownField;
+                        trgt.value = e.newValue;
+                        var t = field.PropertyType;
+                        var res = Enum.Parse(t, e.newValue);
+                        NodeContext.SetValue(field, res);
                         graphView.SafeDirty();
                     });
                 container.Add(textField);

@@ -12,12 +12,12 @@ namespace InteractionSystem
         protected bool settedValue;
 
         public override void Awake() =>
-            animator = Object.GetComponent<Animator>();
+            animator = Performer.GetComponent<Animator>();
 
-        protected override void StartAnimation() =>
+        protected override void TriggerToStartAnim() =>
             animator.SetBool(AnimationParameter, settedValue);
 
-        protected override void StopAnimation()
+        protected override void TriggerToStopAnim()
         {
             animator.SetBool(AnimationParameter, !settedValue);
         }

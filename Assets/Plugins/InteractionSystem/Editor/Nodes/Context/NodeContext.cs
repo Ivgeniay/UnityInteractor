@@ -29,24 +29,19 @@ namespace InteractionSystem
                 .Where(t => t.IsSubclassOf(typeof(DSAttribute)))
                 .ToArray();
 
+
             foreach (Type type in attributeSubclasses)
             {
                 if (!type.IsSubclassOf(typeof(SerializedDSAttribute))) continue;
                 
-                FieldInfo[] res = GetAttributedFields(type);
-                if (res.Length > 0)
-                    FieldsAttributed[type] = res;
+                var res = GetPrimitiveTypeAttributed(type);
+                if (res.fields.Length > 0) FieldsAttributed[type] = res.fields;
+                if (res.property.Length > 0) PropertyAttributed[type] = res.property;
             }
 
-            foreach (Type type in attributeSubclasses)
-            {
-                if (!type.IsSubclassOf(typeof(SerializedDSAttribute))) continue;
-
-                PropertyInfo[] res = GetAttributedProperties(type);
-                if (res.Length > 0)
-                    PropertyAttributed[type] = res;
-            }
-             
+            var enums = GetEnumAttributedFields();
+            if (enums.fields.Length > 0) FieldsAttributed[typeof(EnumFieldContextAttribute)] = enums.fields;
+            if (enums.property.Length > 0) PropertyAttributed[typeof(EnumFieldContextAttribute)] = enums.property;
         }
 
 
@@ -86,36 +81,50 @@ namespace InteractionSystem
         public void SetValue(FieldInfo field, object value) => field.SetValue(instance, value);
         public void SetValue(PropertyInfo prop, object value) => prop.SetValue(instance, value);
 
-        private FieldInfo[] GetAttributedFields(Type attributes)
+        private (FieldInfo[] fields, PropertyInfo[] property) GetPrimitiveTypeAttributed(Type attributes)
         {
             Type type = instance.GetType();
             FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
                 .Where(prop => Attribute.IsDefined(prop, attributes))
                 .ToArray();
-            
-            return fields.Where(e =>
-            {
-                DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
-                if (dsAttribute is SerializedDSAttribute s)
-                    return s.IsValidType(e.FieldType);
-                return true;
-            }).ToArray();
-        }
-        private PropertyInfo[] GetAttributedProperties(Type attributes)
-        {
-            Type type = instance.GetType();
-            PropertyInfo[] fields = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+
+            PropertyInfo[] property = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
                 .Where(prop => Attribute.IsDefined(prop, attributes))
                 .ToArray();
 
-            return fields.Where(e =>
-            {
-                DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
-                if (dsAttribute is SerializedDSAttribute s)
-                    return s.IsValidType(e.PropertyType);
-                return true;
-            }).ToArray();
+            return (
+                fields.Where(e =>
+                    {
+                        DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
+                        if (dsAttribute is SerializedDSAttribute s)
+                        {
+                            bool result = s.IsValidType(e.FieldType);
+                            return result;
+                        }
+                        return true;
+                    }).ToArray()
+                    ,
+                property.Where(e =>
+                    {
+                        DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
+                        if (dsAttribute is SerializedDSAttribute s)
+                            return s.IsValidType(e.PropertyType);
+                        return true;
+                    }).ToArray()
+            );
         }
+        private (FieldInfo[] fields, PropertyInfo[] property) GetEnumAttributedFields()
+        {
+            Type type = instance.GetType();
+            FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                .Where(prop => Attribute.IsDefined(prop, typeof(EnumFieldContextAttribute)))
+                .ToArray();
 
+            PropertyInfo[] property = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                .Where(prop => Attribute.IsDefined (prop, typeof(EnumFieldContextAttribute))) 
+                .ToArray();
+
+            return (fields, property);
+        }
     }
 }

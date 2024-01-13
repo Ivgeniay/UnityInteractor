@@ -30,7 +30,9 @@ namespace NodeEngine.Nodes
         protected DSGraphView graphView { get; set; } 
         protected List<BasePort> inputPorts = new();
         protected List<BasePort> outputPorts = new();
-        private Color defaultbackgroundColor;
+
+        private Color defaultMainContainerColor;
+        private Color defaultTitleColor;
 
 
         internal virtual void Initialize(DSGraphView graphView, Vector2 position, INode iNode)
@@ -47,7 +49,7 @@ namespace NodeEngine.Nodes
                 Position = position,
             };
 
-            defaultbackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
+            defaultMainContainerColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
             this.graphView = graphView;
             this.SetPosition(new Rect(position, Vector2.zero));
             AddStyles();
@@ -113,6 +115,8 @@ namespace NodeEngine.Nodes
             DrawExtensionContainer(extensionContainer);
 
             RefreshExpandedState();
+            defaultTitleColor = titleContainer.style.backgroundColor.value;
+            ResetIndicatorExecutionStyle();
         }
         #endregion
 
@@ -134,7 +138,10 @@ namespace NodeEngine.Nodes
             extensionContainer.AddToClassList("ds-node__extension-container");
         }
         internal virtual void SetErrorStyle(Color color) => mainContainer.style.backgroundColor = color;
-        internal virtual void ResetStyle() => mainContainer.style.backgroundColor = defaultbackgroundColor;
+        internal virtual void ResetStyle() => mainContainer.style.backgroundColor = defaultMainContainerColor;
+
+        internal virtual void SetIndicatorExecutionsStyle(Color color) => titleContainer.style.backgroundColor = color;
+        internal virtual void ResetIndicatorExecutionStyle() => titleContainer.style.backgroundColor = defaultTitleColor;
         #endregion
 
         #region Utilits

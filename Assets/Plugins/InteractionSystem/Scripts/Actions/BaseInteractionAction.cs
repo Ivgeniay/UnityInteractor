@@ -1,13 +1,13 @@
 ﻿using System.Collections; 
 using UnityEngine;
 using System;
-using System.Threading.Tasks;
 
 namespace InteractionSystem
 {
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
+        public event Action<BaseInteractionAction, bool> IsExecutingEvent;
         [field: SerializeField][HideInInspector] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -16,8 +16,8 @@ namespace InteractionSystem
         [SerializeReference] public BaseInteractionAction ReferenceAction;
         [SerializeReference] public BaseInteractionAction ParallelAction;
 
-        [NonSerialized][HideInInspector] public GameObject Object;
-        [NonSerialized][HideInInspector] public GameObject Subject;
+        [NonSerialized][HideInInspector] public GameObject Performer;
+        [SerializeField][EnumFieldContext] public PerformerType PerformerType;
 
         public bool IsCompleted { get; protected set; } = false;
 
@@ -36,35 +36,33 @@ namespace InteractionSystem
         public abstract void Awake();
         public IEnumerator MainProcedure()
         {
+            IsExecutingEvent?.Invoke(this, true);
             if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
             yield return Procedure();
-            //yield return WaitFor(ParallelAction);
-            yield return WaitFor(parallel);
+            //if (ParallelAction != null) yield return WaitFor(ParallelAction);
+            if (ParallelAction != null) yield return WaitFor(parallel);
             yield return Complete();
         }
         protected abstract IEnumerator Procedure();
-        protected virtual IEnumerator WaitFor(BaseInteractionAction baseInteractionAction)
+        protected virtual IEnumerator WaitFor(BaseInteractionAction action)
         {
-            if (baseInteractionAction != null) yield return new WaitUntil(() => baseInteractionAction.IsCompleted);
+            if (action != null)
+                yield return new WaitUntil(() => action.IsCompleted);
+            else yield return null;
         }
-        protected virtual IEnumerator WaitFor(Coroutine coroutine)
+        protected virtual IEnumerator WaitFor(Coroutine cor)
         {
-            //if (cor != null) yield return cor;
-            yield return new WaitUntil(() => coroutine != null);
+            yield return new WaitUntil(() => cor != null);
         }
 
-        /// <summary>
-        /// Must be used on end of procedure by yield return
-        /// </summary>
-        /// <returns></returns>
         protected IEnumerator Complete()
         {
             IsCompleted = true;
             onCompleteCallback?.Invoke();
+            IsExecutingEvent?.Invoke(this, false);
             if (NextIAction != null)
-            {
                 yield return NextIAction.MainProcedure();
-            }
+            else yield return null;
         }
         public virtual void Reset()
         {
@@ -86,5 +84,11 @@ namespace InteractionSystem
         }
         #endregion
 
+    }
+
+    public enum PerformerType
+    {
+        Object,
+        Subject
     }
 }

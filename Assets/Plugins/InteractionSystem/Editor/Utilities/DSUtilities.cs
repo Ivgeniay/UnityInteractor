@@ -16,6 +16,18 @@ namespace NodeEngine.Utilities
 {
     public static class DSUtilities
     {
+        internal static DropdownField CreateDropdownField(string label = "", string value = null, List<string> choices = null, EventCallback<ChangeEvent<string>> onChange = null, string[] styles = null)
+        {
+            DropdownField dd = new DropdownField()
+            {
+                value = value,
+                label = label,
+                choices = choices
+            };
+            if (onChange is not null) dd.RegisterCallback(onChange);
+            dd.AddToClassList(styles);
+            return dd;
+        }
         internal static Label CreateLabel(string value = null, EventCallback<ChangeEvent<string>> onClick = null, string[] styles = null)
         {
             Label label = new Label()

@@ -16,18 +16,15 @@ namespace InteractionSystem
         protected Animator animator { get; set; }
 
         protected override IEnumerator Procedure()
-        { 
-            //animator.SetBool(AnimationParameter, SettedValue);
-            StartAnimation();
+        {
+            TriggerToStartAnim();
             yield return new WaitForStartAnimation(animator);
-            StopAnimation();
-            //animator.SetBool(AnimationParameter, !SettedValue);
+            TriggerToStopAnim();
             yield return new WaitForEndAnimation(animator);
             Debug.Log($"Animation waiter ended from {animator.gameObject}");
-            yield return Complete();
         }
 
-        protected abstract void StartAnimation();
-        protected abstract void StopAnimation();
+        protected abstract void TriggerToStartAnim();
+        protected abstract void TriggerToStopAnim();
     }
 }
