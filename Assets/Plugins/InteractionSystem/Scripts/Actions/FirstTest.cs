@@ -6,13 +6,12 @@ namespace InteractionSystem
     internal class FirstTest : BaseInteractionAction
     {
         public override void Awake()
-        {
-            throw new NotImplementedException();
+        { 
         }
 
-        public override IEnumerator Procedure()
+        protected override IEnumerator Procedure()
         {
-            throw new NotImplementedException();
+            yield return null;
         }
     }
 }

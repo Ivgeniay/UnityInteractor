@@ -13,7 +13,7 @@ namespace InteractionSystem
             agent = Object.GetComponent<NavMeshAgent>();
         }
 
-        public override IEnumerator Procedure()
+        protected override IEnumerator Procedure()
         {
             yield return null;
         }

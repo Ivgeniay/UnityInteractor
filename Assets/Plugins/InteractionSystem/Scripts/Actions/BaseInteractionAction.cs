@@ -1,13 +1,13 @@
 ﻿using System.Collections; 
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace InteractionSystem
 {
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
-        public event Action<BaseInteractionAction> OnCompleteEvent;
         [field: SerializeField][HideInInspector] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -22,6 +22,7 @@ namespace InteractionSystem
         public bool IsCompleted { get; protected set; } = false;
 
         protected CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
+        protected Coroutine parallel = null;
         private Action onCompleteCallback;
 
         public BaseInteractionAction()
@@ -33,32 +34,34 @@ namespace InteractionSystem
 
         #region MainBehaviour
         public abstract void Awake();
-        public abstract IEnumerator Procedure();
-
-        public virtual IEnumerator WaitFor(BaseInteractionAction baseInteractionAction)
+        public IEnumerator MainProcedure()
         {
-            if (baseInteractionAction != null)
-                yield return new WaitUntil(() => baseInteractionAction.IsCompleted);
+            if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
+            yield return Procedure();
+            yield return WaitFor(ParallelAction);
+            yield return Complete();
         }
-
-        public virtual IEnumerator WaitFor(Coroutine cor)
+        protected abstract IEnumerator Procedure();
+        protected virtual IEnumerator WaitFor(BaseInteractionAction baseInteractionAction)
         {
-            if (cor != null)
-                yield return cor;
+            if (baseInteractionAction != null) yield return new WaitUntil(() => baseInteractionAction.IsCompleted);
+        }
+        protected virtual IEnumerator WaitFor(Coroutine cor)
+        {
+            if (cor != null) yield return cor;
         }
 
         /// <summary>
         /// Must be used on end of procedure by yield return
         /// </summary>
         /// <returns></returns>
-        public IEnumerator Complete()
+        protected IEnumerator Complete()
         {
             IsCompleted = true;
             onCompleteCallback?.Invoke();
-            OnCompleteEvent?.Invoke(this);
             if (NextIAction != null)
             {
-                yield return NextIAction.Procedure();
+                yield return NextIAction.MainProcedure();
             }
         }
         public virtual void Reset()

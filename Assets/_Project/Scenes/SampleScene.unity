@@ -792,7 +792,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: ObjectAnimatorAction2
         <ID>k__BackingField: ff8bf223-73ef-4275-8724-9a358a0b174d
-        <Position>k__BackingField: {x: 573.2, y: 96.80002}
+        <Position>k__BackingField: {x: 574.00006, y: 96.80002}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -805,7 +805,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SubjectAnimationAction2
         <ID>k__BackingField: 311298a2-1919-49f4-b2a3-16ed6215fe39
-        <Position>k__BackingField: {x: 330.8, y: 221.59999}
+        <Position>k__BackingField: {x: 330.8, y: 310.40002}
         NextIAction:
           rid: -2
         ReferenceAction:

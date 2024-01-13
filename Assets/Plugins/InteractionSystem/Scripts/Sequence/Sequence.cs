@@ -92,8 +92,7 @@ namespace InteractionSystem
                     sequence.Subject = Subject;
                     sequence.Awake();
                 });
-                if (FirstAction.ParallelAction != null) coroutine.StartC(FirstAction.ParallelAction.Procedure());
-                yield return FirstAction.Procedure();
+                yield return FirstAction.MainProcedure();
             }
             foreach (var item in Sequences)
                 item.Reset();
