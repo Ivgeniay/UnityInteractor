@@ -8,7 +8,7 @@ namespace InteractionSystem
     public class SetBoolObject : BaseAnimationAction
     {
         [SerializeField]
-        [BoolFieldContext]
+        [SerializeFieldNode]
         protected bool settedValue;
 
         public override void Awake() =>

@@ -17,7 +17,7 @@ namespace InteractionSystem
         [SerializeReference] public BaseInteractionAction ParallelAction;
 
         [NonSerialized][HideInInspector] public GameObject Performer;
-        [SerializeField][EnumFieldContext] public PerformerType PerformerType;
+        [SerializeField][SerializeFieldNode] public PerformerType PerformerType;
 
         public bool IsCompleted { get; protected set; } = false;
 

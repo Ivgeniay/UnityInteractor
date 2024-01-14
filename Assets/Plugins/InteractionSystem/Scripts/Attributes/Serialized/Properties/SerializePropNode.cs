@@ -2,7 +2,7 @@
 
 namespace InteractionSystem
 {
-    public abstract class SerializedDSAttribute : DSAttribute
+    public class SerializePropNode : SerializePropAttribute
     {
     }
 }

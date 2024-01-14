@@ -7,8 +7,8 @@ namespace InteractionSystem
 {
     internal class NodeContext
     {
-        public readonly Dictionary<Type, FieldInfo[]> FieldsAttributed = new();
-        public readonly Dictionary<Type, PropertyInfo[]> PropertyAttributed = new();
+        public readonly List<FieldInfo> FieldsSerAttribute = new();
+        public readonly List<PropertyInfo> PropSerAttribute = new();
         public readonly object[] GeneralAttributes;
 
         private object instance;
@@ -29,31 +29,9 @@ namespace InteractionSystem
                 .Where(t => t.IsSubclassOf(typeof(DSAttribute)))
                 .ToArray();
 
-
-            foreach (Type type in attributeSubclasses)
-            {
-                if (!type.IsSubclassOf(typeof(SerializedDSAttribute))) continue;
-                
-                var res = GetPrimitiveTypeAttributed(type);
-                if (res.fields.Length > 0) FieldsAttributed[type] = res.fields;
-                if (res.property.Length > 0) PropertyAttributed[type] = res.property;
-            }
-
-            var enums = GetEnumAttributedFields();
-            if (enums.fields.Length > 0) FieldsAttributed[typeof(EnumFieldContextAttribute)] = enums.fields;
-            if (enums.property.Length > 0) PropertyAttributed[typeof(EnumFieldContextAttribute)] = enums.property;
-        }
-
-
-        public FieldInfo[] GetFields(Type attributeType)
-        {
-            if (FieldsAttributed.TryGetValue(attributeType, out FieldInfo[] value)) return value;
-            return new FieldInfo[0];
-        }
-        public PropertyInfo[] GetProperties(Type attributeType)
-        {
-            if (PropertyAttributed.TryGetValue(attributeType, out PropertyInfo[] value)) return value;
-            return new PropertyInfo[0];
+            var t = GetSerAttributed(instance);
+            FieldsSerAttribute.AddRange(t.fields);
+            PropSerAttribute.AddRange(t.property);
         }
 
         public object GetValue(FieldInfo field) => field.GetValue(instance); 
@@ -80,48 +58,16 @@ namespace InteractionSystem
 
         public void SetValue(FieldInfo field, object value) => field.SetValue(instance, value);
         public void SetValue(PropertyInfo prop, object value) => prop.SetValue(instance, value);
-
-        private (FieldInfo[] fields, PropertyInfo[] property) GetPrimitiveTypeAttributed(Type attributes)
+        
+        private (FieldInfo[] fields, PropertyInfo[] property) GetSerAttributed(object instance)
         {
             Type type = instance.GetType();
             FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(prop => Attribute.IsDefined(prop, attributes))
+                .Where(field => Attribute.IsDefined(field, typeof(SerializeFieldNode)))
                 .ToArray();
 
             PropertyInfo[] property = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(prop => Attribute.IsDefined(prop, attributes))
-                .ToArray();
-
-            return (
-                fields.Where(e =>
-                    {
-                        DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
-                        if (dsAttribute is SerializedDSAttribute s)
-                        {
-                            bool result = s.IsValidType(e.FieldType);
-                            return result;
-                        }
-                        return true;
-                    }).ToArray()
-                    ,
-                property.Where(e =>
-                    {
-                        DSAttribute dsAttribute = (DSAttribute)Attribute.GetCustomAttribute(e, typeof(DSAttribute));
-                        if (dsAttribute is SerializedDSAttribute s)
-                            return s.IsValidType(e.PropertyType);
-                        return true;
-                    }).ToArray()
-            );
-        }
-        private (FieldInfo[] fields, PropertyInfo[] property) GetEnumAttributedFields()
-        {
-            Type type = instance.GetType();
-            FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(prop => Attribute.IsDefined(prop, typeof(EnumFieldContextAttribute)))
-                .ToArray();
-
-            PropertyInfo[] property = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                .Where(prop => Attribute.IsDefined (prop, typeof(EnumFieldContextAttribute))) 
+                .Where(prop => Attribute.IsDefined(prop, typeof(SerializePropNode)))
                 .ToArray();
 
             return (fields, property);

@@ -1,8 +1,6 @@
-﻿using System.Collections; 
-using UnityEditor.Animations; 
+﻿using System.Collections;
 using UnityEngine; 
 using System;
-using InteractionSystem;
 
 namespace InteractionSystem
 {
@@ -10,7 +8,7 @@ namespace InteractionSystem
     [Serializable]
     public abstract class BaseAnimationAction : BaseInteractionAction
     {
-        [StringFieldContext]
+        [SerializeFieldNode]
         [SerializeField] 
         public string AnimationParameter = "IsRotate";
         protected Animator animator { get; set; }

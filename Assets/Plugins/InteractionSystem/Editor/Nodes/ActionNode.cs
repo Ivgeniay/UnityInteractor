@@ -3,18 +3,19 @@ using UnityEngine.UIElements;
 using NodeEngine.Utilities;
 using System.Reflection; 
 using NodeEngine.Window;
+using System.Collections.Generic;
 using NodeEngine.Ports; 
 using NodeEngine.Nodes;
 using UnityEngine;
-using System.Collections.Generic;
-using System;
 using System.Linq;
+using System;
 
 namespace InteractionSystem
 {
     internal class ActionNode : BaseNode
     {
         public override BaseInteractionAction IAction { get => INode as BaseInteractionAction; }
+        List<VisualElement> serializedVisualElements = new List<VisualElement>();
 
         internal override void Initialize(DSGraphView graphView, Vector2 position, INode _iAction)
         {
@@ -65,7 +66,7 @@ namespace InteractionSystem
         {
             base.DrawMainContainer(container);
 
-            AddAttributes(container);
+            ExecuteAttributes(container);
         }
 
 
@@ -86,8 +87,15 @@ namespace InteractionSystem
                     BaseNode otherNode = otherPort.node as BaseNode;
                     if (otherNode.IAction != null)
                     {
-                        if (otherNode.IAction.PerformerType == PerformerType.Object) IAction.PerformerType = PerformerType.Subject;
-                        else if (otherNode.IAction.PerformerType == PerformerType.Subject) IAction.PerformerType = PerformerType.Object;
+                        VisualElement dd = serializedVisualElements.Where(e => e.name == nameof(IAction.PerformerType)).FirstOrDefault();
+                        if (dd != null && dd is DropdownField ddField)
+                        {
+                            if (otherNode.IAction.PerformerType == PerformerType.Object)
+                                ddField.value = PerformerType.Subject.ToString();
+                                
+                            else if (otherNode.IAction.PerformerType == PerformerType.Subject)
+                                ddField.value = PerformerType.Object.ToString();
+                        }
                     }
                 }
             }
@@ -132,181 +140,201 @@ namespace InteractionSystem
                 IAction.ParallelAction = null;
         }
 
-
-        private void AddAttributes(VisualElement container)
+        private void ExecuteAttributes(VisualElement container)
         {
-            FieldInfo[] stringFields = NodeContext.GetFields(typeof(StringFieldContextAttribute));
-            FieldInfo[] floatFields = NodeContext.GetFields(typeof(FloatFieldContextAttribute));
-            FieldInfo[] integersFields = NodeContext.GetFields(typeof(IntFieldContextAttribute));
-            FieldInfo[] boolFields = NodeContext.GetFields(typeof(BoolFieldContextAttribute));
+            foreach (FieldInfo field in NodeContext.FieldsSerAttribute)
+            {
+                switch (field.FieldType)
+                {
+                    case Type type when type.Equals(typeof(string)):
 
-            FieldInfo[] enumFields = NodeContext.GetFields(typeof(EnumFieldContextAttribute));
-            PropertyInfo[] enumProperty = NodeContext.GetProperties(typeof(EnumPropContextAttribute));
+                        TextField textField = DSUtilities.CreateTextField(
+                            (string)NodeContext.GetValue(field),
+                            field.Name,
+                            (e) =>
+                            {
+                                TextField trgt = e.target as TextField;
+                                trgt.value = e.newValue == null ? "" : e.newValue;
+                                NodeContext.SetValue(field, e.newValue);
+                                graphView.SafeDirty();
+                            });
 
-            PropertyInfo[] textProp = NodeContext.GetProperties(typeof(StringFieldContextAttribute));
-            PropertyInfo[] flProp = NodeContext.GetProperties(typeof(FloatPropContextAttribute));
-            PropertyInfo[] integersProp = NodeContext.GetProperties(typeof(IntPropContextAttribute)); 
-            PropertyInfo[] boolProp = NodeContext.GetProperties(typeof(BoolPropContextAttribute)); 
+                        textField.name = field.Name;
+                        serializedVisualElements.Add(textField);
+                        container.Add(textField);
+                        break;
 
+                    case Type type when type.Equals(typeof(float)):
+                            FloatField floatTF = DSUtilities.CreateFloatField(
+                                (float)NodeContext.GetValue(field),
+                                field.Name, (e) =>
+                                {
+                                    FloatField trgt = e.target as FloatField;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(field, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            floatTF.name = field.Name;
+                            serializedVisualElements.Add(floatTF);
+                            container.Add(floatTF);
+                        break;
 
-            foreach (FieldInfo field in stringFields)
-            {
-                TextField textField = DSUtilities.CreateTextField(
-                    (string)NodeContext.GetValue(field),
-                    field.Name, (e) =>
-                    {
-                        TextField trgt = e.target as TextField;
-                        trgt.value = e.newValue == null ? "" : e.newValue;
-                        NodeContext.SetValue(field, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (PropertyInfo prop in textProp)
-            {
-                TextField textField = DSUtilities.CreateTextField(
-                    (string)NodeContext.GetValue(prop),
-                    prop.Name, (e) =>
-                    {
-                        TextField trgt = e.target as TextField;
-                        trgt.value = e.newValue == null ? "" : e.newValue;
-                        NodeContext.SetValue(prop, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (FieldInfo field in floatFields)
-            {
-                FloatField textField = DSUtilities.CreateFloatField(
-                    (float)NodeContext.GetValue(field),
-                    field.Name, (e) =>
-                    {
-                        FloatField trgt = e.target as FloatField;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(field, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (PropertyInfo prop in flProp)
-            {
-                FloatField textField = DSUtilities.CreateFloatField(
-                    (float)NodeContext.GetValue(prop),
-                    prop.Name, (e) =>
-                    {
-                        FloatField trgt = e.target as FloatField;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(prop, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (FieldInfo field in integersFields)
-            {
-                IntegerField textField = DSUtilities.CreateIntegerField(
-                    (int)NodeContext.GetValue(field),
-                    field.Name, (e) =>
-                    {
-                        IntegerField trgt = e.target as IntegerField;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(field, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (PropertyInfo prop in integersProp)
-            {
-                IntegerField textField = DSUtilities.CreateIntegerField(
-                    (int)NodeContext.GetValue(prop),
-                    prop.Name, (e) =>
-                    {
-                        IntegerField trgt = e.target as IntegerField;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(prop, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (FieldInfo field in boolFields)
-            {
-                Toggle textField = DSUtilities.CreateToggle(
-                    label: field.Name,
-                    value: (bool)NodeContext.GetValue(field),
-                    onChange: (e) =>
-                    {
-                        Toggle trgt = e.target as Toggle;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(field, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (PropertyInfo field in boolProp)
-            {
-                Toggle textField = DSUtilities.CreateToggle(
-                    label: field.Name,
-                    value: (bool)NodeContext.GetValue(field),
-                    onChange: (e) =>
-                    {
-                        Toggle trgt = e.target as Toggle;
-                        trgt.value = e.newValue;
-                        NodeContext.SetValue(field, e.newValue);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
+                    case Type type when type.Equals(typeof(int)):
+                            IntegerField integerField = DSUtilities.CreateIntegerField(
+                                (int)NodeContext.GetValue(field),
+                                field.Name, (e) =>
+                                {
+                                    IntegerField trgt = e.target as IntegerField;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(field, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            integerField.name = field.Name;
+                            serializedVisualElements.Add(integerField);
+                            container.Add(integerField);
+                        break;
 
-            foreach (FieldInfo field in enumFields)
-            {
-                List<string> choices = new();
-                var enums = Enum.GetValues(field.FieldType);
-                foreach (var item in enums)
-                    choices.Add(item.ToString());
-                
-                 
-                DropdownField textField = DSUtilities.CreateDropdownField(
-                    label: field.Name,
-                    value: NodeContext.GetValue(field).ToString(),
-                    choices: choices,
-                    onChange: (e) =>
-                    {
-                        DropdownField trgt = e.target as DropdownField;
-                        trgt.value = e.newValue;
-                        var t = field.FieldType;
-                        var res = Enum.Parse(t, e.newValue);
-                        Type rr = res.GetType();
-                        NodeContext.SetValue(field, res);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
-            foreach (PropertyInfo field in enumProperty)
-            {
-                List<string> choices = new();
-                var enums = Enum.GetValues(field.PropertyType);
-                foreach (var item in enums)
-                    choices.Add(item.ToString());
+                    case Type type when type.Equals(typeof(bool)):
+                            Toggle boolField = DSUtilities.CreateToggle(
+                                label: field.Name,
+                                value: (bool)NodeContext.GetValue(field),
+                                onChange: (e) =>
+                                {
+                                    Toggle trgt = e.target as Toggle;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(field, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            boolField.name = field.Name;
+                            serializedVisualElements.Add(boolField);
+                            container.Add(boolField);
+                        break;
 
-                DropdownField textField = DSUtilities.CreateDropdownField(
-                    label: field.Name,
-                    value: NodeContext.GetValue(field).ToString(),
-                    choices: choices,
-                    onChange: (e) =>
-                    {
-                        DropdownField trgt = e.target as DropdownField;
-                        trgt.value = e.newValue;
-                        var t = field.PropertyType;
-                        var res = Enum.Parse(t, e.newValue);
-                        NodeContext.SetValue(field, res);
-                        graphView.SafeDirty();
-                    });
-                container.Add(textField);
-            }
+                    case Type type when type.IsEnum:
+                        
+                            List<string> choices = new();
+                            var enums = Enum.GetValues(field.FieldType);
+                            foreach (var enumItem in enums)
+                                choices.Add(enumItem.ToString());
 
-            var t = NodeContext.GetGeneral<DescriptionAttribute>();
+                            DropdownField ddField = DSUtilities.CreateDropdownField(
+                                label: field.Name,
+                                value: NodeContext.GetValue(field).ToString(),
+                                choices: choices,
+                                onChange: (e) =>
+                                {
+                                    DropdownField trgt = e.target as DropdownField;
+                                    trgt.value = e.newValue;
+                                    var t = field.FieldType;
+                                    var res = Enum.Parse(t, e.newValue);
+                                    Type rr = res.GetType();
+                                    NodeContext.SetValue(field, res);
+                                    graphView.SafeDirty();
+                                });
+                            ddField.name = field.Name;
+                            serializedVisualElements.Add(ddField);
+                            container.Add(ddField);
+                        
+                        break;
+
+                }
+            }
+            foreach (PropertyInfo property in NodeContext.PropSerAttribute)
+            {
+                switch (property.PropertyType)
+                {
+                    case Type type when type.Equals(typeof(string)):
+
+                            TextField textField = DSUtilities.CreateTextField(
+                                (string)NodeContext.GetValue(property),
+                                property.Name, (e) =>
+                                {
+                                    TextField trgt = e.target as TextField;
+                                    trgt.value = e.newValue == null ? "" : e.newValue;
+                                    NodeContext.SetValue(property, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            textField.name = property.Name;
+                            serializedVisualElements.Add(textField);
+                            container.Add(textField);
+                        break;
+
+                    case Type type when type.Equals(typeof(float)): 
+                            FloatField floatField = DSUtilities.CreateFloatField(
+                                (float)NodeContext.GetValue(property),
+                                property.Name, (e) =>
+                                {
+                                    FloatField trgt = e.target as FloatField;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(property, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            floatField.name = property.Name;
+                            serializedVisualElements.Add(floatField);
+                            container.Add(floatField);
+                        break;
+
+                    case Type type when type.Equals(typeof(int)):
+                            IntegerField integerField = DSUtilities.CreateIntegerField(
+                                (int)NodeContext.GetValue(property),
+                                property.Name, (e) =>
+                                {
+                                    IntegerField trgt = e.target as IntegerField;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(property, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            integerField.name = property.Name;
+                            serializedVisualElements.Add(integerField);
+                            container.Add(integerField);
+                        break;
+
+                    case Type type when type.Equals(typeof(bool)):
+                            Toggle boolField = DSUtilities.CreateToggle(
+                                label: property.Name,
+                                value: (bool)NodeContext.GetValue(property),
+                                onChange: (e) =>
+                                {
+                                    Toggle trgt = e.target as Toggle;
+                                    trgt.value = e.newValue;
+                                    NodeContext.SetValue(property, e.newValue);
+                                    graphView.SafeDirty();
+                                });
+                            boolField.name = property.Name;
+                            serializedVisualElements.Add(boolField);
+                            container.Add(boolField);
+                        
+                        break;
+
+                    case Type type when type.IsEnum:
+                            List<string> choices = new();
+                            var enums = Enum.GetValues(property.PropertyType);
+                            foreach (var enumItem in enums)
+                                choices.Add(enumItem.ToString());
+
+                            DropdownField ddField = DSUtilities.CreateDropdownField(
+                                label: property.Name,
+                                value: NodeContext.GetValue(property).ToString(),
+                                choices: choices,
+                                onChange: (e) =>
+                                {
+                                    DropdownField trgt = e.target as DropdownField;
+                                    trgt.value = e.newValue;
+                                    var t = property.PropertyType;
+                                    var res = Enum.Parse(t, e.newValue);
+                                    NodeContext.SetValue(property, res);
+                                    graphView.SafeDirty();
+                                });
+                            ddField.name = property.Name;
+                            serializedVisualElements.Add(ddField);
+                            container.Add(ddField);
+                        break;
+                }
+            } 
+
+            List<DescriptionAttribute> t = NodeContext.GetGeneral<DescriptionAttribute>();
             if (t != null && t.Count > 0)
                 this.tooltip = t[0].Description;
-            
         }
     }
 }
