@@ -67,8 +67,7 @@ namespace InteractionSystem
             base.DrawMainContainer(container);
 
             ExecuteAttributes(container);
-        }
-
+        } 
 
         public override void OnConnectOutputPort(BasePort port, Edge edge)
         {
@@ -99,16 +98,14 @@ namespace InteractionSystem
                     }
                 }
             }
-        }
-
+        } 
         public override void OnDestroyConnectionOutput(BasePort port, Edge edge)
         {
             base.OnDestroyConnectionOutput(port, edge);
 
             port.Value = null;
             IAction.NextIAction = null;
-        }
-
+        } 
         public override void OnConnectInputPort(BasePort port, Edge edge)
         {
             base.OnConnectInputPort(port, edge);
@@ -127,8 +124,7 @@ namespace InteractionSystem
                     IAction.ParallelAction = port.Value;
                 }
             }
-        }
-
+        } 
         public override void OnDestroyConnectionInput(BasePort port, Edge edge)
         {
             base.OnDestroyConnectionInput(port, edge);

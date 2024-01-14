@@ -578,12 +578,12 @@ GameObject:
   m_Component:
   - component: {fileID: 698298272}
   - component: {fileID: 698298271}
+  - component: {fileID: 698298278}
   - component: {fileID: 698298268}
   - component: {fileID: 698298270}
   - component: {fileID: 698298269}
   - component: {fileID: 698298275}
   - component: {fileID: 698298277}
-  - component: {fileID: 698298278}
   m_Layer: 0
   m_Name: ObjectCube
   m_TagString: Untagged
@@ -752,10 +752,10 @@ MonoBehaviour:
       rid: 3042034523452473361
     Sequences:
     - rid: 3042034523452473361
-    - rid: 3042034523452473362
-    - rid: 3042034523452473363
-    - rid: 3042034523452473364
-    - rid: 3042034523452473365
+    - rid: 3042034546001575938
+    - rid: 3042034546001575940
+    - rid: 3042034546001575944
+    - rid: 3042034546001575946
   subject: {fileID: 963429726}
   references:
     version: 2
@@ -767,67 +767,37 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetBoolObject
         <ID>k__BackingField: e78a1057-4313-4708-a56c-9aeb7ceb0ef0
-        <Position>k__BackingField: {x: 454.8, y: 132.00002}
+        <Position>k__BackingField: {x: 445.99997, y: 159.20001}
         NextIAction:
-          rid: 3042034523452473363
+          rid: 3042034546001575938
         ReferenceAction:
           rid: -2
         ParallelAction:
-          rid: 3042034523452473362
+          rid: 3042034546001575940
         PerformerType: 0
-        AnimationParameter: IsRotate
+        AnimationParameter: IsScale
         settedValue: 1
-    - rid: 3042034523452473362
+    - rid: 3042034546001575938
       type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: SetBoolObject2
-        <ID>k__BackingField: 554d1495-a602-4656-99d2-a12b03092e7a
-        <Position>k__BackingField: {x: 207.60004, y: 275.2}
+        <ID>k__BackingField: 602b3b66-c6f8-4d80-8aad-0d20318f9317
+        <Position>k__BackingField: {x: 721.2, y: 148.79999}
         NextIAction:
-          rid: -2
+          rid: 3042034546001575944
         ReferenceAction:
           rid: -2
         ParallelAction:
           rid: -2
-        PerformerType: 1
+        PerformerType: 0
         AnimationParameter: IsRotate
         settedValue: 1
-    - rid: 3042034523452473363
+    - rid: 3042034546001575940
       type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: SetBoolObject3
-        <ID>k__BackingField: 87c8ca09-bfc8-4913-a6dd-a2d927e282cf
-        <Position>k__BackingField: {x: 713.19995, y: 131.99997}
-        NextIAction:
-          rid: 3042034523452473364
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: -2
-        PerformerType: 0
-        AnimationParameter: IsRotate
-        settedValue: 1
-    - rid: 3042034523452473364
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SetBoolObject4
-        <ID>k__BackingField: 244f5c3b-b7b3-455f-b9fe-8bf814136ab0
-        <Position>k__BackingField: {x: 979.6, y: 131.99998}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: 3042034523452473365
-        PerformerType: 0
-        AnimationParameter: IsRotate
-        settedValue: 1
-    - rid: 3042034523452473365
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SetBoolObject5
-        <ID>k__BackingField: b537ab78-21e5-4752-8432-da5d68537ec4
-        <Position>k__BackingField: {x: 713.19995, y: 364.00006}
+        <ID>k__BackingField: 3232153c-362a-4204-9e0f-c2b76cb5dee2
+        <Position>k__BackingField: {x: 207.59999, y: 311.2}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -837,6 +807,36 @@ MonoBehaviour:
         PerformerType: 1
         AnimationParameter: IsRotate
         settedValue: 1
+    - rid: 3042034546001575944
+      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBoolObject4
+        <ID>k__BackingField: c89f5d91-065a-468b-bfcb-0795d54acb49
+        <Position>k__BackingField: {x: 1006.0001, y: 149.59998}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034546001575946
+        PerformerType: 1
+        AnimationParameter: IsScale
+        settedValue: 1
+    - rid: 3042034546001575946
+      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBoolObject5
+        <ID>k__BackingField: b753a4a8-bd39-45d2-b52b-5c452decf1b1
+        <Position>k__BackingField: {x: 721.1999, y: 367.20007}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        AnimationParameter: IsRotate
+        settedValue: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

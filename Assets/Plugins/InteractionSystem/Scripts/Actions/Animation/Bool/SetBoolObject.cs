@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System; 
+using System;
+using UnityEditor.Animations;
 
 namespace InteractionSystem
 {
@@ -11,8 +12,11 @@ namespace InteractionSystem
         [SerializeFieldNode]
         protected bool settedValue;
 
-        public override void Awake() =>
+        public override void Awake()
+        {
             animator = Performer.GetComponent<Animator>();
+            base.Awake();
+        }
 
         protected override void TriggerToStartAnim() =>
             animator.SetBool(AnimationParameter, settedValue);

@@ -13,15 +13,18 @@ namespace InteractionSystem
 
         private void Awake()
         {
-            subject = FindObjectsByType<Test>(sortMode: FindObjectsSortMode.None)
-                .Where(e => e.gameObject != this.gameObject)
-                .First()
-                .gameObject;
+            subject = subject == null ? 
+                    FindObjectsByType<Test>(sortMode: FindObjectsSortMode.None)
+                    .Where(e => e.gameObject != this.gameObject)
+                    .First()
+                    .gameObject 
+                : 
+                    subject;
 
-            Sequences.SetObject(this.gameObject);
+            SetObject(this.gameObject);
 
             //For test
-            Sequences.SetSubject(subject);
+            SetSubject(subject);
         }
 
         public void AddSequence(BaseInteractionAction interactionAction)
@@ -44,7 +47,8 @@ namespace InteractionSystem
 
         public void SetSubject(GameObject gameObject) =>
             Sequences.SetSubject(gameObject);
-        
+        public void SetObject(GameObject gameObject) =>
+            Sequences.SetObject(gameObject);
         public void StartSequence() =>
             Sequences.StartSequence();
 

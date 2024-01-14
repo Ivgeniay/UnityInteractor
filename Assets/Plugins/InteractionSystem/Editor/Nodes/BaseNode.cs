@@ -49,6 +49,7 @@ namespace NodeEngine.Nodes
                 Position = position,
             };
 
+            iNode.Position = position;
             defaultMainContainerColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
             this.graphView = graphView;
             this.SetPosition(new Rect(position, Vector2.zero));
@@ -197,8 +198,11 @@ namespace NodeEngine.Nodes
         }
         public virtual void OnDestroyConnectionInput(BasePort port, Edge edge) { }
 
-        public virtual void OnChangePosition(Vector2 position, Vector2 delta) =>
+        public virtual void OnChangePosition(Vector2 position, Vector2 delta)
+        {
             INode.Position += delta;
+            //graphView.SafeDirty();
+        }
         
         public virtual void OnCreate() => Draw();
         public virtual void OnDestroy() 
