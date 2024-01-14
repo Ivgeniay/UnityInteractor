@@ -749,42 +749,25 @@ MonoBehaviour:
     <ID>k__BackingField: 0f74aece-cc6d-4a8a-9bb1-280460ff68c1
     <Position>k__BackingField: {x: 207.6, y: 108.80003}
     FirstAction:
-      rid: 3042034523452473361
+      rid: 3042034546001575951
     Sequences:
-    - rid: 3042034523452473361
-    - rid: 3042034546001575938
-    - rid: 3042034546001575940
-    - rid: 3042034546001575944
-    - rid: 3042034546001575946
+    - rid: 3042034546001575951
+    - rid: 3042034546001575952
+    - rid: 3042034546001575954
   subject: {fileID: 963429726}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3042034523452473361
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+    - rid: 3042034546001575951
+      type: {class: SetBool, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: SetBoolObject
-        <ID>k__BackingField: e78a1057-4313-4708-a56c-9aeb7ceb0ef0
-        <Position>k__BackingField: {x: 445.99997, y: 159.20001}
+        <Name>k__BackingField: SetBool
+        <ID>k__BackingField: b5b57abc-8e7c-4332-acc2-6571538d0fdd
+        <Position>k__BackingField: {x: 478.80002, y: 122.80002}
         NextIAction:
-          rid: 3042034546001575938
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: 3042034546001575940
-        PerformerType: 0
-        AnimationParameter: IsScale
-        settedValue: 1
-    - rid: 3042034546001575938
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SetBoolObject2
-        <ID>k__BackingField: 602b3b66-c6f8-4d80-8aad-0d20318f9317
-        <Position>k__BackingField: {x: 721.2, y: 148.79999}
-        NextIAction:
-          rid: 3042034546001575944
+          rid: 3042034546001575952
         ReferenceAction:
           rid: -2
         ParallelAction:
@@ -792,42 +775,28 @@ MonoBehaviour:
         PerformerType: 0
         AnimationParameter: IsRotate
         settedValue: 1
-    - rid: 3042034546001575940
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+    - rid: 3042034546001575952
+      type: {class: SetFloat, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: SetBoolObject3
-        <ID>k__BackingField: 3232153c-362a-4204-9e0f-c2b76cb5dee2
-        <Position>k__BackingField: {x: 207.59999, y: 311.2}
+        <Name>k__BackingField: SetFloat
+        <ID>k__BackingField: 5227dbc6-3c42-4252-9007-6777c4eed193
+        <Position>k__BackingField: {x: 758.4, y: 136.20001}
         NextIAction:
-          rid: -2
+          rid: 3042034546001575954
         ReferenceAction:
           rid: -2
         ParallelAction:
           rid: -2
         PerformerType: 1
-        AnimationParameter: IsRotate
-        settedValue: 1
-    - rid: 3042034546001575944
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
+        AnimationParameter: Float
+        SettedValue: 2
+        ReSettedValue: 0
+    - rid: 3042034546001575954
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: SetBoolObject4
-        <ID>k__BackingField: c89f5d91-065a-468b-bfcb-0795d54acb49
-        <Position>k__BackingField: {x: 1006.0001, y: 149.59998}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: 3042034546001575946
-        PerformerType: 1
-        AnimationParameter: IsScale
-        settedValue: 1
-    - rid: 3042034546001575946
-      type: {class: SetBoolObject, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SetBoolObject5
-        <ID>k__BackingField: b753a4a8-bd39-45d2-b52b-5c452decf1b1
-        <Position>k__BackingField: {x: 721.1999, y: 367.20007}
+        <Name>k__BackingField: SetTrigger
+        <ID>k__BackingField: a8f2b633-469b-462f-bda8-396d15f9dd09
+        <Position>k__BackingField: {x: 1077.2, y: 163.00002}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -835,8 +804,7 @@ MonoBehaviour:
         ParallelAction:
           rid: -2
         PerformerType: 0
-        AnimationParameter: IsRotate
-        settedValue: 0
+        AnimationParameter: Trigger
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

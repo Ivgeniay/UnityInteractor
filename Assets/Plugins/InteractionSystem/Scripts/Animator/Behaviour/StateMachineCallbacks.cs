@@ -22,6 +22,7 @@ namespace InteractionSystem
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (instancesForCallback.Count < 1) return;
             base.OnStateEnter(animator, stateInfo, layerIndex);
             instancesForCallback.ForEach(action =>
             {
@@ -31,6 +32,7 @@ namespace InteractionSystem
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (instancesForCallback.Count < 1) return;
             base.OnStateExit(animator, stateInfo, layerIndex);
             instancesForCallback.ForEach(action =>
             {
@@ -40,6 +42,7 @@ namespace InteractionSystem
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (instancesForCallback.Count < 1) return;
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             instancesForCallback.ForEach(action =>
             {
