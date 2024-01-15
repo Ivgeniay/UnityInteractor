@@ -3,7 +3,7 @@
 namespace InteractionSystem
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-    public abstract class SerializeFieldAttribute : SerializedDSAttribute
+    public abstract class SerializedFieldAttribute : SerializedDSAttribute
     {
     }
 }

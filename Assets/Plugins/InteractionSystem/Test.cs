@@ -1,37 +1,17 @@
-﻿using UnityEditor.Animations;
+﻿using UnityEngine.AI;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace InteractionSystem
 {
     public class Test : MonoBehaviour
     {
         private NavMeshAgent agent;
-        private Animator animator;
+        private Animator animator; 
+
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
-
-            //AnimatorController controller = animator.runtimeAnimatorController as AnimatorController;
-            //if (controller != null)
-            //{
-            //    foreach (AnimatorControllerLayer layer in controller.layers)
-            //    {
-            //        foreach (ChildAnimatorState state in layer.stateMachine.states)
-            //        {
-            //            foreach (AnimatorStateTransition transition in state.state.transitions)
-            //            {
-            //                foreach (AnimatorCondition condition in transition.conditions)
-            //                {
-            //                    Debug.Log($"Condition: {state.state.name} {transition.name} {condition.parameter} {condition.mode} {condition.threshold}");
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-
+            animator = GetComponent<Animator>(); 
         }
 
         void Update()

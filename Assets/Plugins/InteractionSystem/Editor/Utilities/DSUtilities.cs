@@ -11,11 +11,36 @@ using System.Linq;
 using UnityEngine;
 using System;
 using InteractionSystem;
+using UnityEditor.UIElements;
 
 namespace NodeEngine.Utilities
 {
     public static class DSUtilities
     {
+        internal static Vector3Field CreateVectorField(Vector3 value, string label = "", EventCallback<ChangeEvent<Vector3>> onChange = null, string[] styles = null)
+        {
+            Vector3Field field = new Vector3Field()
+            {
+                label = label,
+                value = value
+            };
+            if (onChange is not null) field.RegisterCallback(onChange);
+            field.AddToClassList(styles);
+            return field;
+        }
+
+        internal static ObjectField CreateUnityObjectField(string label = "", UnityEngine.Object value = null, EventCallback<ChangeEvent<UnityEngine.Object>> onChange = null, string[] styles = null)
+        {
+            ObjectField field = new ObjectField()
+            {
+                label = label,
+                value = value,
+            };
+            if (onChange is not null) field.RegisterCallback(onChange);
+            field.AddToClassList(styles);
+            return field;
+        }
+
         internal static DropdownField CreateDropdownField(string label = "", string value = null, List<string> choices = null, EventCallback<ChangeEvent<string>> onChange = null, string[] styles = null)
         {
             DropdownField dd = new DropdownField()

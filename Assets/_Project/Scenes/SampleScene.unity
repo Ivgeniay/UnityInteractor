@@ -754,6 +754,9 @@ MonoBehaviour:
     - rid: 3042034546001575951
     - rid: 3042034546001575952
     - rid: 3042034546001575954
+    - rid: 3042034551325720577
+    - rid: 3042034551325720579
+    - rid: 3042034561817772032
   subject: {fileID: 963429726}
   references:
     version: 2
@@ -765,7 +768,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetBool
         <ID>k__BackingField: b5b57abc-8e7c-4332-acc2-6571538d0fdd
-        <Position>k__BackingField: {x: 478.80002, y: 122.80002}
+        <Position>k__BackingField: {x: 435.6, y: 108.400024}
         NextIAction:
           rid: 3042034546001575952
         ReferenceAction:
@@ -780,7 +783,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetFloat
         <ID>k__BackingField: 5227dbc6-3c42-4252-9007-6777c4eed193
-        <Position>k__BackingField: {x: 758.4, y: 136.20001}
+        <Position>k__BackingField: {x: 664, y: 108.20001}
         NextIAction:
           rid: 3042034546001575954
         ReferenceAction:
@@ -796,7 +799,36 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigger
         <ID>k__BackingField: a8f2b633-469b-462f-bda8-396d15f9dd09
-        <Position>k__BackingField: {x: 1077.2, y: 163.00002}
+        <Position>k__BackingField: {x: 890.79987, y: 108.60002}
+        NextIAction:
+          rid: 3042034551325720577
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        AnimationParameter: Trigger
+    - rid: 3042034551325720577
+      type: {class: FollowToPoint, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: FollowToPoint
+        <ID>k__BackingField: 36ff5585-3bef-40c8-9c59-34b9ca10cc1c
+        <Position>k__BackingField: {x: 1170.2001, y: 143.40001}
+        NextIAction:
+          rid: 3042034551325720579
+        ReferenceAction:
+          rid: 3042034561817772032
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        minimalDistance: 0.3
+        followPosition: {x: 0, y: 0, z: 0}
+    - rid: 3042034551325720579
+      type: {class: SetBool, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: 3
+        <ID>k__BackingField: 72705684-1c77-49ec-8557-e4a19178211e
+        <Position>k__BackingField: {x: 1477.2, y: 154.80003}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -804,7 +836,22 @@ MonoBehaviour:
         ParallelAction:
           rid: -2
         PerformerType: 0
-        AnimationParameter: Trigger
+        AnimationParameter: IsRotate
+        settedValue: 1
+    - rid: 3042034561817772032
+      type: {class: UnityObject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: UnityObject
+        <ID>k__BackingField: d246f86d-6eae-450f-b56b-2040a52c1c4e
+        <Position>k__BackingField: {x: 882.0001, y: 321.99997}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        Value: {fileID: 1172536581}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1202,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 469707473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1172536581
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172536582}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1172536582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172536581}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16, y: 0, z: -13.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2105133913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,3 +1502,4 @@ SceneRoots:
   - {fileID: 698298272}
   - {fileID: 963429733}
   - {fileID: 469707473}
+  - {fileID: 1172536582}

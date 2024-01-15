@@ -9,7 +9,8 @@ namespace InteractionSystem
     {
         [SerializeField]
         private Sequence Sequences;
-        [SerializeField] private GameObject subject;
+        [SerializeField] 
+        private GameObject subject;
 
         private void Awake()
         {

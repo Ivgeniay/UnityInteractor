@@ -2,7 +2,7 @@
 
 namespace InteractionSystem
 {
-    public class SerializePropNode : SerializePropAttribute
+    public class SerializePropNode : SerializedPropAttribute
     {
     }
 }

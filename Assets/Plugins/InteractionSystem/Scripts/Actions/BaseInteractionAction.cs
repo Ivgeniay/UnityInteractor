@@ -18,12 +18,12 @@ namespace InteractionSystem
 
         [NonSerialized][HideInInspector] public GameObject Performer;
         [SerializeField][SerializeFieldNode] public PerformerType PerformerType;
-
+        public object[] InnerData { get; protected set; }
         public bool IsCompleted { get; protected set; } = false;
 
         protected CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
         protected Coroutine parallel = null;
-        private Action onCompleteCallback;
+        private Action<BaseInteractionAction> onCompleteCallback;
 
         public BaseInteractionAction()
         {
@@ -39,7 +39,6 @@ namespace InteractionSystem
             IsExecutingEvent?.Invoke(this, true);
             if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
             yield return Procedure();
-            //if (ParallelAction != null) yield return WaitFor(ParallelAction);
             if (ParallelAction != null) yield return WaitFor(parallel);
             yield return Complete();
         }
@@ -58,8 +57,9 @@ namespace InteractionSystem
         protected IEnumerator Complete()
         {
             IsCompleted = true;
-            onCompleteCallback?.Invoke();
+            onCompleteCallback?.Invoke(this);
             IsExecutingEvent?.Invoke(this, false);
+
             if (NextIAction != null)
                 yield return NextIAction.MainProcedure();
             else yield return null;
@@ -72,12 +72,12 @@ namespace InteractionSystem
         #endregion
 
         #region SetUpAction
-        public virtual BaseInteractionAction OnComplete(Action onCompleteCallback)
+        public virtual BaseInteractionAction OnComplete(Action<BaseInteractionAction> onCompleteCallback)
         {
             this.onCompleteCallback = onCompleteCallback;
             return this;
         }
-        public virtual BaseInteractionAction NextAction(BaseInteractionAction iAction)
+        public virtual BaseInteractionAction SetNextAction(BaseInteractionAction iAction)
         {
             NextIAction = iAction;
             return this;

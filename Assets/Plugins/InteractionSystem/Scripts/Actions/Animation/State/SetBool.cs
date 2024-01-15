@@ -11,12 +11,6 @@ namespace InteractionSystem
         [SerializeFieldNode]
         protected bool settedValue;
 
-        public override void Awake()
-        {
-            animator = Performer.GetComponent<Animator>();
-            base.Awake();
-        }
-
         protected override void TriggerToStartAnim() => animator.SetBool(AnimationParameter, settedValue);
         protected override void TriggerToStopAnim() => animator.SetBool(AnimationParameter, !settedValue);
         

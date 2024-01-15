@@ -15,12 +15,6 @@ namespace InteractionSystem
         [SerializeFieldNode]
         private float ReSettedValue;
 
-        public override void Awake()
-        {
-            animator = Performer.GetComponent<Animator>();
-            base.Awake();
-        }
-
         protected override void TriggerToStartAnim() => animator.SetFloat(AnimationParameter, SettedValue);
         protected override void TriggerToStopAnim() => animator.SetFloat(AnimationParameter, ReSettedValue);
     }

@@ -21,11 +21,9 @@ namespace InteractionSystem
         private int startAnimationHash = 0;
         private int nextAnimationHash = 0;
 
-        /// <summary>
-        /// Base awake use animator 
-        /// </summary>
         public override void Awake()
         {
+            animator = Performer.GetComponentInChildren<Animator>();
             controller = animator.runtimeAnimatorController as AnimatorController;
             stateInvoker = animator?.GetBehaviour<StateMachineCallbacks>();
             stateInvoker?.Register(this);
