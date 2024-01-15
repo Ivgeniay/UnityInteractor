@@ -1,11 +1,10 @@
 ﻿using UnityEditor.Experimental.GraphView;
-using NodeEngine.Database.Save;
-using NodeEngine.DialogueType;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
+using NodeEngine.Database.Save; 
+using UnityEngine.UIElements;
 using NodeEngine.UIElement;
 using NodeEngine.Utilities; 
-using UnityEngine.UIElements;
+using InteractionSystem;
 using NodeEngine.Groups;
 using NodeEngine.Window;
 using NodeEngine.Ports;
@@ -14,7 +13,6 @@ using NodeEngine.Text;
 using UnityEngine;
 using System.Linq;
 using System;
-using InteractionSystem;
 
 namespace NodeEngine.Nodes
 {
@@ -185,24 +183,14 @@ namespace NodeEngine.Nodes
         #endregion
 
         #region MonoEvents
-        public virtual void OnConnectOutputPort(BasePort port, Edge edge) 
-        {
-            //if (edge.input is BasePort p)
-            //    INode.AddConnections(p.Value);
-        }
+        public virtual void OnConnectOutputPort(BasePort port, Edge edge) { }
         public virtual void OnConnectInputPort(BasePort port, Edge edge) { }
-        public virtual void OnDestroyConnectionOutput(BasePort port, Edge edge) 
-        {
-            //if (edge.input is BasePort p)
-            //    INode.RemoveConnections(p.Value);
-        }
+        public virtual void OnDestroyConnectionOutput(BasePort port, Edge edge) { }
         public virtual void OnDestroyConnectionInput(BasePort port, Edge edge) { }
 
-        public virtual void OnChangePosition(Vector2 position, Vector2 delta)
-        {
+        public virtual void OnChangePosition(Vector2 position, Vector2 delta) =>
             INode.Position += delta;
-            //graphView.SafeDirty();
-        }
+        
         
         public virtual void OnCreate() => Draw();
         public virtual void OnDestroy() 

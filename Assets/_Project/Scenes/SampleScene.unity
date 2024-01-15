@@ -757,6 +757,7 @@ MonoBehaviour:
     - rid: 3042034551325720577
     - rid: 3042034551325720579
     - rid: 3042034561817772032
+    - rid: 3042034561817772033
   subject: {fileID: 963429726}
   references:
     version: 2
@@ -813,13 +814,13 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: FollowToPoint
         <ID>k__BackingField: 36ff5585-3bef-40c8-9c59-34b9ca10cc1c
-        <Position>k__BackingField: {x: 1170.2001, y: 143.40001}
+        <Position>k__BackingField: {x: 1133.4, y: 108.20001}
         NextIAction:
           rid: 3042034551325720579
         ReferenceAction:
           rid: 3042034561817772032
         ParallelAction:
-          rid: -2
+          rid: 3042034561817772033
         PerformerType: 0
         minimalDistance: 0.3
         followPosition: {x: 0, y: 0, z: 0}
@@ -828,7 +829,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: 3
         <ID>k__BackingField: 72705684-1c77-49ec-8557-e4a19178211e
-        <Position>k__BackingField: {x: 1477.2, y: 154.80003}
+        <Position>k__BackingField: {x: 1402.7998, y: 107.60002}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -843,7 +844,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: UnityObject
         <ID>k__BackingField: d246f86d-6eae-450f-b56b-2040a52c1c4e
-        <Position>k__BackingField: {x: 882.0001, y: 321.99997}
+        <Position>k__BackingField: {x: 890.80005, y: 269.19995}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -852,6 +853,21 @@ MonoBehaviour:
           rid: -2
         PerformerType: 0
         Value: {fileID: 1172536581}
+    - rid: 3042034561817772033
+      type: {class: SetBool, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetBool2
+        <ID>k__BackingField: f161161a-34a3-410a-bb87-441b63f70121
+        <Position>k__BackingField: {x: 891.217, y: 432.21448}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 1
+        AnimationParameter: IsScale
+        settedValue: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1212,7 +1228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1172536582}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1501,5 +1517,5 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 698298272}
   - {fileID: 963429733}
-  - {fileID: 469707473}
   - {fileID: 1172536582}
+  - {fileID: 469707473}

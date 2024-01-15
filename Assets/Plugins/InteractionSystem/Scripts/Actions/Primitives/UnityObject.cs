@@ -10,7 +10,7 @@ namespace InteractionSystem
     {
         [SerializeField]
         [SerializeFieldNode(Description = "Используйте это поле только для объектов со сцены")]
-        public UnityEngine.GameObject Value;
+        public GameObject Value;
 
         public override void Awake() { }
 

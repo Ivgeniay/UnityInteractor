@@ -1,6 +1,7 @@
 using InteractionSystem;
 using NodeEngine.Toolbars;
 using NodeEngine.Utilities;
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,7 +20,7 @@ namespace NodeEngine.Window
         {
             DSEditorWindow dSEditor = GetWindow<DSEditorWindow>();
             dSEditor.Initialize(interactionObject);
-        }
+        } 
 
         internal void Initialize(InteractionObject interactionObject)
         {
@@ -30,6 +31,32 @@ namespace NodeEngine.Window
             AddStyles();
 
             grathView.Initialize();
+        }
+        private void OnEnable()
+        {
+            //EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            Selection.selectionChanged += OnSelectNewObject;
+        }
+        private void OnDisable()
+        {
+            //EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            Selection.selectionChanged -= OnSelectNewObject;
+        }
+        private void OnPlayModeStateChanged(PlayModeStateChange state) {}
+        private void OnSelectNewObject()
+        {
+            foreach (var selectedObject in Selection.objects)
+            {
+                GameObject selectedGameObject = selectedObject as GameObject;
+                if (selectedGameObject != null)
+                {
+                    InteractionObject interaction = selectedGameObject.GetComponent<InteractionObject>();
+                    if (interaction != null)
+                    {
+                        OpenWindow(interaction);
+                    }
+                }
+            }
         }
 
 
