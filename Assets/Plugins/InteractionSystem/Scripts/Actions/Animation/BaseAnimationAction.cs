@@ -38,10 +38,10 @@ namespace InteractionSystem
         protected override IEnumerator Procedure()
         {
             StartAnim();
-            yield return new WaitEndAnimatorState(stateInvoker, startAnimationHash);
+            yield return new WaitEndAnimatorState(stateInvoker, animator);
             StopAnim();
             var currentAnimationHash = animator.GetCurrentAnimatorStateInfo(AnimationLayer).fullPathHash;
-            yield return new WaitEndAnimatorState(stateInvoker, currentAnimationHash);
+            yield return new WaitEndAnimatorState(stateInvoker, animator);
         }
 
         protected abstract void StartAnim();
