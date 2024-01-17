@@ -37,11 +37,7 @@ namespace InteractionSystem
             }
             agent.SetDestination(followPosition);
             yield return new WaitUntil(() => !agent.pathPending);
-            yield return new WaitUntil(() =>
-            {
-                Debug.Log($"rem: {agent.remainingDistance} min: {minimalDistance}");
-                return agent.remainingDistance <= minimalDistance;
-            });
+            yield return new WaitUntil(() => agent.remainingDistance <= minimalDistance );
         }
     }
 }

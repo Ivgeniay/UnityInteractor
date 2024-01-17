@@ -71,7 +71,7 @@ namespace NodeEngine.Window
         private void AddToolbar()
         {
             DSToolbar toolbar = new(grathView);
-            toolbar.Initialize("DialogueFileName", "Filename: ");
+            toolbar.Initialize(InteractionInstance);
             rootVisualElement.Add(toolbar);
         }
         #endregion

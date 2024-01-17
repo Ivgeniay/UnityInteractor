@@ -14,6 +14,7 @@ using NodeEngine.Text;
 using System.Linq;
 using UnityEngine;
 using System;
+using static UnityEngine.GraphicsBuffer;
 
 namespace NodeEngine.Window
 {
@@ -36,10 +37,7 @@ namespace NodeEngine.Window
 
         internal List<BaseNode> i_Nodes { get; set; } = new List<BaseNode>();
         internal List<BaseGroup> i_Groups { get; set; } = new List<BaseGroup>();
-        private Dictionary<Type, int> necessaryTypes { get; set; } = new Dictionary<Type, int>()
-        {
-            
-        };
+        private Color nodeExecutionColor = new Color32(145, 187, 16, 50);
 
 
         private int _repeatedNameAmount;
@@ -50,7 +48,6 @@ namespace NodeEngine.Window
             {
                 _repeatedNameAmount = value;
                 OnValidate();
-                //OnSaveValidationHandler();
             }
         }
 
@@ -90,7 +87,6 @@ namespace NodeEngine.Window
 
             ToMakeConnections();
         }
-
         private void ToMakeConnections()
         {
             List<BasePort> outputs = new();
@@ -107,7 +103,7 @@ namespace NodeEngine.Window
                 if (output.Value == null) continue;
                 if (output.Name == DSConstants.NEXT_PN)
                 {
-                    List<BasePort> otherInputs = inputs.Where(input => input.ID == output.ID).ToList();
+                    List<BasePort> otherInputs = inputs.Where(input => input.ID == output.ID && input.Name == DSConstants.ACTION_PN).ToList();
                     foreach (BasePort input in otherInputs)
                     {
                         ConnectPorts(output, input);
@@ -123,8 +119,10 @@ namespace NodeEngine.Window
                     List<BasePort> otherOutputs = outputs.Where(output =>
                     {
                         BaseNode outputNode = output.node as BaseNode;
+                        if (outputNode is StartNode) return false;
                         return outputNode.INode.ID == input.ID && outputNode != input.node;
-                    }).ToList();
+                    })
+                        .ToList();
 
                     foreach (BasePort output in otherOutputs)
                         ConnectPorts(output, input);
@@ -135,15 +133,16 @@ namespace NodeEngine.Window
                     List<BasePort> otherOutputs = outputs.Where(output =>
                     {
                         BaseNode outputNode = output.node as BaseNode;
+                        if (outputNode is StartNode) return false;
                         return outputNode.INode.ID == input.ID && outputNode != input.node;
-                    }).ToList();
+                    })
+                        .ToList();
 
                     foreach (BasePort output in otherOutputs)
                         ConnectPorts(output, input);
                 }
             }
         }
-
         private DSEdge ConnectPorts(BasePort outputPort, BasePort inputPort)
         {
             DSEdge edge = new DSEdge
@@ -198,19 +197,24 @@ namespace NodeEngine.Window
             i_Nodes.Add(node);
             OnValidate();
             if (node.IAction != null)
-                node.IAction.IsExecutingEvent += NodeExecutingHandler;
+            {
+                node.IAction.OnExecutingEvent += NodeExecutingHandler;
+
+                if (node.IAction.IsExecuting) node.SetIndicatorExecutionsStyle(nodeExecutionColor);
+                else node.ResetIndicatorExecutionStyle();
+            }
             return node;
         }
-
         private void NodeExecutingHandler(BaseInteractionAction arg1, bool arg2)
         {
             BaseNode target = i_Nodes
                 .Where(e => e.IAction == arg1 && 
                     (e.GetType().IsSubclassOf(typeof(ActionNode)) || e.GetType() == typeof(ActionNode)))
                 .FirstOrDefault();
+
             if (target != null)
             {
-                if (arg2 == true) target.SetIndicatorExecutionsStyle(new Color32(145, 187, 16, 50));
+                if (arg2 == true) target.SetIndicatorExecutionsStyle(nodeExecutionColor);
                 else if (arg2 == false) target.ResetIndicatorExecutionStyle();
             }
         }
@@ -274,30 +278,12 @@ namespace NodeEngine.Window
             return contextualMenuManipulator;
         }
 
-        private void UpdateNode()
-        {
-            //List<BaseNode> stNums = new();
-            //foreach (BaseNode node in i_Nodes)
-            //{
-            //    IEnumerable<BasePort> inputs = node.GetInputPorts();
-            //    if (inputs.Count() == 0)
-            //    {
-            //        stNums.Add(node);
-            //        continue;
-            //    }
-            //    bool allInputPortsOff = inputs.All(t => !t.connected);
-            //    if (allInputPortsOff) stNums.Add(node);
-            //}
-            //foreach (BaseNode node in stNums) node.Update();
-        }
-
         private IManipulator CreateNodeContextMenu(string actionTitle, Type type)
         {
             ContextualMenuManipulator contextualMenuManipulator = new(e =>
             {
                 e.menu.AppendAction(actionTitle, a =>
                     AddElement(CreateNode(type, GetLocalMousePosition(a.eventInfo.mousePosition, false), null)));
-
             });
 
             return contextualMenuManipulator;
@@ -488,7 +474,6 @@ namespace NodeEngine.Window
         }
         #endregion
         #region Entities Manipulations
-
         private void AddMinimap()
         {
             MiniMap = new DSMiniMap()
@@ -674,56 +659,9 @@ namespace NodeEngine.Window
         internal void OnValidate()
         {
             //OnSaveValidationHandler();
-            UpdateNode();
-        }
-        //private void OnSaveValidationHandler()
-        //{
-        //    bool repeatednames = repeatedNameAmount == 0;
-        //    bool isNesseseryNodes = ValidationNessesaryNodes(i_Nodes, necessaryTypes);
-        //    //bool isInstanceNodeNotNullValue = i_Nodes.OfType<InstanceNode>().All(e => e.GetValue().Item2 != null);
-
-        //    OnCanSaveGraphEvent?.Invoke(repeatednames && isNesseseryNodes);// && isInstanceNodeNotNullValue);
-        //}
-        private bool ValidationNessesaryNodes(List<BaseNode> i_Nodes, Dictionary<Type, int> nessesaryTypes)
-        {
-            if (i_Nodes.Count == 0) return true;
-
-            Dictionary<Type, int> nodeTypeCounts = i_Nodes
-                .GroupBy(node => node.GetType())
-                .ToDictionary(group => group.Key, group => group.Count());
-
-            foreach (var kvp in nessesaryTypes)
-            {
-                Type targetType = kvp.Key;
-                int necessaryCount = kvp.Value;
-
-                if (necessaryCount > 0)
-                    if (!nodeTypeCounts.TryGetValue(targetType, out int actualCount) || actualCount < necessaryCount) return false;
-            }
-            return true;
         }
 
-        internal BaseNode GetNodeById(string id) => i_Nodes.FirstOrDefault(e => e.Model.ID == id);
         internal BaseGroup GetGroupById(string id) => i_Groups.FirstOrDefault(e => e.Model.ID == id);
-        internal BaseNode GetNodeByPortId(string id)
-        {
-            BasePort port = GetPortById(id);
-            return port.node as BaseNode;
-        }
-        internal BasePort GetPortById(string id)
-        {
-            BasePort port = null;
-            foreach (var e in i_Nodes)
-            {
-                var innp = e.GetInputPorts();
-                var outnp = e.GetOutputPorts();
-                port = innp.FirstOrDefault(p => p.ID == id);
-                if (port == null) port = outnp.FirstOrDefault(p => p.ID == id);
-                if (port != null) return port;
-            }
-            throw new NullReferenceException($"There is not port with id {id} in the graph");
-        }
-
         internal void CleanGraph()
         {
             List<GraphElement> graphElements = new List<GraphElement>();
@@ -733,86 +671,6 @@ namespace NodeEngine.Window
             deleteSelection?.Invoke("delete", AskUser.DontAskUser);
             DeleteSelection();
         }
-
-        internal string Load(string filePath)
-        {
-            //if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath)) return Model.InstanceID;
-            //if (!File.Exists(filePath)) throw new FileNotFoundException();
-            //filePath = filePath.Substring(filePath.IndexOf("Assets"));
-            //GraphSO graphSO = AssetDatabase.LoadAssetAtPath<GraphSO>(filePath);
-
-            //if (graphSO == null) return graphSO.FileName;
-
-            //CleanGraph();
-            //Model.InstanceID = graphSO.FileName;
-            //foreach (var groupModel in graphSO.GroupModels)
-            //{
-            //    BaseGroup group = CreateGroup(DSUtilities.GetType(groupModel.Type), groupModel.Position, groupModel.GroupName);
-            //    group.Model.ID = groupModel.ID;
-            //}
-
-            //foreach (var nodeModel in graphSO.NodeModels)
-            //{
-            //    BaseNode node = CreateNode(DSUtilities.GetType(nodeModel.DialogueType), nodeModel.Position, new List<object> { nodeModel });
-            //    if (!string.IsNullOrWhiteSpace(node.Model.GroupID))
-            //    {
-            //        BaseGroup group = GetGroupById(node.Model.GroupID);
-            //        if (group != null)
-            //            group.AddElement(node);
-            //    }
-            //}
-
-            //foreach (BaseNode node in i_Nodes)
-            //{
-            //    if (node.Model.Outputs == null || node.Model.Outputs.Count == 0) continue;
-            //    foreach (var output in node.Model.Outputs)
-            //        ToMakeConnections(output, node.GetOutputPorts()); 
-            //}
-
-            return Model.InstanceID;
-        }
-
-
-        private void ToMakeConnections(DSPortModel portModel, IEnumerable<BasePort> ports)
-        {
-            var port = ports.Where(el => el.ID == portModel.PortID).FirstOrDefault();
-            if (port != null)
-            {
-                if (portModel.NodeIDs == null) { }
-                else
-                {
-                    foreach (NodePortModel portIdModel in portModel.NodeIDs)
-                    {
-                        BaseNode inputNode = i_Nodes.Where(e => e.Model.ID == portIdModel.NodeID).FirstOrDefault();
-                        if (inputNode != null)
-                        {
-                            foreach (string portId in portIdModel.PortIDs)
-                            {
-                                IEnumerable<BasePort> inp = inputNode.GetInputPorts();
-                                BasePort neededInputPort = inp.Where(e => e.ID == portId).FirstOrDefault();
-                                if (neededInputPort != null)
-                                {
-                                    DSEdge edge = new DSEdge
-                                    {
-                                        output = port,
-                                        input = neededInputPort
-                                    };
-
-                                    edge.input.Connect(edge);
-                                    edge.output.Connect(edge);
-                                    AddElement(edge);
-
-                                    BaseNode outputNode = edge.output.node as BaseNode;
-                                    inputNode.OnConnectInputPort(neededInputPort, edge);
-                                    outputNode.OnConnectOutputPort(port, edge);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         #endregion
     }
 }

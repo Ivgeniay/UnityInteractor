@@ -1,47 +1,39 @@
-﻿using UnityEngine;
+﻿using InteractionSystem.Waiter;
+using UnityEngine;
 
 namespace InteractionSystem
 {
-    public sealed class WaitEndAnimatorState : CustomYieldInstruction, ISMCallback
+    public sealed class WaitEndAnimatorState : BaseWaiterAnimator
     {
-        private bool InProgress = true;
-        StateMachineCallbacks smCb;
-        public WaitEndAnimatorState(StateMachineCallbacks smCb)
+        private int starAnimationHash;
+        public WaitEndAnimatorState(StateMachineCallbacks smCb, int starAnimationFullpathHash, int layer = 0) : base(smCb, layer)
         {
-            this.smCb = smCb;
-            this.smCb.Register(this);
+            this.starAnimationHash = starAnimationFullpathHash;
+        }
+        public WaitEndAnimatorState(StateMachineCallbacks smCb, Animator animator, int layer = 0) : base(smCb)
+        {
+            this.starAnimationHash = animator.GetCurrentAnimatorStateInfo(layer).fullPathHash;
         }
 
-        ~WaitEndAnimatorState()
+        protected override void OnSMHandler(StateMachineCallbacks.SMBehaviour type, Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            this.smCb.UnRegister(this);
-        }
-        public override void Reset()
-        {
-            base.Reset();
-            this.smCb.UnRegister(this);
-        }
-
-
-        public override bool keepWaiting
-        {
-            get
+            if (layerIndex != layer) return;
+            switch (type)
             {
-                if (!InProgress) Reset();
-                return InProgress;
+                case StateMachineCallbacks.SMBehaviour.Exit:
+                    if (stateInfo.fullPathHash == starAnimationHash)
+                    {
+                        InProgress = false;
+                        smCb.OnSMEvent -= OnSMHandler;
+                    }
+                    break;
             }
         }
 
-        public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-        public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void Reset()
         {
-            InProgress = false;
-        }
-
-        public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
-        { 
-            //if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1) InProgress = false;
+            base.Reset();
+            smCb.OnSMEvent -= OnSMHandler;
         }
     }
 }

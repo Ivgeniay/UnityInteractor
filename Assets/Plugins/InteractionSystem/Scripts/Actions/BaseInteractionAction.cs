@@ -7,7 +7,9 @@ namespace InteractionSystem
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
-        public event Action<BaseInteractionAction, bool> IsExecutingEvent;
+        public event Action<BaseInteractionAction, bool> OnExecutingEvent;
+        public bool IsExecuting { get; private set; }
+
         [field: SerializeField][HideInInspector] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -36,33 +38,33 @@ namespace InteractionSystem
         public abstract void Awake();
         public IEnumerator MainProcedure()
         {
-            IsExecutingEvent?.Invoke(this, true);
-            if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
+            InvokeExecuted(true);
+            //if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.Procedure());
+            if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.MainProcedure());
             yield return Procedure();
-            if (ParallelAction != null) yield return WaitFor(parallel);
+            if (ParallelAction != null) yield return WaitFor(ParallelAction);
             yield return Complete();
         }
         protected abstract IEnumerator Procedure();
         protected virtual IEnumerator WaitFor(BaseInteractionAction action)
         {
-            if (action != null)
-                yield return new WaitUntil(() => action.IsCompleted);
-            else yield return null;
+            if (action != null) 
+                yield return new WaitUntil(() => action.IsCompleted == true);
         }
         protected virtual IEnumerator WaitFor(Coroutine cor)
         {
             yield return new WaitUntil(() => cor != null);
         }
+            //if (ParallelAction != null) yield return WaitFor(parallel);
 
         protected IEnumerator Complete()
         {
             IsCompleted = true;
-            onCompleteCallback?.Invoke(this);
-            IsExecutingEvent?.Invoke(this, false);
+            onCompleteCallback?.Invoke(this); 
+            InvokeExecuted(false);
 
             if (NextIAction != null)
                 yield return NextIAction.MainProcedure();
-            else yield return null;
         }
         public virtual void Reset()
         {
@@ -70,6 +72,12 @@ namespace InteractionSystem
             IsCompleted = false;
         }
         #endregion
+
+        private void InvokeExecuted(bool value)
+        {
+            IsExecuting = value;
+            OnExecutingEvent?.Invoke(this, IsExecuting);
+        }
 
         #region SetUpAction
         public virtual BaseInteractionAction OnComplete(Action<BaseInteractionAction> onCompleteCallback)

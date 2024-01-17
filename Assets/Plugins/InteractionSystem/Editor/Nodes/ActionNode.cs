@@ -74,6 +74,7 @@ namespace InteractionSystem
         public override void OnConnectOutputPort(BasePort port, Edge edge)
         {
             base.OnConnectOutputPort(port, edge);
+
             BasePort otherPort = edge.input as BasePort;
             if (otherPort != null)
             {
@@ -81,7 +82,6 @@ namespace InteractionSystem
                 {
                     port.Value = otherPort.Value;
                     IAction.NextIAction = port.Value;
-
                 }
                 else if (otherPort.Name == DSConstants.PARALLEL_PN)
                 {
@@ -105,8 +105,15 @@ namespace InteractionSystem
         {
             base.OnDestroyConnectionOutput(port, edge);
 
-            port.Value = null;
-            IAction.NextIAction = null;
+            BasePort otherPort = edge.input as BasePort;
+            if (otherPort != null)
+            {
+                if (otherPort.Name == DSConstants.ACTION_PN)
+                {
+                    port.Value = null;
+                    IAction.NextIAction = null;
+                }
+            }
         } 
         public override void OnConnectInputPort(BasePort port, Edge edge)
         {
@@ -118,12 +125,12 @@ namespace InteractionSystem
                 if (port.Name == DSConstants.REFERENCE_PN)
                 {
                     port.Value = otherNode.IAction;
-                    IAction.ReferenceAction = port.Value;
+                    IAction.ReferenceAction = otherNode.IAction;
                 }
                 else if (port.Name == DSConstants.PARALLEL_PN)
                 {
                     port.Value = otherNode.IAction;
-                    IAction.ParallelAction = port.Value;
+                    IAction.ParallelAction = otherNode.IAction;
                 }
             }
         } 
@@ -244,7 +251,6 @@ namespace InteractionSystem
                     vecf.tooltip = tooltip;
                     return vecf;
 
-                //case Type type when type.Equals(typeof(UnityEngine.Object)):
                 case Type type when type.Equals(typeof(UnityEngine.GameObject)):
                     var objF = DSUtilities.CreateUnityObjectField(
                         label: field.Name,

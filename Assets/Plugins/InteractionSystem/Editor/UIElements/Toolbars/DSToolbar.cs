@@ -1,4 +1,5 @@
-﻿using NodeEngine.Text;
+﻿using InteractionSystem;
+using NodeEngine.Text;
 using NodeEngine.Utilities;
 using NodeEngine.Window;
 using UnityEditor;
@@ -11,67 +12,29 @@ namespace NodeEngine.Toolbars
     {
         private const string TOOLBAR_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineToolbarStyles.uss";
         
-        private ProgressBar progressBar;
-        private TextField textField;
-        private Button loadButton;
+        private Button startSequence;
         private Button cleanButton;
-        private Button generateScriptButton;
         private Button minimapButton;
 
         private DSGraphView graphView;
+        private InteractionObject interactionObject;
         public DSToolbar(DSGraphView graphView) 
         {
-            this.graphView = graphView;
-            //graphView.OnCanSaveGraphEvent += OnCanSaveGraphHandler;
-            //graphView.OnSaveEvent += OnSaveHandler;
+            this.graphView = graphView; 
         }
 
-
-        //private void OnCanSaveGraphHandler(bool obj)
-        //{
-        //    generateScriptButton.SetEnabled(obj);
-        //}
-
-        public void Initialize(string fileName, string label)
+        public void Initialize(InteractionObject interactionObject)
         {
+            this.interactionObject = interactionObject;
             this.LoadAndAddStyleSheets(TOOLBAR_STYLE_LINK);
             this.AddToClassList("ds-toolbar");
 
-            progressBar = DSUtilities.CreateProgressBar(0, 0, 1, "SAVING", callBack =>
-            {
-                ProgressBar progressBar = callBack.target as ProgressBar;
-                progressBar.value = callBack.newValue;
-
-                if (progressBar.value == 1f)
-                    progressBar.style.display = DisplayStyle.None;
-                else
-                    progressBar.style.display = DisplayStyle.Flex;
-                
-                MarkDirtyRepaint();
-            }, styles: new string[]
-            {
-                "ds-progressBar"
-            });
-            progressBar.style.display = DisplayStyle.None;
-
-            textField = DSUtilities.CreateTextField(fileName, label, callback =>
-            {
-                TextField target = callback.target as TextField;
-                target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
-            },
-            styles: new string[]
-            {
-                "ds-textField"
-            });
-            loadButton = DSUtilities.CreateButton("Load", Load, new string[]
+            
+            startSequence = DSUtilities.CreateButton("StartSequence", StartSequence, new string[]
             {
                 "ds-toolbar__button"
             });
             cleanButton = DSUtilities.CreateButton("Clean Graph", CleanGraph, new string[]
-            {
-                "ds-toolbar__button"
-            });
-            generateScriptButton = DSUtilities.CreateButton("Generate DialogueScript", GenerateScript, new string[]
             {
                 "ds-toolbar__button"
             });
@@ -80,30 +43,25 @@ namespace NodeEngine.Toolbars
                 "ds-toolbar__button"
             });
 
-            this.Add(progressBar);
-            this.Add(textField);
-            this.Add(loadButton);
+            this.Add(startSequence);
             this.Add(cleanButton);
             this.Add(minimapButton);
-            this.Add(generateScriptButton);
-
-            generateScriptButton.SetEnabled(false);
         }
 
         private void MinimapToggle() => graphView.MiniMap.visible = !graphView.MiniMap.visible;
 
-        private void Load()
+        private void StartSequence()
         {
-            string path = EditorUtility.OpenFilePanel("Select a graph file", Application.dataPath, "asset");
-            textField.value = graphView.Load(path);
+            interactionObject?.StartSequence();
         }
-        private void CleanGraph() => graphView.CleanGraph();
-        private void GenerateScript()
+
+        private void CleanGraph()
         {
-            string path = EditorUtility.SaveFilePanel("Select a graph file", Application.dataPath, textField.value, "cs");
-            Debug.Log("Save on: " + path);
+            interactionObject.CleanSequence();
+
+            graphView.CleanGraph();
+            DSEditorWindow.OpenWindow(interactionObject);
         }
-        //private void OnSaveHandler(float obj) => progressBar.value = obj;
-        
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace InteractionSystem
 {
-    internal class Wait224 : CustomYieldInstruction, ISMCallback
+    internal class Wait224 : CustomYieldInstruction
     {
         private int layerIndex;
         StateMachineCallbacks smCb;
@@ -10,31 +10,13 @@ namespace InteractionSystem
         {
             this.layerIndex = layerIndex;
             this.smCb = smCb;
-            this.smCb.Register(this);
         }
 
-        ~Wait224()
-        {
-            this.smCb.UnRegister(this);
-        }
         public override void Reset()
         {
-            base.Reset();
-            this.smCb.UnRegister(this);
+            base.Reset(); 
         } 
         public override bool keepWaiting { get => false; }
 
-
-        public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
-        {
-        }
-
-        public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-        }
-
-        public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-        }
     }
 }

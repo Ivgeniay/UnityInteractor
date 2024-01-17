@@ -11,8 +11,8 @@ namespace InteractionSystem
         [SerializeFieldNode]
         protected bool settedValue;
 
-        protected override void TriggerToStartAnim() => animator.SetBool(AnimationParameter, settedValue);
-        protected override void TriggerToStopAnim() => animator.SetBool(AnimationParameter, !settedValue);
+        protected override void StartAnim() => animator.SetBool(AnimationParameter, settedValue);
+        protected override void StopAnim() => animator.SetBool(AnimationParameter, !settedValue);
         
     }
 }

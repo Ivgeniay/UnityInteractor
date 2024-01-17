@@ -13,7 +13,7 @@ namespace InteractionSystem
         protected override IEnumerator Procedure()
         {
             ValuePosition = agent.destination;
-            yield return null;
+            if (false) yield return null;
         }
     }
 }

@@ -18,7 +18,8 @@ namespace InteractionSystem
         [NonSerialized][HideInInspector] public GameObject Subject;
 
         private Coroutine currentSequence = null;
-        private CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; }
+        private CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; } 
+        [field: SerializeField] public bool IsProgress { get; private set; }
 
         public Sequence()
         {
@@ -74,6 +75,13 @@ namespace InteractionSystem
 
         internal Sequence StartSequence()
         {
+            if (IsProgress)
+            {
+                Debug.LogError($"Sequence is in progress");
+                return this;
+            }
+
+            IsProgress = true;
             if (currentSequence != null) coroutine.StopC(currentSequence);
             currentSequence = coroutine.StartC(StartActions());
 
@@ -103,8 +111,15 @@ namespace InteractionSystem
 
             foreach (var item in Sequences)
                 item.Reset();
+
+            IsProgress =false;
         }
 
+        internal void Clean()
+        {
+            Sequences.Clear();
+            FirstAction = null;
+        }
     }
 
     public interface INode

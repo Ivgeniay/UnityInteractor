@@ -4,8 +4,8 @@ namespace InteractionSystem
 {
     public class SetTrigger : BaseAnimationAction
     {
-        protected override void TriggerToStartAnim() => animator.SetTrigger(AnimationParameter);
-        protected override void TriggerToStopAnim() => animator.ResetTrigger(AnimationParameter);
+        protected override void StartAnim() => animator.SetTrigger(AnimationParameter);
+        protected override void StopAnim() => animator.ResetTrigger(AnimationParameter);
     }
 }
 

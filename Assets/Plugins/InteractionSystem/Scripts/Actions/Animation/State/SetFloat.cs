@@ -15,7 +15,7 @@ namespace InteractionSystem
         [SerializeFieldNode]
         private float ReSettedValue;
 
-        protected override void TriggerToStartAnim() => animator.SetFloat(AnimationParameter, SettedValue);
-        protected override void TriggerToStopAnim() => animator.SetFloat(AnimationParameter, ReSettedValue);
+        protected override void StartAnim() => animator.SetFloat(AnimationParameter, SettedValue);
+        protected override void StopAnim() => animator.SetFloat(AnimationParameter, ReSettedValue);
     }
 }

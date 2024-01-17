@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Linq;
+﻿using UnityEngine;
 
 namespace InteractionSystem
 {
@@ -14,18 +11,7 @@ namespace InteractionSystem
 
         private void Awake()
         {
-            subject = subject == null ? 
-                    FindObjectsByType<Test>(sortMode: FindObjectsSortMode.None)
-                    .Where(e => e.gameObject != this.gameObject)
-                    .First()
-                    .gameObject 
-                : 
-                    subject;
-
             SetObject(this.gameObject);
-
-            //For test
-            SetSubject(subject);
         }
 
         public void AddSequence(BaseInteractionAction interactionAction)
@@ -50,8 +36,12 @@ namespace InteractionSystem
             Sequences.SetSubject(gameObject);
         public void SetObject(GameObject gameObject) =>
             Sequences.SetObject(gameObject);
-        public void StartSequence() =>
+        public void StartSequence()
+        {
+            if (Sequences.Subject == null) Sequences.Subject = subject;
             Sequences.StartSequence();
+        }
+        public void CleanSequence() => Sequences.Clean();
 
 
 #if UNITY_EDITOR
