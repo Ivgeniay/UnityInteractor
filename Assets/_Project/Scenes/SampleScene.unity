@@ -1691,11 +1691,11 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: ContinuePath
         <ID>k__BackingField: a603e527-58d6-415a-9220-d9a44814c241
-        <Position>k__BackingField: {x: 1426.2, y: 321.60004}
+        <Position>k__BackingField: {x: 1431.7999, y: 12.0000305}
         NextIAction:
           rid: -2
         ReferenceAction:
-          rid: 3042034614986342406
+          rid: 3042034614986342400
         ParallelAction:
           rid: 3042034614986342408
         PerformerType: 1
