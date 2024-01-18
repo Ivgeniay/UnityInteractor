@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 398198390}
   - component: {fileID: 398198389}
   - component: {fileID: 398198388}
+  - component: {fileID: 398198394}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -571,7 +572,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigger
         <ID>k__BackingField: fbb52292-e6d6-46b1-8850-0d792d9bcfda
-        <Position>k__BackingField: {x: 821.39996, y: 278.40002}
+        <Position>k__BackingField: {x: 762.99994, y: 301.6}
         NextIAction:
           rid: 3042034617751961605
         ReferenceAction:
@@ -586,7 +587,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTr
         <ID>k__BackingField: c7798730-32ac-4a17-8e3d-bbc0cafda2b2
-        <Position>k__BackingField: {x: 494.80002, y: 367.99994}
+        <Position>k__BackingField: {x: 465.19998, y: 353.59995}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -601,7 +602,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: FollowToPoint
         <ID>k__BackingField: 0b3a414a-2b52-4d50-926a-34609d202233
-        <Position>k__BackingField: {x: 1143.6, y: 314.8}
+        <Position>k__BackingField: {x: 1050.7999, y: 353.19995}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -616,7 +617,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: UnityObject
         <ID>k__BackingField: 4b3f36c8-d152-4671-9ee6-565ec2575b1d
-        <Position>k__BackingField: {x: 821.19995, y: 473.19998}
+        <Position>k__BackingField: {x: 762.7999, y: 496.39996}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -732,6 +733,110 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398198394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398198387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ada6fd0629e404e954ebb96b416e47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sequences:
+    <Name>k__BackingField: Sequence
+    <ID>k__BackingField: 0e1c3b52-cc11-49fc-9f51-6007f151a352
+    <Position>k__BackingField: {x: 350, y: 200}
+    FirstAction:
+      rid: 3042034631375847432
+    Sequences:
+    - rid: 3042034631375847432
+    - rid: 3042034631375847433
+    - rid: 3042034631375847434
+    - rid: 3042034631375847435
+    - rid: 3042034631375847436
+    <IsProgress>k__BackingField: 0
+  subject: {fileID: 671428737}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3042034631375847432
+      type: {class: RememberDestinationPoint, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: RememberDestinationPoint
+        <ID>k__BackingField: f4a66306-b2d1-4f03-8984-2a5ea50e1d62
+        <Position>k__BackingField: {x: 644.8, y: 199.6}
+        NextIAction:
+          rid: 3042034631375847433
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 1
+        ValuePosition: {x: 0, y: 0, z: 0}
+    - rid: 3042034631375847433
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetTrigger
+        <ID>k__BackingField: 9c7592e2-99a7-4759-af03-3078aad746bb
+        <Position>k__BackingField: {x: 937.2, y: 285.80002}
+        NextIAction:
+          rid: 3042034631375847435
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034631375847434
+        PerformerType: 1
+        AnimationParameter: DoorOpen
+        AnimationLayer: 0
+    - rid: 3042034631375847434
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetTrigger2
+        <ID>k__BackingField: bfcf5bb3-8bf0-4bb2-888b-1d9a9b5e2e59
+        <Position>k__BackingField: {x: 644.39996, y: 392.2}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        AnimationParameter: Scale
+        AnimationLayer: 0
+    - rid: 3042034631375847435
+      type: {class: FollowToPoint, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: FollowToPoint
+        <ID>k__BackingField: 58e0c65e-d6ed-4525-9195-70dfafabfb57
+        <Position>k__BackingField: {x: 1242, y: 286.4}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: 3042034631375847436
+        ParallelAction:
+          rid: -2
+        PerformerType: 1
+        minimalDistance: 0.3
+        followPosition: {x: 0, y: 0, z: 0}
+    - rid: 3042034631375847436
+      type: {class: UnityObject, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: UnityObject
+        <ID>k__BackingField: 483c4687-0b95-4f41-917b-1ff5ccaf1e0c
+        <Position>k__BackingField: {x: 946.8, y: 489.39993}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        Value: {fileID: 1172536581}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,7 +120,7 @@ namespace NodeEngine.Window
             else if (typeof(BaseInteractionAction).IsAssignableFrom(type))
             {
                 BaseInteractionAction interactionAction = Activator.CreateInstance(type) as BaseInteractionAction;
-                graphView.InteractionInstance.AddSequence(interactionAction);
+                graphView.InteractionInstance.AddAction(interactionAction);
                 var node = graphView.CreateNode(typeof(ActionNode), localMousePosition, interactionAction);
                 return true;
             }

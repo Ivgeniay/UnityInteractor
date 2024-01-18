@@ -636,25 +636,13 @@ namespace NodeEngine.Window
 
             Vector2 local = contentViewContainer.WorldToLocal(worldMP);
             return local;
-        }
-        internal List<T> GetListNodesOfType<T>() =>
-            i_Nodes.OfType<T>().ToList();
-
-        internal T[] GetArrayNodesOfType<T>() =>
-            i_Nodes.OfType<T>().ToArray();
-
+        } 
         internal void SafeDirty()
         {
             UnityEditor.EditorUtility.SetDirty(InteractionInstance);
             UnityEditor.AssetDatabase.SaveAssets();
-        }
-
-
-        internal void OnValidate()
-        {
-            //OnSaveValidationHandler();
-        }
-
+        } 
+        internal void OnValidate() { } 
         internal BaseGroup GetGroupById(string id) => i_Groups.FirstOrDefault(e => e.Model.ID == id);
         internal void CleanGraph()
         {

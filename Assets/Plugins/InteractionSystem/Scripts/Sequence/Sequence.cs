@@ -9,8 +9,9 @@ namespace InteractionSystem
     [Serializable]
     public class Sequence : INode
     {
-        public event Action<SequenceEventType> SequenceStateEvent;
+        public event Action<SequenceStateType> SequenceStateEvent;
         public event Action<BaseInteractionAction, ActionExecutionType> ActionExecutionEvent;
+        public SequenceStateType SequenceState = SequenceStateType.Ended;
         [field: SerializeField] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -81,8 +82,7 @@ namespace InteractionSystem
                 return this;
             }
 
-            IsProgress = true;
-            SequenceStateEvent?.Invoke(SequenceEventType.Started);
+            InvokeSequenceStatus(SequenceStateType.Started);
             if (currentSequence != null) coroutine.StopC(currentSequence);
             currentSequence = coroutine.StartC(StartActions());
 
@@ -96,10 +96,26 @@ namespace InteractionSystem
                 sequence.Reset();
                 sequence.OnExecutingEvent -= OnExecutingActionHandler; 
             });
-            SequenceStateEvent?.Invoke(SequenceEventType.Stopped);
-            IsProgress = false;
+            InvokeSequenceStatus(SequenceStateType.Stopped);
 
             return this;
+        }
+        internal void Clean()
+        {
+            if (IsProgress != false)
+            {
+                Debug.LogError("Stoping of sequnce is inpossible when sequence in progress. Call StopSequence.");
+                return;
+            }
+            Sequences.ForEach (sequence => { sequence.OnExecutingEvent -= OnExecutingActionHandler; });
+            Sequences.Clear();
+            FirstAction = null;
+        }
+        private void InvokeSequenceStatus(SequenceStateType type)
+        {
+            IsProgress = type == SequenceStateType.Started;
+            SequenceState = type;
+            SequenceStateEvent?.Invoke(type);
         }
         private IEnumerator StartActions()
         {
@@ -120,31 +136,17 @@ namespace InteractionSystem
                 });
 
                 Sequences.ForEach(sequence => sequence.Awake());
-            }
-
+            } 
             yield return FirstAction.MainProcedure();
 
             foreach (var item in Sequences) item.Reset();
-            IsProgress = false;
-            SequenceStateEvent?.Invoke(SequenceEventType.Ended);
-        }
-        internal void Clean()
-        {
-            if (IsProgress != false)
-            {
-                Debug.LogError("Stoping of sequnce is inpossible when sequence in progress. Call StopSequence.");
-                return;
-            }
-            Sequences.ForEach (sequence => { sequence.OnExecutingEvent -= OnExecutingActionHandler; });
-            Sequences.Clear();
-            FirstAction = null;
-        }
-
+            InvokeSequenceStatus(SequenceStateType.Ended);
+        } 
         private void OnExecutingActionHandler(BaseInteractionAction arg1, ActionExecutionType arg2) =>
             ActionExecutionEvent?.Invoke(arg1, arg2);
         
 
-        public enum SequenceEventType { Started, Ended, Stopped }
+        public enum SequenceStateType { Started, Ended, Stopped }
         public enum ActionExecutionType { Waiting, Awake, Procedure, Exit, WaitParallel, OnStop, Complete }
     }
 

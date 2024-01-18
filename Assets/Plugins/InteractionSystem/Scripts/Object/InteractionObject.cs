@@ -5,22 +5,16 @@ namespace InteractionSystem
     public class InteractionObject : MonoBehaviour
     {
         
-        [SerializeField]
-        private Sequence Sequences;
-        [SerializeField] 
-        private GameObject subject;
+        [SerializeField] private Sequence Sequences;
+        [SerializeField] private GameObject subject;
 
-        private void Awake()
-        {
-            SetObject(this.gameObject);
-        }
+        private void Awake() => SetObject(this.gameObject); 
 
-        public void AddSequence(BaseInteractionAction interactionAction)
+        public void AddAction(BaseInteractionAction interactionAction)
         {
             if (Sequences == null) Sequences = new Sequence();
             Sequences.Append(interactionAction);
         }
-
         public void RemoveAction(BaseInteractionAction interactionAction)
         {
             if (Sequences == null) Sequences = new Sequence();
@@ -38,14 +32,16 @@ namespace InteractionSystem
             if (Sequences.Subject == null) Sequences.Subject = subject;
             Sequences.StartSequence();
         }
+        public void StopSequence()
+        {
+            if (Sequences.Subject == null) Sequences.Subject = subject;
+            Sequences.StopSequence();
+        }
         public void CleanSequence() => Sequences.Clean();
 
 
 #if UNITY_EDITOR
-        public Sequence GetSequence()
-        {
-            return Sequences;
-        }
+        public Sequence GetSequence() => Sequences;
 #endif
 
     }
