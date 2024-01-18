@@ -38,6 +38,7 @@ namespace NodeEngine.Window
         }
         private void OnDisable()
         {
+            grathView.OnDestroy();
             Selection.selectionChanged -= OnSelectNewObject;
         }
         private void OnPlayModeStateChanged(PlayModeStateChange state) {}

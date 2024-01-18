@@ -13,8 +13,7 @@ using NodeEngine.Edges;
 using NodeEngine.Text;
 using System.Linq;
 using UnityEngine;
-using System;
-using static UnityEngine.GraphicsBuffer;
+using System; 
 
 namespace NodeEngine.Window
 {
@@ -403,6 +402,7 @@ namespace NodeEngine.Window
                 SafeDirty();
             };
         }
+
         private void OnGroupRenamed()
         {
             groupTitleChanged += (group, newTitle) =>
@@ -642,7 +642,13 @@ namespace NodeEngine.Window
             UnityEditor.EditorUtility.SetDirty(InteractionInstance);
             UnityEditor.AssetDatabase.SaveAssets();
         } 
-        internal void OnValidate() { } 
+        internal void OnValidate() { }
+        public void OnDestroy()
+        {
+            i_Nodes.ForEach(e => e.OnDestroy());
+            i_Groups.ForEach(e => e.OnDestroy());
+        }
+
         internal BaseGroup GetGroupById(string id) => i_Groups.FirstOrDefault(e => e.Model.ID == id);
         internal void CleanGraph()
         {

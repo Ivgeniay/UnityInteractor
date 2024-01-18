@@ -325,9 +325,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.425, y: 0.5, z: 0.315}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -450,13 +450,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1845619, y: -0.68259573, z: 0.1845619, w: 0.68259573}
-  m_LocalPosition: {x: 5.32, y: 5.14, z: -3.3}
+  m_LocalRotation: {x: 0.25398037, y: -0.6599197, z: 0.25398037, w: 0.6599197}
+  m_LocalPosition: {x: 7.21, y: 5.91, z: -4.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30.26, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 42.1, y: -90, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +574,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigger
         <ID>k__BackingField: fbb52292-e6d6-46b1-8850-0d792d9bcfda
-        <Position>k__BackingField: {x: 762.99994, y: 301.6}
+        <Position>k__BackingField: {x: 753.3999, y: 304.80002}
         NextIAction:
           rid: 3042034617751961605
         ReferenceAction:
@@ -604,7 +604,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: FollowToPoint
         <ID>k__BackingField: 0b3a414a-2b52-4d50-926a-34609d202233
-        <Position>k__BackingField: {x: 1050.7999, y: 353.19995}
+        <Position>k__BackingField: {x: 1050, y: 353.19995}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -619,7 +619,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: UnityObject
         <ID>k__BackingField: 4b3f36c8-d152-4671-9ee6-565ec2575b1d
-        <Position>k__BackingField: {x: 762.7999, y: 496.39996}
+        <Position>k__BackingField: {x: 761.99994, y: 498.8}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -1726,7 +1726,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: RememberDestinationPoint
         <ID>k__BackingField: 717b8eba-d855-4c00-ad08-170b5ed83114
-        <Position>k__BackingField: {x: 49.599953, y: -18.200008}
+        <Position>k__BackingField: {x: 46.39996, y: -21.400003}
         NextIAction:
           rid: 3042034631375847425
         ReferenceAction:
@@ -1813,7 +1813,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigge2r
         <ID>k__BackingField: a7e05fde-d7e0-44f6-bd1d-dd96947c2417
-        <Position>k__BackingField: {x: 667.62, y: 388.1}
+        <Position>k__BackingField: {x: 668.42, y: 388.1}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -2107,9 +2107,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.425, y: 0.5, z: 0.315}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5

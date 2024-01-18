@@ -13,9 +13,6 @@ using NodeEngine.Text;
 using UnityEngine;
 using System.Linq;
 using System;
-using UnityEditor;
-using System.ComponentModel;
-using static UnityEngine.GraphicsBuffer;
 
 namespace NodeEngine.Nodes
 {

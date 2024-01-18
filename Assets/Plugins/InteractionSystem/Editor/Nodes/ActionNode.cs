@@ -4,13 +4,12 @@ using NodeEngine.Utilities;
 using System.Reflection; 
 using NodeEngine.Window;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using NodeEngine.Ports; 
 using NodeEngine.Nodes;
 using UnityEngine;
 using System.Linq;
 using System;
-using UnityEditor.UIElements;
-using System.ComponentModel;
 
 namespace InteractionSystem
 {
@@ -22,6 +21,8 @@ namespace InteractionSystem
         internal override void Initialize(DSGraphView graphView, Vector2 position, INode _iAction)
         {
             base.Initialize(graphView, position, _iAction);
+
+            IAction.OnExecutingEvent += OnExecutingHandler;
            
             Model.AddPort(new PortInfo()
             {
@@ -64,10 +65,15 @@ namespace InteractionSystem
             });
         }
 
+        public override void OnDestroy()
+        {
+            IAction.OnExecutingEvent -= OnExecutingHandler;
+            base.OnDestroy();
+        }
+
         protected override void DrawMainContainer(VisualElement container)
         {
             base.DrawMainContainer(container);
-
             ExecuteAttributes(container);
         } 
 
@@ -406,6 +412,30 @@ namespace InteractionSystem
             }
             return null;
         }
+
+        private void SetValue(VisualElement elem, object value)
+        {
+            if (elem is TextField tf) tf.value = (string)value;
+            else if (elem is FloatField ff) ff.value = (float)value;
+            else if (elem is IntegerField @if) @if.value = (int)value;
+            else if (elem is Toggle bf) bf.value = (bool)value;
+            else if (elem is ObjectField of) of.value = (UnityEngine.Object)value;
+            else if (elem is Vector3Field vf3) vf3.value = (Vector3)value;
+        }
+
         #endregion
+        private void OnExecutingHandler(BaseInteractionAction arg1, Sequence.ActionExecutionType arg2)
+        {
+            foreach (FieldInfo field in NodeContext.FieldsSerAttribute)
+            {
+                VisualElement ve = serializedVisualElements.FirstOrDefault(e => e.name == field.Name);
+                if (ve != null) SetValue(ve, field.GetValue(arg1));
+            }
+            foreach (PropertyInfo property in NodeContext.PropSerAttribute)
+            {
+                VisualElement ve = serializedVisualElements.FirstOrDefault(e => e.name == property.Name);
+                if (ve != null) SetValue(ve, property.GetValue(arg1));
+            }
+        }
     }
 }
