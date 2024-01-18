@@ -5,7 +5,7 @@ using System;
 namespace InteractionSystem
 {
     [Serializable]
-    [Description(@"Эта нода хранит информацию об объекте на сцене позицию.")]
+    [Description(@"Эта нода хранит информацию об объекте на сцене.")]
     public class UnityObject : BasePrimitivesAction
     {
         [SerializeField]

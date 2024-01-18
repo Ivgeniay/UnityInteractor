@@ -5,7 +5,7 @@ using UnityEngine;
 namespace InteractionSystem
 {
     [Serializable]
-    [Description(@"Эта нода хранит позицию позицию.")]
+    [Description(@"Эта нода хранит Vector3 для дальнейшего использования её в других нода в качестве ReferenceAction.")]
     public class VectorThree : BasePrimitivesAction
     {
         [SerializeField]

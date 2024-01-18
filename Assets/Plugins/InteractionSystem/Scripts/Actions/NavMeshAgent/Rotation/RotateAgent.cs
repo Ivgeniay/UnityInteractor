@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace InteractionSystem
 {
+    [Serializable]
+    [Description(@"Эта нода вращает NavMeshAgent на EulerEngle за RotationTime. Если к ReferenceAction подключен VectorThree нода берет её значение. Если UnityObject, то порачивает агент к объекту.")]
     internal class RotateAgent : BaseNavMeshAction
     {
         [SerializeFieldNode]

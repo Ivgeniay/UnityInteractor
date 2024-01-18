@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sequences:
+    SequenceState: 1
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: a308d01c-4e1a-4a7f-88c8-4c9409177d0b
     <Position>k__BackingField: {x: 250.8, y: 145.59999}
@@ -535,6 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sequences:
+    SequenceState: 1
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: 894d1f00-a2db-459d-b6bd-6da4d1a556e2
     <Position>k__BackingField: {x: 198.8, y: 177.59999}
@@ -746,6 +748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sequences:
+    SequenceState: 1
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: 0e1c3b52-cc11-49fc-9f51-6007f151a352
     <Position>k__BackingField: {x: 350, y: 200}
@@ -1681,7 +1684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d73fe119303df4c99830b1d3ca2382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionObject: {fileID: 0}
+  interactionObject: {fileID: 2061967442}
 --- !u!114 &2061967442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1695,6 +1698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sequences:
+    SequenceState: 1
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: f5f0f4fc-2a73-49b2-9b3a-055aed2c2a54
     <Position>k__BackingField: {x: -296.39996, y: -17.599998}
@@ -1709,6 +1713,7 @@ MonoBehaviour:
     - rid: 3042034631375847429
     - rid: 3042034631375847430
     - rid: 3042034631375847431
+    - rid: 3042034635321638912
     <IsProgress>k__BackingField: 0
   subject: {fileID: 671428737}
   references:
@@ -1735,7 +1740,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: FollowToPoint
         <ID>k__BackingField: ed9a8318-0a19-4d9a-896b-ae0f9141198b
-        <Position>k__BackingField: {x: 414.39996, y: 89.79999}
+        <Position>k__BackingField: {x: 352.8, y: 110.599976}
         NextIAction:
           rid: 3042034631375847427
         ReferenceAction:
@@ -1764,7 +1769,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: RotateAgent
         <ID>k__BackingField: 73e58721-aa10-4983-9e5d-c7ece9e5bed5
-        <Position>k__BackingField: {x: 692.54, y: 199.42001}
+        <Position>k__BackingField: {x: 655.74, y: 200.22002}
         NextIAction:
           rid: 3042034631375847429
         ReferenceAction:
@@ -1779,7 +1784,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: UnityObject2
         <ID>k__BackingField: e8d1d2d5-786c-49ab-8885-898eae454e5f
-        <Position>k__BackingField: {x: 445.13992, y: 313.37003}
+        <Position>k__BackingField: {x: 363.53995, y: 313.37003}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -1793,7 +1798,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigger
         <ID>k__BackingField: 726d3f30-8530-40ae-addb-2080ce821ec8
-        <Position>k__BackingField: {x: 1019.86, y: 224.60002}
+        <Position>k__BackingField: {x: 983.8599, y: 200.60002}
         NextIAction:
           rid: 3042034631375847431
         ReferenceAction:
@@ -1808,7 +1813,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: SetTrigge2r
         <ID>k__BackingField: a7e05fde-d7e0-44f6-bd1d-dd96947c2417
-        <Position>k__BackingField: {x: 720.42, y: 403.30002}
+        <Position>k__BackingField: {x: 667.62, y: 388.1}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -1829,10 +1834,25 @@ MonoBehaviour:
         ReferenceAction:
           rid: 3042034631375847424
         ParallelAction:
-          rid: -2
+          rid: 3042034635321638912
         PerformerType: 1
         minimalDistance: 0.3
         followPosition: {x: 0, y: 0, z: 0}
+    - rid: 3042034635321638912
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetTrigger2
+        <ID>k__BackingField: 37766a47-2afe-4abc-973b-e15035e2d41a
+        <Position>k__BackingField: {x: 984.1968, y: 400.7135}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 0
+        AnimationParameter: DoorClose
+        AnimationLayer: 0
 --- !u!1 &2105133913
 GameObject:
   m_ObjectHideFlags: 0

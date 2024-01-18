@@ -7,14 +7,16 @@ namespace InteractionSystem
     {
         [SerializeField] private InteractionObject interactionObject;
 
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    TestMale male = other.GetComponentInChildren<TestMale>();
-        //    if (male)
-        //    {
-        //        interactionObject.SetSubject(male.gameObject);
-        //        interactionObject.StartSequence();
-        //    }
-        //}
+        private void OnTriggerEnter(Collider other)
+        {
+            if (interactionObject.GetSequence().SequenceState == Sequence.SequenceStateType.Started) return;
+
+            TestMale male = other.GetComponentInChildren<TestMale>();
+            if (male)
+            {
+                interactionObject.SetSubject(male.gameObject);
+                interactionObject.StartSequence();
+            }
+        }
     }
 }

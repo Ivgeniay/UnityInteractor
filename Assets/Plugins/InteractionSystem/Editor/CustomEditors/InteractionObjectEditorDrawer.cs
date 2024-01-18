@@ -11,21 +11,15 @@ namespace InteractionSystem
         private InteractionObject instance;
         public override void OnInspectorGUI ()
         {
-            base.OnInspectorGUI ();
+            //base.OnInspectorGUI ();
             instance = (InteractionObject)target;
 
             if (Application.isPlaying)
-            {
-                if (GUILayout.Button("Start Test Sequence"))
-                {
+                if (GUILayout.Button("Start Sequence"))
                     instance.StartSequence();
-                }
-            }
 
             if (GUILayout.Button("Open Sequence Editor"))
-            {
                 DSEditorWindow.OpenWindow(instance);
-            }
         }
     }
 }

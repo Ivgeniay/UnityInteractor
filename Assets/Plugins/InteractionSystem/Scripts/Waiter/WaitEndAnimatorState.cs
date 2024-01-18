@@ -33,12 +33,8 @@ namespace InteractionSystem
 
                     var differentNormalizeTime = stateInfo.normalizedTime - startNormalizeTime;
                     if (stateInfo.fullPathHash == starAnimationHash && differentNormalizeTime >= 1)
-                    {
                         Finish();
-                        //Debug.Log(differentNormalizeTime);
-                    }
-                        //Finish();
-
+                     
                     break;
             }
         }
