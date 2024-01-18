@@ -97,7 +97,8 @@ namespace NodeEngine.Nodes
                     }
                 });
                 _title.SetTFStyles(new string[] { "ds-node__textfield", "ds-node__filename-textfield", "ds-node__textfield__hidden" });
-                _title.SetStatus(IAction.CurrentExecutionType.ToString());
+                if (IAction != null)
+                    _title.SetStatus(IAction.CurrentExecutionType.ToString());
             }
         }
         #region Draw
