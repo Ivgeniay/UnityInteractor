@@ -12,11 +12,46 @@ using UnityEngine;
 using System;
 using InteractionSystem;
 using UnityEditor.UIElements;
+using UnityEditor;
 
 namespace NodeEngine.Utilities
 {
-    public static class DSUtilities
+    public class DSTitle
     {
+        private const string TITLE_UXML_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/Title/Title.uxml";
+        private static VisualTreeAsset TitleOnNode;
+
+        public VisualElement Root;
+
+        public TextField TitleTextField;
+        public Label StatusLabel;
+        public VisualElement Lamb;
+
+        public DSTitle()
+        {
+            if (TitleOnNode == null) TitleOnNode = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(TITLE_UXML_LINK);
+
+            Root = new VisualElement();
+            TitleOnNode.CloneTree(Root);
+
+            TitleTextField = Root.Q<TextField>("textField");
+            StatusLabel = Root.Q<Label>("statusLabel");
+            Lamb = Root.Q("lamb");
+        }
+
+        public void SetTFCallback(EventCallback<ChangeEvent<string>> onChange) => TitleTextField.RegisterValueChangedCallback(onChange); 
+        public void SetTFStyles(string[] styles) => TitleTextField.AddToClassList(styles);
+        public void SetStatus(string value) => StatusLabel.text = value;
+        public void SetLambColor(Color color) => Lamb.style.backgroundColor = color;
+    }
+
+    public static class DSUtilities
+    { 
+        public static DSTitle CreateTitle()
+        {
+            return new DSTitle();
+        } 
+
         internal static Vector3Field CreateVectorField(Vector3 value, string label = "", EventCallback<ChangeEvent<Vector3>> onChange = null, string[] styles = null)
         {
             Vector3Field field = new Vector3Field()

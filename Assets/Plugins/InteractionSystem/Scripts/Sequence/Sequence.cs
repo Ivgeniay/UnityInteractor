@@ -2,12 +2,15 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace InteractionSystem
 {
     [Serializable]
     public class Sequence : INode
     {
+        public event Action<SequenceEventType> SequenceStateEvent;
+        public event Action<BaseInteractionAction, ActionExecutionType> ActionExecutionEvent;
         [field: SerializeField] public string Name { get; set; }
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
@@ -29,16 +32,14 @@ namespace InteractionSystem
             Position = new Vector2(350, 200);
         }
 
+
         public Sequence Append(BaseInteractionAction sequence)
         {
             if (!Sequences.Contains(sequence))
-            {
-                Sequences.Add(sequence); 
-            }
+                Sequences.Add(sequence);
 
             return this;
         }
-
         public Sequence Remove(BaseInteractionAction sequence)
         {
             if (Sequences.Contains(sequence))
@@ -46,13 +47,12 @@ namespace InteractionSystem
 
             return this;
         }
-
         public Sequence Remove(INode sequence)
         {
             if (sequence is BaseInteractionAction e)
             {
                 if (Sequences.Contains(e))
-                    Sequences.Remove(e); 
+                    Sequences.Remove(e);
             }
 
             return this;
@@ -67,13 +67,13 @@ namespace InteractionSystem
             Object = _object;
             return this;
         }
-
-        public List<BaseInteractionAction> Build()
+        public IEnumerable<T> Get<T>() where T : BaseInteractionAction
         {
-            return Sequences;
+            foreach (var action in Sequences)
+                if (action is T)
+                    yield return (T)action;
         }
-
-        internal Sequence StartSequence()
+        public Sequence StartSequence()
         {
             if (IsProgress)
             {
@@ -82,13 +82,26 @@ namespace InteractionSystem
             }
 
             IsProgress = true;
+            SequenceStateEvent?.Invoke(SequenceEventType.Started);
             if (currentSequence != null) coroutine.StopC(currentSequence);
             currentSequence = coroutine.StartC(StartActions());
 
             return this;
         }
+        public Sequence StopSequence()
+        {
+            if (currentSequence != null) coroutine.StopC(currentSequence);
+            Sequences.ForEach(sequence => { 
+                sequence.OnStop();
+                sequence.Reset();
+                sequence.OnExecutingEvent -= OnExecutingActionHandler; 
+            });
+            SequenceStateEvent?.Invoke(SequenceEventType.Stopped);
+            IsProgress = false;
 
-        public IEnumerator StartActions()
+            return this;
+        }
+        private IEnumerator StartActions()
         {
             if (Sequences.Count > 0)
             {
@@ -103,23 +116,36 @@ namespace InteractionSystem
                             sequence.Performer = Subject;
                             break;
                     }
-                    sequence.Awake();
+                    sequence.OnExecutingEvent += OnExecutingActionHandler;
                 });
+
+                Sequences.ForEach(sequence => sequence.Awake());
             }
 
             yield return FirstAction.MainProcedure();
 
-            foreach (var item in Sequences)
-                item.Reset();
-
-            IsProgress =false;
+            foreach (var item in Sequences) item.Reset();
+            IsProgress = false;
+            SequenceStateEvent?.Invoke(SequenceEventType.Ended);
         }
-
         internal void Clean()
         {
+            if (IsProgress != false)
+            {
+                Debug.LogError("Stoping of sequnce is inpossible when sequence in progress. Call StopSequence.");
+                return;
+            }
+            Sequences.ForEach (sequence => { sequence.OnExecutingEvent -= OnExecutingActionHandler; });
             Sequences.Clear();
             FirstAction = null;
         }
+
+        private void OnExecutingActionHandler(BaseInteractionAction arg1, ActionExecutionType arg2) =>
+            ActionExecutionEvent?.Invoke(arg1, arg2);
+        
+
+        public enum SequenceEventType { Started, Ended, Stopped }
+        public enum ActionExecutionType { Waiting, Awake, Procedure, Exit, WaitParallel, OnStop, Complete }
     }
 
     public interface INode

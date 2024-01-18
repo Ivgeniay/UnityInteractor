@@ -13,6 +13,9 @@ using NodeEngine.Text;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEditor;
+using System.ComponentModel;
+using static UnityEngine.GraphicsBuffer;
 
 namespace NodeEngine.Nodes
 {
@@ -30,13 +33,19 @@ namespace NodeEngine.Nodes
         protected List<BasePort> outputPorts = new();
 
         private Color defaultMainContainerColor;
-        private Color defaultTitleColor;
 
+        #region Title
+        private DSTitle _title;
+        private Color defaultTitleColor;
+        private Color nodeExecutionCompleteColor = new Color32(36, 218, 62, 255);
+        private Color nodeExecutionProcedureColor = new Color32(219, 212, 27, 255);
+        private Color nodeExecutionWaitColor = new Color32(127, 27, 219, 255);
+        private Color nodeExecutionOnStopColor = Color.red;
+        #endregion
 
         internal virtual void Initialize(DSGraphView graphView, Vector2 position, INode iNode)
         {
             this.INode = iNode;
-
             NodeContext = new(INode);
             NodeContext.Initialize();
 
@@ -48,19 +57,25 @@ namespace NodeEngine.Nodes
             };
 
             iNode.Position = position;
+
             defaultMainContainerColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
+            defaultTitleColor = new Color(0, 0, 0, 0);
+
             this.graphView = graphView;
             this.SetPosition(new Rect(position, Vector2.zero));
+
+            CreateTitle();
             AddStyles();
         }
 
-        #region Draw
-        protected virtual void DrawTitleContainer(VisualElement container)
+        private void CreateTitle()
         {
-            titleTF = DSUtilities.CreateTextField(
-                Model.NodeName,
-                null,
-                callback =>
+            _title = DSUtilities.CreateTitle();
+            if (_title != null)
+            {
+                _title.TitleTextField.value = Model.NodeName;
+                _title.TitleTextField.label = null;
+                _title.SetTFCallback(callback =>
                 {
                     TextField target = callback.target as TextField;
                     string result = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
@@ -80,17 +95,13 @@ namespace NodeEngine.Nodes
                         Model.NodeName = target.value;
                         graphView.AddGroupNode(currentGroup, this);
                     }
-                },
-                styles: new string[]
-                    {
-                        "ds-node__textfield",
-                        "ds-node__filename-textfield",
-                        "ds-node__textfield__hidden"
-                    }
-                );
-
-            container.Insert(0, titleTF);
+                });
+                _title.SetTFStyles(new string[] { "ds-node__textfield", "ds-node__filename-textfield", "ds-node__textfield__hidden" });
+                _title.SetStatus(IAction.CurrentExecutionType.ToString());
+            }
         }
+        #region Draw
+        protected virtual void DrawTitleContainer(VisualElement container) => container.Insert(0, _title.Root);
         protected virtual void DrawInputContainer(VisualElement container)
         {
              foreach (PortInfo input in Model.Inputs)
@@ -103,7 +114,6 @@ namespace NodeEngine.Nodes
         }
         protected virtual void DrawMainContainer(VisualElement container) { }
         protected virtual void DrawExtensionContainer(VisualElement container) { }
-
 
         protected virtual void Draw()
         {
@@ -139,8 +149,21 @@ namespace NodeEngine.Nodes
         internal virtual void SetErrorStyle(Color color) => mainContainer.style.backgroundColor = color;
         internal virtual void ResetStyle() => mainContainer.style.backgroundColor = defaultMainContainerColor;
 
-        internal virtual void SetIndicatorExecutionsStyle(Color color) => titleContainer.style.backgroundColor = color;
-        internal virtual void ResetIndicatorExecutionStyle() => titleContainer.style.backgroundColor = defaultTitleColor;
+        internal virtual void SetIndicatorExecutionsStatus(Sequence.ActionExecutionType type)
+        {
+            _title.SetStatus(type.ToString());
+            switch (type)
+            {
+                case Sequence.ActionExecutionType.Waiting: this.ResetIndicatorExecutionStyle(); break;
+                case Sequence.ActionExecutionType.Awake: this.SetIndicatorExecutionsStyle(nodeExecutionCompleteColor); break;
+                case Sequence.ActionExecutionType.Procedure: this.SetIndicatorExecutionsStyle(nodeExecutionProcedureColor); break;
+                case Sequence.ActionExecutionType.WaitParallel: this.SetIndicatorExecutionsStyle(nodeExecutionWaitColor); break;
+                case Sequence.ActionExecutionType.Complete: this.SetIndicatorExecutionsStyle(nodeExecutionCompleteColor); break;    //this.ResetIndicatorExecutionStyle(); break;
+                case Sequence.ActionExecutionType.OnStop: this.SetIndicatorExecutionsStyle(nodeExecutionOnStopColor); break;
+            }
+        }
+        protected virtual void SetIndicatorExecutionsStyle(Color color) => _title.SetLambColor(color);
+        protected virtual void ResetIndicatorExecutionStyle() => _title.SetLambColor(defaultTitleColor);
         #endregion
 
         #region Utilits

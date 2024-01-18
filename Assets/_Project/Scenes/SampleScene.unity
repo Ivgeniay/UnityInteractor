@@ -1592,20 +1592,18 @@ MonoBehaviour:
   Sequences:
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: f5f0f4fc-2a73-49b2-9b3a-055aed2c2a54
-    <Position>k__BackingField: {x: -110.79999, y: -17.59999}
+    <Position>k__BackingField: {x: -296.39996, y: -17.599998}
     FirstAction:
-      rid: 3042034614986342400
+      rid: 3042034631375847424
     Sequences:
-    - rid: 3042034614986342400
-    - rid: 3042034614986342401
-    - rid: 3042034614986342402
-    - rid: 3042034614986342403
-    - rid: 3042034614986342404
-    - rid: 3042034614986342405
-    - rid: 3042034614986342406
-    - rid: 3042034614986342408
-    - rid: 3042034617751961607
-    - rid: 3042034617751961608
+    - rid: 3042034631375847424
+    - rid: 3042034631375847425
+    - rid: 3042034631375847426
+    - rid: 3042034631375847427
+    - rid: 3042034631375847428
+    - rid: 3042034631375847429
+    - rid: 3042034631375847430
+    - rid: 3042034631375847431
     <IsProgress>k__BackingField: 0
   subject: {fileID: 671428737}
   references:
@@ -1613,41 +1611,41 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3042034614986342400
+    - rid: 3042034631375847424
       type: {class: RememberDestinationPoint, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: RememberDestinationPoint
-        <ID>k__BackingField: 9b890fc7-bce1-46d8-8ccc-9d3256e4f290
-        <Position>k__BackingField: {x: 147.40002, y: -18}
+        <ID>k__BackingField: 717b8eba-d855-4c00-ad08-170b5ed83114
+        <Position>k__BackingField: {x: 49.599953, y: -18.200008}
         NextIAction:
-          rid: 3042034614986342401
+          rid: 3042034631375847425
         ReferenceAction:
           rid: -2
         ParallelAction:
           rid: -2
         PerformerType: 1
         ValuePosition: {x: 0, y: 0, z: 0}
-    - rid: 3042034614986342401
+    - rid: 3042034631375847425
       type: {class: FollowToPoint, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: FollowToPoint
-        <ID>k__BackingField: d2f36175-f4b6-4ceb-ab90-10ce92c2948f
-        <Position>k__BackingField: {x: 510.7998, y: 163.40002}
+        <ID>k__BackingField: ed9a8318-0a19-4d9a-896b-ae0f9141198b
+        <Position>k__BackingField: {x: 414.39996, y: 89.79999}
         NextIAction:
-          rid: 3042034617751961607
+          rid: 3042034631375847427
         ReferenceAction:
-          rid: 3042034614986342402
+          rid: 3042034631375847426
         ParallelAction:
           rid: -2
         PerformerType: 1
-        minimalDistance: 0.1
+        minimalDistance: 0.3
         followPosition: {x: 0, y: 0, z: 0}
-    - rid: 3042034614986342402
+    - rid: 3042034631375847426
       type: {class: UnityObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: UnityObject
-        <ID>k__BackingField: 239692ea-7688-41c3-b108-4dbba0a1a0a6
-        <Position>k__BackingField: {x: 146.79999, y: 190.20001}
+        <ID>k__BackingField: bec69691-f767-40de-83b6-eee4a1f3d8e9
+        <Position>k__BackingField: {x: 49.19998, y: 150.4}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -1656,101 +1654,27 @@ MonoBehaviour:
           rid: -2
         PerformerType: 0
         Value: {fileID: 556150193}
-    - rid: 3042034614986342403
-      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: OpenDoor
-        <ID>k__BackingField: f435c602-53d1-4759-a65f-f979c163bfd7
-        <Position>k__BackingField: {x: 812, y: 374.80002}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: -2
-        PerformerType: 0
-        AnimationParameter: DoorOpen
-        AnimationLayer: 0
-    - rid: 3042034614986342404
-      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: OpenDoorMale
-        <ID>k__BackingField: 13b4adae-8cf7-4036-84b8-55b6bd32385c
-        <Position>k__BackingField: {x: 1114, y: 142.80002}
-        NextIAction:
-          rid: 3042034614986342405
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: 3042034614986342403
-        PerformerType: 1
-        AnimationParameter: DoorOpen
-        AnimationLayer: 0
-    - rid: 3042034614986342405
-      type: {class: FollowToPoint, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: ContinuePath
-        <ID>k__BackingField: a603e527-58d6-415a-9220-d9a44814c241
-        <Position>k__BackingField: {x: 1431.7999, y: 12.0000305}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: 3042034614986342400
-        ParallelAction:
-          rid: 3042034614986342408
-        PerformerType: 1
-        minimalDistance: 0.2
-        followPosition: {x: 0, y: 0, z: 0}
-    - rid: 3042034614986342406
-      type: {class: UnityObject, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: ContinuePathObject
-        <ID>k__BackingField: 53627e23-a29a-4ab0-a279-7b2f8e692d68
-        <Position>k__BackingField: {x: 1114.2, y: 353.60007}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: -2
-        PerformerType: 0
-        Value: {fileID: 1172536581}
-    - rid: 3042034614986342408
-      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
-      data:
-        <Name>k__BackingField: SetTrigger
-        <ID>k__BackingField: 1c3b09ad-c18f-4ed6-948a-9aa6ea977a0a
-        <Position>k__BackingField: {x: 1114.2001, y: 532}
-        NextIAction:
-          rid: -2
-        ReferenceAction:
-          rid: -2
-        ParallelAction:
-          rid: -2
-        PerformerType: 0
-        AnimationParameter: DoorClose
-        AnimationLayer: 0
-    - rid: 3042034617751961607
+    - rid: 3042034631375847427
       type: {class: RotateAgent, ns: InteractionSystem, asm: InteractionSystem}
       data:
         <Name>k__BackingField: RotateAgent
-        <ID>k__BackingField: ff85caf2-fbca-410c-90a8-7dd4ba627d8e
-        <Position>k__BackingField: {x: 812.1666, y: 163.49121}
+        <ID>k__BackingField: 73e58721-aa10-4983-9e5d-c7ece9e5bed5
+        <Position>k__BackingField: {x: 692.54, y: 199.42001}
         NextIAction:
-          rid: 3042034614986342404
+          rid: 3042034631375847429
         ReferenceAction:
-          rid: 3042034617751961608
+          rid: 3042034631375847428
         ParallelAction:
           rid: -2
         PerformerType: 1
         EulerEngle: {x: 0, y: 90, z: 0}
-        RotationTime: 2
-    - rid: 3042034617751961608
+        RotationTime: 0.5
+    - rid: 3042034631375847428
       type: {class: UnityObject, ns: InteractionSystem, asm: InteractionSystem}
       data:
-        <Name>k__BackingField: Door
-        <ID>k__BackingField: 88e725bb-1142-4086-aae3-f4e0f6b5aa03
-        <Position>k__BackingField: {x: 541.393, y: 368.25403}
+        <Name>k__BackingField: UnityObject2
+        <ID>k__BackingField: e8d1d2d5-786c-49ab-8885-898eae454e5f
+        <Position>k__BackingField: {x: 445.13992, y: 313.37003}
         NextIAction:
           rid: -2
         ReferenceAction:
@@ -1759,6 +1683,51 @@ MonoBehaviour:
           rid: -2
         PerformerType: 0
         Value: {fileID: 2061967437}
+    - rid: 3042034631375847429
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetTrigger
+        <ID>k__BackingField: 726d3f30-8530-40ae-addb-2080ce821ec8
+        <Position>k__BackingField: {x: 1019.86, y: 224.60002}
+        NextIAction:
+          rid: 3042034631375847431
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: 3042034631375847430
+        PerformerType: 0
+        AnimationParameter: DoorOpen
+        AnimationLayer: 0
+    - rid: 3042034631375847430
+      type: {class: SetTrigger, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: SetTrigge2r
+        <ID>k__BackingField: a7e05fde-d7e0-44f6-bd1d-dd96947c2417
+        <Position>k__BackingField: {x: 720.42, y: 403.30002}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: -2
+        ParallelAction:
+          rid: -2
+        PerformerType: 1
+        AnimationParameter: DoorOpen
+        AnimationLayer: 0
+    - rid: 3042034631375847431
+      type: {class: FollowToPoint, ns: InteractionSystem, asm: InteractionSystem}
+      data:
+        <Name>k__BackingField: FollowToPoint2
+        <ID>k__BackingField: 67a2fb56-28f1-4684-abbb-f01bfa76cbbc
+        <Position>k__BackingField: {x: 1305.6562, y: 89.29468}
+        NextIAction:
+          rid: -2
+        ReferenceAction:
+          rid: 3042034631375847424
+        ParallelAction:
+          rid: -2
+        PerformerType: 1
+        minimalDistance: 0.3
+        followPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2105133913
 GameObject:
   m_ObjectHideFlags: 0

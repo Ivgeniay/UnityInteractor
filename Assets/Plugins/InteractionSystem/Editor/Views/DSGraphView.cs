@@ -37,8 +37,6 @@ namespace NodeEngine.Window
 
         internal List<BaseNode> i_Nodes { get; set; } = new List<BaseNode>();
         internal List<BaseGroup> i_Groups { get; set; } = new List<BaseGroup>();
-        private Color nodeExecutionColor = new Color32(145, 187, 16, 50);
-
 
         private int _repeatedNameAmount;
         private int repeatedNameAmount
@@ -199,24 +197,20 @@ namespace NodeEngine.Window
             if (node.IAction != null)
             {
                 node.IAction.OnExecutingEvent += NodeExecutingHandler;
-
-                if (node.IAction.IsExecuting) node.SetIndicatorExecutionsStyle(nodeExecutionColor);
-                else node.ResetIndicatorExecutionStyle();
+                node.SetIndicatorExecutionsStatus(node.IAction.CurrentExecutionType);
             }
             return node;
         }
-        private void NodeExecutingHandler(BaseInteractionAction arg1, bool arg2)
+
+        private void NodeExecutingHandler(BaseInteractionAction action, Sequence.ActionExecutionType type)
         {
             BaseNode target = i_Nodes
-                .Where(e => e.IAction == arg1 && 
+                .Where(e => e.IAction == action &&
                     (e.GetType().IsSubclassOf(typeof(ActionNode)) || e.GetType() == typeof(ActionNode)))
                 .FirstOrDefault();
 
             if (target != null)
-            {
-                if (arg2 == true) target.SetIndicatorExecutionsStyle(nodeExecutionColor);
-                else if (arg2 == false) target.ResetIndicatorExecutionStyle();
-            }
+                target.SetIndicatorExecutionsStatus(type);
         }
 
         internal BaseGroup CreateGroup(Type type, Vector2 mousePosition, string title = "DialogueGroup", string tooltip = null)

@@ -1,13 +1,15 @@
 ﻿using System.Collections; 
 using UnityEngine;
 using System;
+using static InteractionSystem.Sequence;
 
 namespace InteractionSystem
 {
     [Serializable]
     public abstract class BaseInteractionAction : INode
     {
-        public event Action<BaseInteractionAction, bool> OnExecutingEvent;
+        public event Action<BaseInteractionAction, ActionExecutionType> OnExecutingEvent;
+        public ActionExecutionType CurrentExecutionType { get; private set; }
         public bool IsExecuting { get; private set; }
 
         [field: SerializeField][HideInInspector] public string Name { get; set; }
@@ -35,46 +37,79 @@ namespace InteractionSystem
         }
 
         #region MainBehaviour
-        public abstract void Awake();
+        /// <summary>
+        /// Method to initalize Action
+        /// </summary>
+        public virtual void Awake() => InvokeExecuted(ActionExecutionType.Awake);
+        /// <summary>
+        /// OnStop is called when a sequence is forced to stop
+        /// </summary>
+        public virtual void OnStop() => InvokeExecuted(ActionExecutionType.OnStop);
+        /// <summary>
+        /// Main public behaviour of Action
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator MainProcedure()
         {
-            InvokeExecuted(true);
+            InvokeExecuted(ActionExecutionType.Procedure);
             if (ParallelAction != null) parallel = coroutine.StartC(ParallelAction.MainProcedure());
             yield return Procedure();
-            if (ParallelAction != null) yield return WaitFor(ParallelAction);
+            if (ParallelAction != null)
+            {
+                InvokeExecuted(ActionExecutionType.WaitParallel);
+                yield return WaitFor(ParallelAction);
+            }
             yield return Complete();
         }
+        /// <summary>
+        /// Main private behaviour of Action
+        /// </summary>
+        /// <returns></returns>
         protected abstract IEnumerator Procedure();
-        protected virtual IEnumerator WaitFor(BaseInteractionAction action)
+        /// <summary>
+        /// Method for waiting for connected parallel actions
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private IEnumerator WaitFor(BaseInteractionAction action)
         {
             if (action != null) 
                 yield return new WaitUntil(() => action.IsCompleted == true);
         }
-        protected virtual IEnumerator WaitFor(Coroutine cor)
-        {
-            yield return new WaitUntil(() => cor != null);
-        }
-
+        /// <summary>
+        /// Method called after all actions, including parallel ones, have been completed
+        /// </summary>
+        /// <returns></returns>
         protected IEnumerator Complete()
         {
             IsCompleted = true;
             onCompleteCallback?.Invoke(this); 
-            InvokeExecuted(false);
+            InvokeExecuted(ActionExecutionType.Complete);
 
             if (NextIAction != null)
                 yield return NextIAction.MainProcedure();
         }
-        public virtual void Reset()
+
+        /// <summary>
+        /// Method of rolling back an action to its original state
+        /// </summary>
+        public void Reset()
         {
             onCompleteCallback = null;
             IsCompleted = false;
+            InvokeExecuted(ActionExecutionType.Waiting);
         }
         #endregion
 
-        private void InvokeExecuted(bool value)
+        private void InvokeExecuted(ActionExecutionType value)
         {
-            IsExecuting = value;
-            OnExecutingEvent?.Invoke(this, IsExecuting);
+            IsExecuting = 
+                value == ActionExecutionType.Awake || 
+                value == ActionExecutionType.Procedure || 
+                value == ActionExecutionType.Exit || 
+                value == ActionExecutionType.WaitParallel;
+            CurrentExecutionType = value;
+            OnExecutingEvent?.Invoke(this, value);
         }
 
         #region SetUpAction

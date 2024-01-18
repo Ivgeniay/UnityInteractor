@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="lambRoot" style="flex-direction: row; align-self: auto; justify-content: space-between; align-items: stretch;">
+        <ui:TextField picking-mode="Ignore" name="textField" value="TEXT" />
+        <ui:VisualElement style="flex-grow: 1; align-self: center; flex-direction: row; justify-content: space-between; flex-wrap: wrap; align-items: flex-start;">
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:Label tabindex="-1" text="Status" parse-escape-sequences="true" display-tooltip-when-elided="true" name="statusLabel" style="flex-direction: row-reverse;" />
+            <ui:VisualElement name="lamb" style="flex-grow: 1; width: 10px; height: 10px; position: relative; background-color: rgba(5, 255, 0, 0); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; min-width: 10px; min-height: 10px; max-width: 10px; max-height: 10px; -unity-background-image-tint-color: rgb(75, 185, 57); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); margin-top: 2px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -4,6 +4,7 @@ namespace InteractionSystem
 {
     public class InteractionObject : MonoBehaviour
     {
+        
         [SerializeField]
         private Sequence Sequences;
         [SerializeField] 
@@ -25,17 +26,13 @@ namespace InteractionSystem
             if (Sequences == null) Sequences = new Sequence();
             Sequences.Remove(interactionAction);
         }
-
         public void RemoveAction(INode interactionAction)
         {
             if (Sequences == null) Sequences = new Sequence();
             Sequences.Remove(interactionAction);
         }
-
-        public void SetSubject(GameObject gameObject) =>
-            Sequences.SetSubject(gameObject);
-        public void SetObject(GameObject gameObject) =>
-            Sequences.SetObject(gameObject);
+        public void SetSubject(GameObject gameObject) => Sequences.SetSubject(gameObject);
+        public void SetObject(GameObject gameObject) => Sequences.SetObject(gameObject);
         public void StartSequence()
         {
             if (Sequences.Subject == null) Sequences.Subject = subject;

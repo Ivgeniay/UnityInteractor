@@ -34,12 +34,10 @@ namespace NodeEngine.Window
         }
         private void OnEnable()
         {
-            //EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
             Selection.selectionChanged += OnSelectNewObject;
         }
         private void OnDisable()
         {
-            //EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             Selection.selectionChanged -= OnSelectNewObject;
         }
         private void OnPlayModeStateChanged(PlayModeStateChange state) {}
