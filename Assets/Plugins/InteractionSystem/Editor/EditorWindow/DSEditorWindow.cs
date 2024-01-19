@@ -69,7 +69,7 @@ namespace NodeEngine.Window
         }
         private void AddToolbar()
         {
-            DSToolbar toolbar = new(grathView);
+            DSToolbar toolbar = new DSToolbar(grathView);
             toolbar.Initialize(InteractionInstance);
             rootVisualElement.Add(toolbar);
         }

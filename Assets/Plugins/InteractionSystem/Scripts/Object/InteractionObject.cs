@@ -22,9 +22,9 @@ namespace InteractionSystem
         }
 
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         public Sequence GetSequence() => Sequences;
-#endif
+//#endif
 
     }
 }

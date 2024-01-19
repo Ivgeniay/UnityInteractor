@@ -8,8 +8,8 @@ namespace NodeEngine.Database.Save
     [Serializable]
     public class DSNodeModel
     {
-        [SerializeField] internal List<PortInfo> Outputs = new();
-        [SerializeField] internal List<PortInfo> Inputs = new();
+        [SerializeField] internal List<PortInfo> Outputs = new List<PortInfo>();
+        [SerializeField] internal List<PortInfo> Inputs = new List<PortInfo>();
         [SerializeField] public Vector2 Position;
         [SerializeField] public string NodeName;
         [SerializeField] public string GroupID;

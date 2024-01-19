@@ -26,8 +26,8 @@ namespace NodeEngine.Nodes
         public NodeContext NodeContext { get; protected set; }
         protected TextField titleTF { get; set; }
         protected DSGraphView graphView { get; set; } 
-        protected List<BasePort> inputPorts = new();
-        protected List<BasePort> outputPorts = new();
+        protected List<BasePort> inputPorts = new List<BasePort>();
+        protected List<BasePort> outputPorts = new List<BasePort>();
 
         private Color defaultMainContainerColor;
 
@@ -44,10 +44,10 @@ namespace NodeEngine.Nodes
         {
             this.INode = iNode;
 
-            NodeContext = new(INode);
+            NodeContext = new NodeContext(INode);
             NodeContext.Initialize();
 
-            Model = new()
+            Model = new DSNodeModel()
             {
                 ID = Guid.NewGuid().ToString(),
                 NodeName = string.IsNullOrEmpty(iNode.Name) ? iNode.GetType().Name : iNode.Name,
@@ -217,7 +217,7 @@ namespace NodeEngine.Nodes
         public virtual void OnCreate() => Draw();
         public virtual void OnDestroy() 
         {
-            List<BasePort> ports = new();
+            List<BasePort> ports = new List<BasePort>();
             ports.AddRange(GetInputPorts());
             ports.AddRange(GetOutputPorts());
             foreach (var item in ports) item.OnDistroy();

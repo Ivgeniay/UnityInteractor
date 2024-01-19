@@ -11,14 +11,14 @@ namespace NodeEngine.Groups
     {
         private Color defaultBorderColor;
         private float defaultBorderWidth;
-        private List<BaseNode> nodes = new();
+        private List<BaseNode> nodes = new List<BaseNode>();
         public DSGroupModel Model { get; protected set; }
 
         public BaseGroup(string groupTitle, Vector2 position)
         {
             title = groupTitle;
 
-            Model = new()
+            Model = new DSGroupModel()
             {
                 ID = Guid.NewGuid().ToString(),
                 Type = GetType().ToString(),

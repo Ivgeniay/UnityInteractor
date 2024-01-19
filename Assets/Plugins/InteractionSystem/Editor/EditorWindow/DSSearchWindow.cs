@@ -30,7 +30,7 @@ namespace NodeEngine.Window
             List<ExtendedDO> dtos = GenerateExtendedDOList(typeof(BaseInteractionAction), listNodeTypes);
             dtos = dtos.OrderBy((a) => a.Depth).ToList();
 
-            List<SearchTreeEntry> searchTreeEntries = new();
+            List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry>();
 
             CreateMenuTitle(searchTreeEntries, "Create Element");
             CreateMenuItem(searchTreeEntries, "Nodes", 1);

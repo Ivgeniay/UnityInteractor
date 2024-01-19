@@ -10,8 +10,8 @@ namespace NodeEngine.Database.Error
 
         public DSGroupErrorData()
         {
-            ErrorData = new();
-            Groups = new();
+            ErrorData = new DSErrorData();
+            Groups = new List<BaseGroup>();
         }
     }
 }

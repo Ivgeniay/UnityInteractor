@@ -10,7 +10,7 @@ namespace NodeEngine.Database.Error
 
         internal DSNodeErrorData()
         {
-            ErrorData = new();
+            ErrorData = new DSErrorData();
             Nodes = new List<BaseNode>();
         }
     }

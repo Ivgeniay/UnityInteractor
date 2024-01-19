@@ -23,6 +23,6 @@ namespace InteractionSystem
             }
         }
 
-        public Repository<InteractionObject> repository = new();
+        public Repository<InteractionObject> repository = new Repository<InteractionObject>();
     }
 }

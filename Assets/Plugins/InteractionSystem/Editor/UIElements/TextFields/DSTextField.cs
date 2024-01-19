@@ -39,7 +39,7 @@ namespace NodeEngine.UIElement
         }
         private IManipulator CreateContextualMenuAnchors()
         {
-            ContextualMenuManipulator contextualMenuManipulator = new(e =>
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(e =>
             {
                 
             });

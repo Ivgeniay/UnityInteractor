@@ -9,6 +9,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace NodeEngine.Ports
 {
@@ -83,7 +84,7 @@ namespace NodeEngine.Ports
                 if (graphView != null)
                 {
                     var t = new GraphViewChange();
-                    t.elementsToRemove = new() { edge };
+                    t.elementsToRemove = new List<GraphElement>() { edge };
                     graphView.graphViewChanged?.Invoke(t);
                     graphView.RemoveElement(edge);
                 }
@@ -130,7 +131,7 @@ namespace NodeEngine.Ports
 
         private IManipulator CreateContextualMenu()
         {
-            ContextualMenuManipulator contextualMenuManipulator = new(e =>
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(e =>
             { 
                 e.menu.AppendAction("Anchor", a => { DSAnchorWindow.OpenWindow(this); }); 
             });

@@ -56,9 +56,9 @@ namespace NodeEngine.Window
                 InstanceID = editorWindow.InteractionInstance.gameObject.GetInstanceID().ToString(),
             };
             this.editorWindow = editorWindow;
-            ungroupedNodes = new();
-            groups = new();
-            groupedNodes = new();
+            ungroupedNodes = new Dictionary<string, DSNodeErrorData>();
+            groups = new Dictionary<string, DSGroupErrorData>();
+            groupedNodes = new Dictionary<BaseGroup, Dictionary<string, DSNodeErrorData>>();
 
             AddManipulators();
             AddSearchWindow();
@@ -76,7 +76,7 @@ namespace NodeEngine.Window
         internal void Initialize()
         {
             Sequence sequences = InteractionInstance.GetSequence();
-            Master = new(sequences);
+            Master = new Sequence.SequenceMaster(sequences);
 
             this.CreateNode(typeof(StartNode), sequences.Position, sequences);
 
@@ -87,8 +87,8 @@ namespace NodeEngine.Window
         }
         private void ToMakeConnections()
         {
-            List<BasePort> outputs = new();
-            List<BasePort> inputs = new();
+            List<BasePort> outputs = new List<BasePort>();
+            List<BasePort> inputs = new List<BasePort>();
 
             foreach (BaseNode baseNode in i_Nodes)
             {
@@ -236,14 +236,14 @@ namespace NodeEngine.Window
 
         private IManipulator CreateGroupContextualMenu()
         {
-            ContextualMenuManipulator contextualMenuManipulator = new(e =>
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(e =>
             {
                 e.menu.AppendAction("Add Group", a =>
                     CreateGroup(typeof(BaseGroup), GetLocalMousePosition(a.eventInfo.mousePosition, false)));
 
                 e.menu.AppendAction("Add Bl", a =>
                 {
-                    Blackboard blackboard = new(this);
+                    Blackboard blackboard = new Blackboard(this);
                     blackboard.title = "Title";
                     blackboard.subTitle = "SubTitle";
                     blackboard.tooltip = "Tooltip";
@@ -274,7 +274,7 @@ namespace NodeEngine.Window
 
         private IManipulator CreateNodeContextMenu(string actionTitle, Type type)
         {
-            ContextualMenuManipulator contextualMenuManipulator = new(e =>
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(e =>
             {
                 e.menu.AppendAction(actionTitle, a =>
                     AddElement(CreateNode(type, GetLocalMousePosition(a.eventInfo.mousePosition, false), null)));
@@ -298,9 +298,9 @@ namespace NodeEngine.Window
         {
             deleteSelection += (operationName, askUser) =>
             {
-                List<BaseNode> nodesToDelete = new();
-                List<BaseGroup> groupToDelete = new();
-                List<Edge> edgesToDelete = new();
+                List<BaseNode> nodesToDelete = new List<BaseNode>();
+                List<BaseGroup> groupToDelete = new List<BaseGroup>();
+                List<Edge> edgesToDelete = new List<Edge>();
 
                 foreach (GraphElement element in selection)
                 {
@@ -328,7 +328,7 @@ namespace NodeEngine.Window
                     if (node.INode is Sequence) continue;
 
                     node.OnDestroy();
-                    if (node.Group is not null)
+                    if (node.Group != null)
                         node.Group.RemoveElement(node);
 
                     RemoveUngroupedNode(node);
@@ -346,7 +346,7 @@ namespace NodeEngine.Window
 
                 groupToDelete.ForEach(group =>
                 {
-                    List<BaseNode> nodes = new();
+                    List<BaseNode> nodes = new List<BaseNode>();
                     foreach (GraphElement elem in group.containedElements)
                     {
                         if (elem is BaseNode node)
@@ -484,7 +484,7 @@ namespace NodeEngine.Window
 
             if (!ungroupedNodes.ContainsKey(nodeName))
             {
-                DSNodeErrorData nodeErrorData = new();
+                DSNodeErrorData nodeErrorData = new DSNodeErrorData();
                 nodeErrorData.Nodes.Add(node);
                 ungroupedNodes.Add(nodeName, nodeErrorData);
                 return;
@@ -532,7 +532,7 @@ namespace NodeEngine.Window
 
             if (!groupedNodes[group].ContainsKey(nodeName))
             {
-                DSNodeErrorData errorData = new();
+                DSNodeErrorData errorData = new DSNodeErrorData();
                 errorData.Nodes.Add(node);
                 groupedNodes[group].Add(nodeName, errorData);
                 return;
@@ -577,7 +577,7 @@ namespace NodeEngine.Window
             string groupName = group.title.ToLower();
             if (!groups.ContainsKey(groupName))
             {
-                DSGroupErrorData error = new();
+                DSGroupErrorData error = new DSGroupErrorData();
                 error.Groups.Add(group);
                 groups.Add(groupName, error);
                 return;

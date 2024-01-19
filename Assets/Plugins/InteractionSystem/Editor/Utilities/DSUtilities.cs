@@ -59,7 +59,7 @@ namespace NodeEngine.Utilities
                 label = label,
                 value = value
             };
-            if (onChange is not null) field.RegisterCallback(onChange);
+            if (onChange != null) field.RegisterCallback(onChange);
             field.AddToClassList(styles);
             return field;
         }
@@ -71,7 +71,7 @@ namespace NodeEngine.Utilities
                 label = label,
                 value = value,
             };
-            if (onChange is not null) field.RegisterCallback(onChange);
+            if (onChange != null) field.RegisterCallback(onChange);
             field.AddToClassList(styles);
             return field;
         }
@@ -84,7 +84,7 @@ namespace NodeEngine.Utilities
                 label = label,
                 choices = choices
             };
-            if (onChange is not null) dd.RegisterCallback(onChange);
+            if (onChange != null) dd.RegisterCallback(onChange);
             dd.AddToClassList(styles);
             return dd;
         }
@@ -94,7 +94,7 @@ namespace NodeEngine.Utilities
             {
                 text = value,
             };
-            if (onClick is not null) label.RegisterCallback(onClick);
+            if (onClick != null) label.RegisterCallback(onClick);
             label.AddToClassList(styles);
             return label;
         }
@@ -106,7 +106,7 @@ namespace NodeEngine.Utilities
                 text = text,
                 label = label,
             };
-            if (onChange is not null) toggle.RegisterValueChangedCallback(onChange);
+            if (onChange != null) toggle.RegisterValueChangedCallback(onChange);
             toggle.AddToClassList(styles);
             return toggle;
         }
@@ -117,7 +117,7 @@ namespace NodeEngine.Utilities
                 value = value,
                 label = label
             };
-            if (onChange is not null) floatField.RegisterValueChangedCallback(onChange);
+            if (onChange != null) floatField.RegisterValueChangedCallback(onChange);
             floatField.AddToClassList(styles);
             return floatField;
         }
@@ -128,7 +128,7 @@ namespace NodeEngine.Utilities
                 value = value,
                 label = label
             };
-            if (onChange is not null) integerField.RegisterValueChangedCallback(onChange);
+            if (onChange != null) integerField.RegisterValueChangedCallback(onChange);
             integerField.AddToClassList(styles);
             return integerField;
         }
@@ -141,19 +141,19 @@ namespace NodeEngine.Utilities
                 value = value,
                 title = title,
             };
-            if (onChange is not null) progressBar.RegisterValueChangedCallback(onChange);
+            if (onChange != null) progressBar.RegisterValueChangedCallback(onChange);
             progressBar.AddToClassList(styles);
             return progressBar;
         }
         internal static TextField CreateTextField (string value = null, string label = null, EventCallback<ChangeEvent<string>> onChange = null, string[] styles = null)
         {
-            TextField textField = new()
+            TextField textField = new TextField()
             {
                 value = value,
                 label = label,
             };
 
-            if (onChange is not null) textField.RegisterValueChangedCallback(onChange);
+            if (onChange != null) textField.RegisterValueChangedCallback(onChange);
             textField.AddToClassList(styles);
             return textField;
         }
@@ -166,13 +166,13 @@ namespace NodeEngine.Utilities
 
         internal static DSTextField CreateDSTextField(DSGraphView graphView, string value = null, string label = null, EventCallback<ChangeEvent<string>> onChange = null, string[] styles = null)
         {
-            DSTextField textField = new()
+            DSTextField textField = new DSTextField()
             {
                 value = value,
                 label = label,
             };
             textField.Initialize(graphView);
-            if (onChange is not null) textField.RegisterValueChangedCallback(onChange);
+            if (onChange != null) textField.RegisterValueChangedCallback(onChange);
             textField.AddToClassList(styles);
             return textField;
         }

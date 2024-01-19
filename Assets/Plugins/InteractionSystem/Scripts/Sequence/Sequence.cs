@@ -28,7 +28,7 @@ namespace InteractionSystem
         {
             if (string.IsNullOrEmpty(ID)) ID = Guid.NewGuid().ToString();
             if (string.IsNullOrEmpty(Name)) Name = GetType().Name;
-            if (Sequences == null) Sequences = new();
+            if (Sequences == null) Sequences = new List<BaseInteractionAction>();
             Position = new Vector2(350, 200);
         }
 

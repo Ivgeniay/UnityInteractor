@@ -19,12 +19,12 @@ namespace NodeEngine.Database.Save
         public void Init(string filename)
         {
             InstanceID = filename;
-            Groups = new();
-            Nodes = new();
-            OldGroupNames = new();
-            OldUngroupedNodeNames = new();
-            OldUGroupedNodeNames = new();
-            anchors = new();
+            Groups = new List<DSGroupModel>();
+            Nodes = new List<DSNodeModel>();
+            OldGroupNames = new List<string>();
+            OldUngroupedNodeNames = new List<string>();
+            OldUGroupedNodeNames = new SerializableDictionary<string, List<string>>();
+            anchors = new SerializableDictionary<string, string>();
         }
     }
 }

@@ -7,8 +7,8 @@ namespace InteractionSystem
 {
     internal class NodeContext
     {
-        public readonly List<FieldInfo> FieldsSerAttribute = new();
-        public readonly List<PropertyInfo> PropSerAttribute = new();
+        public readonly List<FieldInfo> FieldsSerAttribute = new List<FieldInfo>();
+        public readonly List<PropertyInfo> PropSerAttribute = new List<PropertyInfo>();
         public readonly object[] GeneralAttributes;
 
         private object instance;

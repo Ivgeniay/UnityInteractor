@@ -63,7 +63,7 @@ namespace NodeEngine.Edges
 
         private IManipulator CreateEdgeContextualMenu()
         {
-            ContextualMenuManipulator contextualMenuManipulator = new(e =>
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(e =>
             {
                 //e.menu.AppendAction("Add Token Node", a =>
                 //{

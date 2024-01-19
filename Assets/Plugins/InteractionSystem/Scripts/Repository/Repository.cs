@@ -9,7 +9,7 @@ namespace InteractionSystem.Repositories
     {
         public event EventHandler<EventArgs> Changed;
 
-        private readonly List<T> Items = new();
+        private readonly List<T> Items = new List<T>();
         public Repository() { }
         public Repository(IEnumerable<T> items) { Items = items.ToList(); }
 

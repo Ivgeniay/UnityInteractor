@@ -274,7 +274,7 @@ namespace InteractionSystem
 
                 case Type type when type.IsEnum:
 
-                    List<string> choices = new();
+                    List<string> choices = new List<string>();
                     var enums = Enum.GetValues(field.FieldType);
                     foreach (var enumItem in enums)
                         choices.Add(enumItem.ToString());
@@ -389,7 +389,7 @@ namespace InteractionSystem
                     return objF;
 
                 case Type type when type.IsEnum:
-                    List<string> choices = new();
+                    List<string> choices = new List<string>();
                     var enums = Enum.GetValues(property.PropertyType);
                     foreach (var enumItem in enums)
                         choices.Add(enumItem.ToString());
