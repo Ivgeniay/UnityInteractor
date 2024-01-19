@@ -51,10 +51,10 @@ namespace InteractionSystem
             public IEnumerable<T> Get<T>(Func<T, bool> predicate) where T : BaseInteractionAction
             {
                 foreach (var action in Sequences)
-                    if (action is T)
+                    if (action is T typedAction)
                     {
-                        if (predicate((T)action))
-                            yield return (T)action;
+                        if (predicate(typedAction))
+                            yield return typedAction;
                     }
             }
 

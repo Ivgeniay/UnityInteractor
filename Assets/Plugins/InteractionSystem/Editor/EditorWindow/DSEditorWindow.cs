@@ -1,20 +1,17 @@
-using InteractionSystem;
+using UnityEngine.UIElements;
+using NodeEngine.Utilities; 
 using NodeEngine.Toolbars;
-using NodeEngine.Utilities;
-using System;
+using InteractionSystem;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace NodeEngine.Window
 {
     public class DSEditorWindow : EditorWindow
     {
         public StyleSheet StyleSheet;
-        private string stylesLink = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineVariables.uss";
-
-        private DSGraphView grathView;
         public InteractionObject InteractionInstance { get; private set; }
+        private DSGraphView grathView;
 
         public static void OpenWindow(InteractionObject interactionObject)
         {
@@ -78,7 +75,7 @@ namespace NodeEngine.Window
         #region Styles
         private void AddStyles()
         {
-            if (StyleSheet == null) rootVisualElement.LoadAndAddStyleSheets(stylesLink);
+            if (StyleSheet == null) rootVisualElement.LoadAndAddStyleSheetsByName(DSConstants.VARIABLE_LINK);
             else rootVisualElement.LoadAndAddStyleSheets(StyleSheet);
         }
         #endregion

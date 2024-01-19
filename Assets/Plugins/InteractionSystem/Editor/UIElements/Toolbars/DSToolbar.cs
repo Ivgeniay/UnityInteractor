@@ -7,7 +7,7 @@ namespace NodeEngine.Toolbars
 {
     internal class DSToolbar : BaseToolbar
     {
-        private const string TOOLBAR_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineToolbarStyles.uss";
+        //private const string TOOLBAR_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineToolbarStyles.uss";
         
         private Button startSequence;
         private Button stopSequence;
@@ -25,7 +25,7 @@ namespace NodeEngine.Toolbars
         {
             this.interactionObject = interactionObject;
             this.interactionObject.GetSequence().SequenceStateEvent += SequenceStateHandler;
-            this.LoadAndAddStyleSheets(TOOLBAR_STYLE_LINK);
+            this.LoadAndAddStyleSheetsByName(DSConstants.TOOLBAR_STYLE_LINK);
             this.AddToClassList("ds-toolbar");
 
             startSequence = DSUtilities.CreateButton("StartSequence", StartSequence, new string[] { "ds-toolbar__button" });

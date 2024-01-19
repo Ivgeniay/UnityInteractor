@@ -22,10 +22,6 @@ namespace NodeEngine.Window
         public DSGraphModel Model { get; protected set; }
         public InteractionObject InteractionInstance { get => editorWindow.InteractionInstance; }
         internal DSMiniMap MiniMap;
-
-        private const string GRAPH_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineStyles.uss";
-        private const string NODE_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineNodeStyles.uss";
-        private const string DSEDGE_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineEdgeStyle.uss";
          
         private DSSearchWindow searchWindow;
         private DSEditorWindow editorWindow;
@@ -617,8 +613,8 @@ namespace NodeEngine.Window
 
         #endregion
         #region Styles
-        private void AddStyles() =>
-            this.LoadAndAddStyleSheets(GRAPH_STYLE_LINK, NODE_STYLE_LINK, DSEDGE_STYLE_LINK);
+        private void AddStyles() => 
+            this.LoadAndAddStyleSheetsByName(DSConstants.GRAPH_STYLE_LINK, DSConstants.NODE_STYLE_LINK, DSConstants.DSEDGE_STYLE_LINK);
         
         private void AddGridBackground()
         {
