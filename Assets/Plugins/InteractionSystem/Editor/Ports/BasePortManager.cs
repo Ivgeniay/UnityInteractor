@@ -1,5 +1,4 @@
-﻿using NodeEngine.DialogueType;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,7 +44,6 @@ namespace NodeEngine.Ports
         public static bool HaveCommonTypes(Type portDraggingType, Type[] otherAvaliableTypes)
         {
             if (otherAvaliableTypes.Length == 0 || portDraggingType == null) return false;
-            if (otherAvaliableTypes.Contains(typeof(AllTypes))) return true;
 
             foreach (Type type2 in otherAvaliableTypes)
             {
@@ -92,23 +90,5 @@ namespace NodeEngine.Ports
 
             return false;
         }
-
-        //private static bool IsSubsetOfGenericArguments(Type[] subset, Type[] superset) =>
-        //    subset.All(subsetType => superset.Any(superType => IsSubset(subsetType, superType)));
-
-        //private static bool IsSubset(Type type1, Type type2)
-        //{
-        //    if (type1 == type2) return true; 
-        //    if (type2.IsGenericType && type1.IsGenericType && type1.GetGenericTypeDefinition() == type2.GetGenericTypeDefinition())
-        //    {
-        //        Type[] type1GenericArgs = type1.GetGenericArguments();
-        //        Type[] type2GenericArgs = type2.GetGenericArguments();
-
-        //        return type1GenericArgs.Length == type2GenericArgs.Length &&
-        //               type1GenericArgs.Zip(type2GenericArgs, (arg1, arg2) => IsSubset(arg1, arg2)).All(result => result);
-        //    }
-
-        //    return false;
-        //}
     }
 }

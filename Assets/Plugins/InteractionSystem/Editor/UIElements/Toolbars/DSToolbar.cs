@@ -55,9 +55,8 @@ namespace NodeEngine.Toolbars
 
         private void CleanGraph()
         {
-            this.interactionObject.GetSequence().SequenceStateEvent -= SequenceStateHandler;
-            interactionObject.CleanSequence();
-
+            this.interactionObject.GetSequence().SequenceStateEvent -= SequenceStateHandler; 
+            graphView.Master.Clean();
             graphView.CleanGraph();
             DSEditorWindow.OpenWindow(interactionObject);
         }

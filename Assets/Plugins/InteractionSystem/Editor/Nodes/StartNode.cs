@@ -2,26 +2,25 @@
 using NodeEngine.Nodes;
 using NodeEngine.Ports;
 using UnityEngine.PlayerLoop;
-using NodeEngine.Window;
-using UnityEngine;
-using System.Linq;
 using NodeEngine.Utilities;
+using NodeEngine.Window;
+using UnityEngine; 
 
 namespace InteractionSystem
 {
     internal class StartNode : BaseNode
     {
-        public override BaseInteractionAction IAction
+        public override BaseInteractionAction InteractionAction
         {
             get
             {
                 Sequence sequence = INode as Sequence;
-                return sequence.FirstAction;
+                return graphView.Master.FirstAction;
             }
             protected set
             {
                 Sequence sequence = INode as Sequence;
-                sequence.FirstAction = value;
+                graphView.Master.FirstAction = value;
             }
         }
 
@@ -34,7 +33,7 @@ namespace InteractionSystem
                 Type = typeof(BaseInteractionAction),
                 Direction = Direction.Output,
                 Capacity = Port.Capacity.Single,
-                InteractionAction = IAction,
+                InteractionAction = InteractionAction,
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.NEXT_PN
             });
@@ -49,7 +48,7 @@ namespace InteractionSystem
                 if (port.Value != otherPort.Value)
                 {
                     port.Value = otherPort.Value;
-                    IAction = otherPort.Value;
+                    InteractionAction = otherPort.Value;
                 }
             }
         }
@@ -58,7 +57,7 @@ namespace InteractionSystem
         {
             base.OnDestroyConnectionOutput(port, edge);
             port.Value = null;
-            IAction = null;
+            InteractionAction = null;
         }
     }
 }

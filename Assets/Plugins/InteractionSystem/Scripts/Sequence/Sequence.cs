@@ -2,12 +2,11 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using System.Linq;
 
 namespace InteractionSystem
 {
     [Serializable]
-    public class Sequence : INode
+    public sealed partial class Sequence : INode
     {
         public event Action<SequenceStateType> SequenceStateEvent;
         public event Action<BaseInteractionAction, ActionExecutionType> ActionExecutionEvent;
@@ -16,10 +15,10 @@ namespace InteractionSystem
         [field: SerializeField] public string ID { get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
 
-        [SerializeReference] public BaseInteractionAction FirstAction;
-        [SerializeReference] public List<BaseInteractionAction> Sequences;
-        [NonSerialized][HideInInspector] public GameObject Object;
-        [NonSerialized][HideInInspector] public GameObject Subject;
+        [SerializeReference] private BaseInteractionAction FirstAction;
+        [SerializeReference] private List<BaseInteractionAction> Sequences;
+        public GameObject Object { get; private set; }
+        public GameObject Subject { get; private set; }
 
         private Coroutine currentSequence = null;
         private CoroutineDisposer coroutine { get => CoroutineDisposer.Instance; } 
@@ -33,31 +32,6 @@ namespace InteractionSystem
             Position = new Vector2(350, 200);
         }
 
-
-        public Sequence Append(BaseInteractionAction sequence)
-        {
-            if (!Sequences.Contains(sequence))
-                Sequences.Add(sequence);
-
-            return this;
-        }
-        public Sequence Remove(BaseInteractionAction sequence)
-        {
-            if (Sequences.Contains(sequence))
-                Sequences.Remove(sequence);
-
-            return this;
-        }
-        public Sequence Remove(INode sequence)
-        {
-            if (sequence is BaseInteractionAction e)
-            {
-                if (Sequences.Contains(e))
-                    Sequences.Remove(e);
-            }
-
-            return this;
-        }
         public Sequence SetSubject(GameObject subject)
         {
             Subject = subject;
@@ -67,12 +41,6 @@ namespace InteractionSystem
         {
             Object = _object;
             return this;
-        }
-        public IEnumerable<T> Get<T>() where T : BaseInteractionAction
-        {
-            foreach (var action in Sequences)
-                if (action is T)
-                    yield return (T)action;
         }
         public Sequence StartSequence()
         {
@@ -100,17 +68,6 @@ namespace InteractionSystem
 
             return this;
         }
-        internal void Clean()
-        {
-            if (IsProgress != false)
-            {
-                Debug.LogError("Stoping of sequnce is inpossible when sequence in progress. Call StopSequence.");
-                return;
-            }
-            Sequences.ForEach (sequence => { sequence.OnExecutingEvent -= OnExecutingActionHandler; });
-            Sequences.Clear();
-            FirstAction = null;
-        }
         private void InvokeSequenceStatus(SequenceStateType type)
         {
             IsProgress = type == SequenceStateType.Started;
@@ -137,23 +94,12 @@ namespace InteractionSystem
 
                 Sequences.ForEach(sequence => sequence.Awake());
             } 
-            yield return FirstAction.MainProcedure();
+            yield return FirstAction?.MainProcedure();
 
             foreach (var item in Sequences) item.Reset();
             InvokeSequenceStatus(SequenceStateType.Ended);
         } 
         private void OnExecutingActionHandler(BaseInteractionAction arg1, ActionExecutionType arg2) =>
             ActionExecutionEvent?.Invoke(arg1, arg2);
-        
-
-        public enum SequenceStateType { Started, Ended, Stopped }
-        public enum ActionExecutionType { Waiting, Awake, Procedure, Exit, WaitParallel, OnStop, Complete }
-    }
-
-    public interface INode
-    {
-        public string Name { get; set; }
-        public Vector2 Position { get; set; }
-        public string ID { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace NodeEngine.Nodes
         internal BaseGroup Group { get; private set; }
         public virtual string Name => Model.NodeName;
         public INode INode { get; private set; }
-        public virtual BaseInteractionAction IAction { get; protected set; }
+        public virtual BaseInteractionAction InteractionAction { get; protected set; }
         public NodeContext NodeContext { get; protected set; }
         protected TextField titleTF { get; set; }
         protected DSGraphView graphView { get; set; } 
@@ -43,6 +43,7 @@ namespace NodeEngine.Nodes
         internal virtual void Initialize(DSGraphView graphView, Vector2 position, INode iNode)
         {
             this.INode = iNode;
+
             NodeContext = new(INode);
             NodeContext.Initialize();
 
@@ -94,8 +95,8 @@ namespace NodeEngine.Nodes
                     }
                 });
                 _title.SetTFStyles(new string[] { "ds-node__textfield", "ds-node__filename-textfield", "ds-node__textfield__hidden" });
-                if (IAction != null)
-                    _title.SetStatus(IAction.CurrentExecutionType.ToString());
+                if (InteractionAction != null)
+                    _title.SetStatus(InteractionAction.CurrentExecutionType.ToString());
             }
         }
         #region Draw

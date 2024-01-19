@@ -1,14 +1,12 @@
-﻿using InteractionSystem;
-using NodeEngine.Actor;
-using NodeEngine.Groups;
-using NodeEngine.Nodes;
-using NodeEngine.Utilities;
-using System;
+﻿using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
-using System.Linq;
+using NodeEngine.Utilities;
 using System.Reflection;
-using UnityEditor.Experimental.GraphView;
+using InteractionSystem;
+using NodeEngine.Groups;
+using System.Linq;
 using UnityEngine;
+using System;
 
 namespace NodeEngine.Window
 {
@@ -41,25 +39,6 @@ namespace NodeEngine.Window
 
             CreateMenuItem(searchTreeEntries, "Group", 1);
             CreateMenuChoice(searchTreeEntries, "Simple Group", 2, new Type[] { typeof(BaseGroup) }, indentationIcon);
-
-            try
-            {
-                var assembly = Assembly.Load("Assembly-CSharp");
-                if (assembly != null)
-                {
-                    var actors = DSUtilities.GetListExtendedIntefaces(typeof(IActor), assembly);
-                    if (actors != null && actors.Count > 0)
-                    {
-                        CreateMenuItem(searchTreeEntries, "Actors", 1);
-                        actors.ForEach(a => CreateMenuChoice(searchTreeEntries, DSUtilities.GenerateWindowSearchNameFromType(a), 2, new Type[] { typeof(IActor), a }, indentationIcon));
-                    } 
-                } 
-            }
-            catch (Exception ex)
-            { 
-                Debug.LogException(ex);
-                Debug.Log("There is no assembly (\"Assembly-CSharp\")");
-            }
             return searchTreeEntries;
         }
 
@@ -120,7 +99,7 @@ namespace NodeEngine.Window
             else if (typeof(BaseInteractionAction).IsAssignableFrom(type))
             {
                 BaseInteractionAction interactionAction = Activator.CreateInstance(type) as BaseInteractionAction;
-                graphView.InteractionInstance.AddAction(interactionAction);
+                graphView.Master.Append(interactionAction);
                 var node = graphView.CreateNode(typeof(ActionNode), localMousePosition, interactionAction);
                 return true;
             }

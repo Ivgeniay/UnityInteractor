@@ -36,6 +36,7 @@ namespace NodeEngine.Window
 
         internal List<BaseNode> i_Nodes { get; set; } = new List<BaseNode>();
         internal List<BaseGroup> i_Groups { get; set; } = new List<BaseGroup>();
+        internal Sequence.SequenceMaster Master { get; private set; }
 
         private int _repeatedNameAmount;
         private int repeatedNameAmount
@@ -72,14 +73,14 @@ namespace NodeEngine.Window
 
             AddStyles();
         }
-
         internal void Initialize()
         {
             Sequence sequences = InteractionInstance.GetSequence();
+            Master = new(sequences);
 
             this.CreateNode(typeof(StartNode), sequences.Position, sequences);
 
-            foreach (BaseInteractionAction sequence in sequences.Sequences)
+            foreach (BaseInteractionAction sequence in Master.Sequences)
                 this.CreateNode(typeof(ActionNode), sequence.Position, sequence);
 
             ToMakeConnections();
@@ -193,10 +194,10 @@ namespace NodeEngine.Window
             AddElement(node);
             i_Nodes.Add(node);
             OnValidate();
-            if (node.IAction != null)
+            if (node.InteractionAction != null)
             {
-                node.IAction.OnExecutingEvent += NodeExecutingHandler;
-                node.SetIndicatorExecutionsStatus(node.IAction.CurrentExecutionType);
+                node.InteractionAction.OnExecutingEvent += NodeExecutingHandler;
+                node.SetIndicatorExecutionsStatus(node.InteractionAction.CurrentExecutionType);
             }
             return node;
         }
@@ -204,7 +205,7 @@ namespace NodeEngine.Window
         private void NodeExecutingHandler(BaseInteractionAction action, Sequence.ActionExecutionType type)
         {
             BaseNode target = i_Nodes
-                .Where(e => e.IAction == action &&
+                .Where(e => e.InteractionAction == action &&
                     (e.GetType().IsSubclassOf(typeof(ActionNode)) || e.GetType() == typeof(ActionNode)))
                 .FirstOrDefault();
 
@@ -340,7 +341,7 @@ namespace NodeEngine.Window
                     i_Nodes.Remove(node);
                     RemoveElement(node);
 
-                    InteractionInstance.RemoveAction(node.INode);
+                    Master.Remove(node.INode);
                 }
 
                 groupToDelete.ForEach(group =>
@@ -645,7 +646,11 @@ namespace NodeEngine.Window
         internal void OnValidate() { }
         public void OnDestroy()
         {
-            i_Nodes.ForEach(e => e.OnDestroy());
+            i_Nodes.ForEach(e =>
+                {
+                    e.InteractionAction.OnExecutingEvent -= NodeExecutingHandler;
+                    e.OnDestroy(); 
+                });
             i_Groups.ForEach(e => e.OnDestroy());
         }
 

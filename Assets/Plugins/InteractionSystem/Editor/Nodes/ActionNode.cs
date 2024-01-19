@@ -1,10 +1,10 @@
 ﻿using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using NodeEngine.Utilities;
 using System.Reflection; 
 using NodeEngine.Window;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 using NodeEngine.Ports; 
 using NodeEngine.Nodes;
 using UnityEngine;
@@ -15,21 +15,21 @@ namespace InteractionSystem
 {
     internal class ActionNode : BaseNode
     {
-        public override BaseInteractionAction IAction { get => INode as BaseInteractionAction; }
+        public override BaseInteractionAction InteractionAction { get => INode as BaseInteractionAction; }
         List<VisualElement> serializedVisualElements = new List<VisualElement>();
 
         internal override void Initialize(DSGraphView graphView, Vector2 position, INode _iAction)
         {
             base.Initialize(graphView, position, _iAction);
 
-            IAction.OnExecutingEvent += OnExecutingHandler;
+            InteractionAction.OnExecutingEvent += OnExecutingHandler;
            
             Model.AddPort(new PortInfo()
             {
                 Type = typeof(BaseInteractionAction),
                 Direction = Direction.Input,
                 Capacity = Port.Capacity.Single,
-                InteractionAction = IAction,
+                InteractionAction = InteractionAction,
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.ACTION_PN
             });
@@ -39,7 +39,7 @@ namespace InteractionSystem
                 Type = typeof(BaseInteractionAction),
                 Direction = Direction.Input,
                 Capacity = Port.Capacity.Single,
-                InteractionAction = IAction.ReferenceAction,
+                InteractionAction = InteractionAction.ReferenceAction,
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.REFERENCE_PN
             });
@@ -49,7 +49,7 @@ namespace InteractionSystem
                 Type = typeof(BaseInteractionAction),
                 Direction = Direction.Input,
                 Capacity = Port.Capacity.Single,
-                InteractionAction = IAction.ParallelAction,
+                InteractionAction = InteractionAction.ParallelAction,
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.PARALLEL_PN
             });
@@ -59,7 +59,7 @@ namespace InteractionSystem
                 Type = typeof(BaseInteractionAction),
                 Direction = Direction.Output,
                 Capacity = Port.Capacity.Multi,
-                InteractionAction = IAction.NextIAction,
+                InteractionAction = InteractionAction.NextIAction,
                 Orientation = Orientation.Horizontal,
                 PortName = DSConstants.NEXT_PN
             });
@@ -67,7 +67,7 @@ namespace InteractionSystem
 
         public override void OnDestroy()
         {
-            IAction.OnExecutingEvent -= OnExecutingHandler;
+            InteractionAction.OnExecutingEvent -= OnExecutingHandler;
             base.OnDestroy();
         }
 
@@ -87,20 +87,20 @@ namespace InteractionSystem
                 if (otherPort.Name == DSConstants.ACTION_PN)
                 {
                     port.Value = otherPort.Value;
-                    IAction.NextIAction = port.Value;
+                    InteractionAction.NextIAction = port.Value;
                 }
                 else if (otherPort.Name == DSConstants.PARALLEL_PN)
                 {
                     BaseNode otherNode = otherPort.node as BaseNode;
-                    if (otherNode.IAction != null)
+                    if (otherNode.InteractionAction != null)
                     {
-                        VisualElement dd = serializedVisualElements.Where(e => e.name == nameof(IAction.PerformerType)).FirstOrDefault();
+                        VisualElement dd = serializedVisualElements.Where(e => e.name == nameof(InteractionAction.PerformerType)).FirstOrDefault();
                         if (dd != null && dd is DropdownField ddField)
                         {
-                            if (otherNode.IAction.PerformerType == PerformerType.Object)
+                            if (otherNode.InteractionAction.PerformerType == PerformerType.Object)
                                 ddField.value = PerformerType.Subject.ToString();
                                 
-                            else if (otherNode.IAction.PerformerType == PerformerType.Subject)
+                            else if (otherNode.InteractionAction.PerformerType == PerformerType.Subject)
                                 ddField.value = PerformerType.Object.ToString();
                         }
                     }
@@ -117,7 +117,7 @@ namespace InteractionSystem
                 if (otherPort.Name == DSConstants.ACTION_PN)
                 {
                     port.Value = null;
-                    IAction.NextIAction = null;
+                    InteractionAction.NextIAction = null;
                 }
             }
         } 
@@ -130,13 +130,13 @@ namespace InteractionSystem
             {
                 if (port.Name == DSConstants.REFERENCE_PN)
                 {
-                    port.Value = otherNode.IAction;
-                    IAction.ReferenceAction = otherNode.IAction;
+                    port.Value = otherNode.InteractionAction;
+                    InteractionAction.ReferenceAction = otherNode.InteractionAction;
                 }
                 else if (port.Name == DSConstants.PARALLEL_PN)
                 {
-                    port.Value = otherNode.IAction;
-                    IAction.ParallelAction = otherNode.IAction;
+                    port.Value = otherNode.InteractionAction;
+                    InteractionAction.ParallelAction = otherNode.InteractionAction;
                 }
             }
         } 
@@ -145,10 +145,10 @@ namespace InteractionSystem
             base.OnDestroyConnectionInput(port, edge);
 
             if (port.Name == DSConstants.REFERENCE_PN)
-                IAction.ReferenceAction = null;
+                InteractionAction.ReferenceAction = null;
 
             else if (port.Name == DSConstants.PARALLEL_PN)
-                IAction.ParallelAction = null;
+                InteractionAction.ParallelAction = null;
         }
 
         #region Attributes
