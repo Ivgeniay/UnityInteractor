@@ -751,7 +751,7 @@ MonoBehaviour:
     SequenceState: 1
     <Name>k__BackingField: Sequence
     <ID>k__BackingField: 0e1c3b52-cc11-49fc-9f51-6007f151a352
-    <Position>k__BackingField: {x: 350, y: 200}
+    <Position>k__BackingField: {x: 380.40002, y: 199.99998}
     FirstAction:
       rid: 3042034631375847432
     Sequences:
@@ -913,7 +913,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 5500
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -1755,7 +1755,7 @@ MonoBehaviour:
       data:
         <Name>k__BackingField: UnityObject
         <ID>k__BackingField: bec69691-f767-40de-83b6-eee4a1f3d8e9
-        <Position>k__BackingField: {x: 49.19998, y: 150.4}
+        <Position>k__BackingField: {x: 45.99994, y: 186.3999}
         NextIAction:
           rid: -2
         ReferenceAction:

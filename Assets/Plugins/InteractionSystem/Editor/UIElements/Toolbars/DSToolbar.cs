@@ -7,8 +7,6 @@ namespace NodeEngine.Toolbars
 {
     internal class DSToolbar : BaseToolbar
     {
-        //private const string TOOLBAR_STYLE_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/NodeEngineToolbarStyles.uss";
-        
         private Button startSequence;
         private Button stopSequence;
         private Button cleanButton;

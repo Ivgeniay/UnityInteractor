@@ -58,7 +58,7 @@ namespace InteractionSystem
                     }
             }
 
-            internal void Clean()
+            public void Clean()
             {
                 if (sequence.IsProgress != false)
                 {

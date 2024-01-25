@@ -2,12 +2,17 @@
 
 namespace InteractionSystem
 {
-    public class InteractionObject : MonoBehaviour
+    public sealed class InteractionObject : MonoBehaviour
     {
         [SerializeField] private Sequence Sequences;
         [SerializeField] private GameObject subject;
 
-        private void Awake() => Sequences.SetObject(this.gameObject);
+        private void Awake()
+        {
+            this.Register();
+            Sequences.SetObject(this.gameObject);
+        }
+
         public void SetSubject(GameObject gameObject) => Sequences.SetSubject(gameObject);
         public void StartSequence()
         {

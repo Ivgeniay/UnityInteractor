@@ -1,9 +1,9 @@
 ﻿using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
-using NodeEngine.Database.Save; 
+using NodeEngine.Database.Save;
 using UnityEngine.UIElements;
 using NodeEngine.UIElement;
-using NodeEngine.Utilities; 
+using NodeEngine.Utilities;
 using InteractionSystem;
 using NodeEngine.Groups;
 using NodeEngine.Window;
@@ -521,16 +521,5 @@ namespace NodeEngine.Nodes
         internal protected IEnumerable<BasePort> GetOutputPorts() => outputPorts;
         #endregion
 
-    }
-
-    internal class PortInfo
-    {
-        internal string PortName;
-        internal Type Type;
-        internal Port.Capacity Capacity;
-        internal Direction Direction;
-        internal Orientation Orientation;
-        internal BaseInteractionAction InteractionAction;
-        internal BaseNode Node;
     }
 }

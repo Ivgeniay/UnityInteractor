@@ -2,7 +2,7 @@
 
 namespace InteractionSystem
 {
-    internal class SerializeFieldNode : SerializedFieldAttribute
+    public class SerializeFieldNode : SerializedFieldAttribute
     {
         public string Description { get; set; } = "";
     }

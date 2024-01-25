@@ -13,7 +13,7 @@ namespace InteractionSystem
                 if (instance == null)
                 {
                     instance = FindObjectOfType<SequencesManager>();
-                    if (instance != null )
+                    if (instance == null )
                     {
                         var go = new GameObject("[SEQUENCE_MANAGER]");
                         instance = go.AddComponent<SequencesManager>();

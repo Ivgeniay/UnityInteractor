@@ -18,7 +18,7 @@ namespace NodeEngine.Utilities
 {
     public class DSTitle
     {
-        private const string TITLE_UXML_LINK = "Assets/Plugins/InteractionSystem/NodeEngine/Resources/Front/Title/Title.uxml";
+        private const string TITLE_UXML_LINK = "Assets/Plugins/InteractionSystem/Editor/Resources/Front/Title/Title.uxml";
         private static VisualTreeAsset TitleOnNode;
 
         public VisualElement Root;

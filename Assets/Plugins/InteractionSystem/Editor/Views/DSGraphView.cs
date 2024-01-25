@@ -237,31 +237,11 @@ namespace NodeEngine.Window
                 e.menu.AppendAction("Add Group", a =>
                     CreateGroup(typeof(BaseGroup), GetLocalMousePosition(a.eventInfo.mousePosition, false)));
 
-                e.menu.AppendAction("Add Bl", a =>
+
+                string enableBlackboardTextLine = editorWindow.IsEnabledBlackboard() == true ? "Diable Blackboard" : "Enable Blackboard";
+                e.menu.AppendAction(enableBlackboardTextLine, a =>
                 {
-                    Blackboard blackboard = new Blackboard(this);
-                    blackboard.title = "Title";
-                    blackboard.subTitle = "SubTitle";
-                    blackboard.tooltip = "Tooltip";
-                    blackboard.name = "Name";
-                    blackboard.scrollable = true; 
-                    
-                    BlackboardField blackboardField = new BlackboardField();
-                    BlackboardField blackboardField2 = new BlackboardField(); 
-                    blackboardField.text = "FieldFieldFieldFieldFieldFieldFieldField1";
-                    blackboardField2.text = "FieldFieldFieldFieldFieldFieldFieldField2"; 
-
-                    var stringPropertyRow = new BlackboardRow(new TextField("String Property"), blackboardField);
-                    var intPropertyRow = new BlackboardRow(new IntegerField("Int Property"), blackboardField);
-
-                    blackboard.addItemRequested += (e) =>
-                    {
-                        Debug.Log("Plus");
-                    };
-
-                    blackboard.Add(stringPropertyRow);
-                    blackboard.Add(intPropertyRow);
-                    AddElement(blackboard);
+                    editorWindow.EnableBlackboard(!editorWindow.IsEnabledBlackboard());
                 });
             });
 

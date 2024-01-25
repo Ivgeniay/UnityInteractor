@@ -5,6 +5,8 @@ namespace InteractionSystem
 {
     public static class SequenceExtensions
     {
-
+        public static void Register(this InteractionObject obj) =>
+            SequencesManager.Instance.Register(obj);
+        
     }
 }

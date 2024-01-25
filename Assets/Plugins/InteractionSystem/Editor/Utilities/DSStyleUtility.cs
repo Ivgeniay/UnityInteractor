@@ -32,10 +32,7 @@ namespace NodeEngine.Utilities
                         return element;
                     } 
                 }
-                catch (Exception e) 
-                { 
-
-                }
+                catch { }
 
                 string path = FileSearchScript.SearchFile(sheetName);
                 if (path != null)

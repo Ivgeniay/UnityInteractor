@@ -1,8 +1,12 @@
 {
-    "name": "InteractionSystem",
+    "name": "InteractionSystemEditor",
     "rootNamespace": "",
-    "references": [],
-    "includePlatforms": [],
+    "references": [
+        "GUID:1d55bb50c17a93443b590965c13da8ba"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

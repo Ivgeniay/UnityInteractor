@@ -2,10 +2,7 @@
 using NodeEngine.Utilities;
 using UnityEngine.UIElements;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using NodeEngine.Nodes;
-using UnityEngine;
-using NodeEngine.Text;
 using System.Collections.Generic;
 using System.Linq;
 
