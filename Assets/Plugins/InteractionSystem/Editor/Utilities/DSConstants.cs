@@ -8,6 +8,7 @@
         public const string NEXT_PN = "NextAction";
 
         public static string DEFAULT_ASSEMBLY = "Assembly-CSharp";
+        public static string ROOT_ASSEMBLY = "InteractionSystem";
 
         public const string GRAPH_STYLE_LINK = "NodeEngineStyles.uss";
         public const string NODE_STYLE_LINK = "NodeEngineNodeStyles.uss";

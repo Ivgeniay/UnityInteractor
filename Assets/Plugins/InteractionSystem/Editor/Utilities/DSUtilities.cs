@@ -13,6 +13,7 @@ using System;
 using InteractionSystem;
 using UnityEditor.UIElements;
 using UnityEditor;
+using UnityEditor.Rendering;
 
 namespace NodeEngine.Utilities
 {
@@ -246,16 +247,23 @@ namespace NodeEngine.Utilities
 
         internal static List<Type> GetListExtendedClasses(Type baseType)
         {
-            var nodeTypes = GetListExtendedClasses(baseType, Assembly.GetExecutingAssembly());
+            List<Type> nodeTypes = new();//GetListExtendedClasses(baseType, Assembly.GetExecutingAssembly());
+
+            GetExtendedClassFromAssemply(DSConstants.ROOT_ASSEMBLY, ref baseType, ref nodeTypes);
+            GetExtendedClassFromAssemply(DSConstants.DEFAULT_ASSEMBLY, ref baseType, ref nodeTypes);
+
+            return nodeTypes;
+        }
+
+        private static void GetExtendedClassFromAssemply(string assemblyName, ref Type baseType, ref List<Type> nodeTypes)
+        {
             try
             {
-                Assembly assemblyCSharp = Assembly.Load("Assembly-CSharp-Editor");
+                Assembly assemblyCSharp = Assembly.Load(assemblyName);
                 List<Type> derivedTypesFromCSharp = GetListExtendedClasses(baseType, assemblyCSharp);
-                foreach (Type type in derivedTypesFromCSharp)
-                    nodeTypes.Add(type);
+                foreach (Type type in derivedTypesFromCSharp) nodeTypes.Add(type);
             }
             catch { }
-            return nodeTypes;
         }
         internal static List<Type> GetListExtendedClasses(Type baseType, Assembly assembly) =>
             assembly.GetTypes()
